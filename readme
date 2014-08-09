@@ -1,0 +1,10 @@
+
+
+
+// 用到的开源项目
+① Picasso
+	A powerful image downloading and caching library for Android
+	http://square.github.io/picasso/
+② Otto
+	An enhanced event bus with emphasis on Android support
+	http://square.github.io/otto/
