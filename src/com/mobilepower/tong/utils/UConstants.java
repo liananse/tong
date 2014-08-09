@@ -33,8 +33,6 @@ public class UConstants {
 	// 是否显示请求返回的信息
 	public static final boolean isDataLoaderDebug = false;
 	
-	public static final boolean useFont = false;
-
 	// 一些开关 结束
 	// 请求返回正确
 	public static int SUCCESS = 0;
@@ -79,70 +77,9 @@ public class UConstants {
 	public static final String LOCATION_LONGITUDE = "location_longitude";
 	
 	/**
-	 * 问题的纬度值
-	 */
-	public static final String QUESTION_LOCATION_LATITUDE = "question_location_latitude";
-	
-	/**
-	 * 问题的经度值
-	 */
-	public static final String QUESTION_LOCATION_LONGITUDE = "question_location_longitude";
-	
-	public static final String FRIENDS_NUM = "friends_num";
-	
-	public static final String UNLOCKED_FRIENDS_NUM = "unlocked_friends_num";
-	
-	public static final String INVITE_CARD_URL = "invite_card_url";
-	
-	public static final String OUT_OF_QUESTION_INVITE_CARD_URL = "out_of_question_invite_card_url";
-	/**
-	 * 本地最新的动态ID
-	 */
-	public static final String LAST_ACTIVITY_ID = "last_activity_id";
-	
-	public static final String BOTTOM_ACTIVITY_ID = "botton_activity_id";
-	
-	public static final String XIAOMI_REGID = "xiaomi_regid";
-	
-	public static final String HAS_NEW_ACTIVITY = "has_new_activity";
-	
-	public static final String LOCAL_QUESTION_LIST = "local_question_list";
-	
-	/**
-	 * 有新的个人动态
-	 */
-	public static final String HAS_NEW_SELF_ACTIVITY = "has_new_self_activity";
-	
-	/**
-	 * 新朋友列表增加
-	 */
-	public static final String HAS_NEW_FRIEND_ACTIVITY = "has_new_friend_activity";
-	
-	/**
-	 * 一度朋友增加
-	 */
-	public static final String HAS_FRIEND_ACTIVITY = "has_friend_activity";
-	
-	/**
-	 * 缓存的新朋友数
-	 */
-	public static final String LOCAL_NUM_OF_NEW_FRIEND = "local_num_of_new_friend";
-	
-	/**
-	 * 缓存的朋友数
-	 */
-	public static final String LOCAL_NUM_OF_FRIEND = "local_num_of_friend";
-	
-	/**
-	 * 是否是第一次收藏问题
-	 */
-	public static final String FIRST_FOLLOW_QUESTION = "first_follow_question";
-	/**
 	 * 上次心跳的时间
 	 */
 	public static final String LAST_VALID_TIME = "last_valid_time";
-	
-	public static final String FIRST_LOAD_QUESTION = "first_load_question";
 	
 	public static final int GETIMAGE = 3;
 	public static final int CAPUTRE = 4;

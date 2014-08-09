@@ -4,5 +4,9 @@
     <string name="app_name">Tong</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- splash activity -->
+    <string name="splash_login">登录</string>
+    <string name="splash_register">注册</string>
 
 </resources>
