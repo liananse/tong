@@ -15,17 +15,13 @@
  */
 package com.mobilepower.tong.ui.activity;
 
-import android.app.TabActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import com.mobilepower.tong.TongApplication;
 import com.squareup.otto.Bus;
 
-@SuppressWarnings("deprecation")
-public class MainTabActivity extends TabActivity implements OnClickListener{
-	
+public class SelfPageActivity extends BaseActivity {
+
 	private Bus bus;
 	
 	@Override
@@ -35,19 +31,12 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 		
 		bus = TongApplication.getBus();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		this.bus.register(this);
-	}
-
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		this.bus.unregister(this);
 	}
 
 	@Override
@@ -57,9 +46,10 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 	}
 
 	@Override
-	public void onClick(View arg0) {
+	protected void onDestroy() {
 		// TODO Auto-generated method stub
-		
+		super.onDestroy();
+		this.bus.unregister(this);
 	}
 
 }

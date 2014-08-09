@@ -61,6 +61,26 @@
             android:name=".ui.activity.MainTabActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".ui.activity.TongPageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.ShopPageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.HistoryPageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.NearByPageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.activity.SelfPageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
