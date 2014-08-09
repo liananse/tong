@@ -13,55 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mobilepower.tong.ui.activity;
+package com.mobilepower.tong.ui.controller;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.mobilepower.tong.TongApplication;
-import com.mobilepower.tong.ui.controller.SplashViewController;
+import com.mobilepower.tong.ui.view.RegisterStepTwoView;
 import com.squareup.otto.Bus;
 
-public class SplashActivity extends BaseActivity {
+public class RegisterStepTwoViewController implements BaseViewController{
 
 	private Bus bus;
-	private SplashViewController mSplashViewController;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		
+	private final Context mContext;
+	private final RegisterStepTwoView mView;
+	
+	public RegisterStepTwoViewController(Context paramContext) {
 		bus = TongApplication.getBus();
-		mSplashViewController = new SplashViewController(this);
-
-		setContentView(mSplashViewController.getView());
-	}
-
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		this.bus.register(this);
-		if (mSplashViewController != null) {
-			mSplashViewController.onShow(null);
-		}
-	}
-
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
+		mContext = paramContext;
+		mView = new RegisterStepTwoView(mContext);
 		
 	}
+	@Override
+	public View getView() {
+		// TODO Auto-generated method stub
+		return mView;
+	}
 
 	@Override
-	protected void onDestroy() {
+	public void onHide(ViewGroup paramViewGroup) {
 		// TODO Auto-generated method stub
-		super.onDestroy();
 		this.bus.unregister(this);
-		if (mSplashViewController != null) {
-			mSplashViewController.onHide(null);
-		}
+	}
+
+	@Override
+	public void onShow(ViewGroup paramViewGroup) {
+		// TODO Auto-generated method stub
+		this.bus.register(this);
 	}
 
 }

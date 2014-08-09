@@ -18,23 +18,18 @@ package com.mobilepower.tong.ui.activity;
 import android.os.Bundle;
 
 import com.mobilepower.tong.TongApplication;
-import com.mobilepower.tong.ui.controller.SplashViewController;
 import com.squareup.otto.Bus;
 
-public class SplashActivity extends BaseActivity {
+public class RegisterStepTwoActivity extends BaseActivity {
 
 	private Bus bus;
-	private SplashViewController mSplashViewController;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
 		bus = TongApplication.getBus();
-		mSplashViewController = new SplashViewController(this);
-
-		setContentView(mSplashViewController.getView());
+		
 	}
 
 	@Override
@@ -42,16 +37,12 @@ public class SplashActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onResume();
 		this.bus.register(this);
-		if (mSplashViewController != null) {
-			mSplashViewController.onShow(null);
-		}
 	}
 
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		
 	}
 
 	@Override
@@ -59,9 +50,6 @@ public class SplashActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		this.bus.unregister(this);
-		if (mSplashViewController != null) {
-			mSplashViewController.onHide(null);
-		}
 	}
 
 }

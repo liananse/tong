@@ -30,6 +30,7 @@ public class SplashView extends ViewGroup {
 
 	private Context mContext;
 	private Resources mRes;
+
 	private ImageView mSplashLogo;
 	private TextView mLoginBtn;
 	private TextView mRegisterBtn;
@@ -55,6 +56,8 @@ public class SplashView extends ViewGroup {
 		this.mRes = this.mContext.getResources();
 
 		mSplashLogo = new ImageView(context);
+		// 暂时先用灰色色块代替
+		mSplashLogo.setBackgroundResource(R.color.gray);
 
 		margin = this.mRes
 				.getDimensionPixelSize(R.dimen.activity_horizontal_margin);
@@ -95,19 +98,38 @@ public class SplashView extends ViewGroup {
 		int height = b - t;
 
 		int btnWidth = this.mLoginBtn.getMeasuredWidth();
-		
+
 		int loginBtnHeight = this.mLoginBtn.getMeasuredHeight();
 		int registerBtnHeight = this.mRegisterBtn.getMeasuredHeight();
 
 		l = (width - btnWidth) / 2;
 		t = (height - padding - registerBtnHeight - margin - loginBtnHeight);
-		
+
+		int logoBgHeight = t - padding;
+
 		this.mLoginBtn.layout(l, t, l + btnWidth, t + loginBtnHeight);
-		
+
 		t = t + loginBtnHeight + margin;
-		
+
 		this.mRegisterBtn.layout(l, t, l + btnWidth, t + registerBtnHeight);
-		
+
+		int smallSize;
+
+		if (logoBgHeight > width) {
+			smallSize = width;
+		} else {
+			smallSize = logoBgHeight;
+		}
+
+		// 暂定logo为正方形，高宽为最小边的二分之一，且位于中间位置
+
+		int logoWidth = smallSize / 2;
+
+		l = (width - logoWidth) / 2;
+		t = (logoBgHeight - logoWidth) / 2;
+
+		this.mSplashLogo.layout(l, t, l + logoWidth, t + logoWidth);
+
 	}
 
 	@Override
@@ -128,6 +150,10 @@ public class SplashView extends ViewGroup {
 				MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST));
 		this.mRegisterBtn.measure(
 				MeasureSpec.makeMeasureSpec(btnWidth, MeasureSpec.EXACTLY),
+				MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST));
+
+		this.mSplashLogo.measure(
+				MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST),
 				MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST));
 	}
 

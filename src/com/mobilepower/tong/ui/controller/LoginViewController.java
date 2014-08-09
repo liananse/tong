@@ -13,55 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mobilepower.tong.ui.activity;
+package com.mobilepower.tong.ui.controller;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.mobilepower.tong.TongApplication;
-import com.mobilepower.tong.ui.controller.SplashViewController;
+import com.mobilepower.tong.ui.view.LoginView;
 import com.squareup.otto.Bus;
 
-public class SplashActivity extends BaseActivity {
-
+public class LoginViewController implements BaseViewController{
+	
 	private Bus bus;
-	private SplashViewController mSplashViewController;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		
+	private final Context mContext;
+	private final LoginView mView;
+	
+	public LoginViewController(Context paramContext) {
 		bus = TongApplication.getBus();
-		mSplashViewController = new SplashViewController(this);
-
-		setContentView(mSplashViewController.getView());
+		mContext = paramContext;
+		mView = new LoginView(mContext);
 	}
 
 	@Override
-	protected void onResume() {
+	public View getView() {
 		// TODO Auto-generated method stub
-		super.onResume();
-		this.bus.register(this);
-		if (mSplashViewController != null) {
-			mSplashViewController.onShow(null);
-		}
+		return mView;
 	}
 
 	@Override
-	protected void onPause() {
+	public void onHide(ViewGroup paramViewGroup) {
 		// TODO Auto-generated method stub
-		super.onPause();
-		
-	}
-
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
 		this.bus.unregister(this);
-		if (mSplashViewController != null) {
-			mSplashViewController.onHide(null);
-		}
+	}
+
+	@Override
+	public void onShow(ViewGroup paramViewGroup) {
+		// TODO Auto-generated method stub
+		this.bus.register(this);
 	}
 
 }
