@@ -1,7 +1,22 @@
+/*
+ * Copyright 2014 zenghui.wang.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.mobilepower.tong.utils;
 
 /**
- * @author liananse
+ * @author zenghui.wang
  * 
  *         配置
  * 
@@ -14,15 +29,9 @@ public class UConfig {
 	public static final String SERVER_HOST = "http://www.gotodada.com/jelly/";
 	public static final String IMAGE_SERVER = "http://pic.pypei.com.cn/width/";
 
-	// 我的电脑
-	// public static final String SERVER_HOST =
-	// "http://10.10.151.243:10099/jelly/";
-
 	// 测试机
-//	 public static final String SERVER_HOST =
-//	 "http://10.10.151.45:10099/jelly/";
-//	 public static final String IMAGE_SERVER =
-//	 "http://218.18.232.10:18001/width/";
+	// public static final String SERVER_HOST = "";
+	// public static final String IMAGE_SERVER = "";
 
 	// 请求连接
 

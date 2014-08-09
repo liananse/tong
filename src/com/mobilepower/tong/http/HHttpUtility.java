@@ -1,4 +1,18 @@
-package com.mobilepower.tong.http;
+/*
+ * Copyright 2014 zenghui.wang.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */package com.mobilepower.tong.http;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -51,19 +65,20 @@ import com.mobilepower.tong.utils.UException;
 import com.mobilepower.tong.utils.UTools;
 
 public class HHttpUtility {
-	
+
 	public static final String BOUNDARY = "7cd4a6d158c";
 	public static final String MP_BOUNDARY = "--" + BOUNDARY;
 	public static final String END_MP_BOUNDARY = "--" + BOUNDARY + "--";
 	public static final String MULTIPART_FORM_DATA = "multipart/form-data";
-	
+
 	// 超时时间
 	private static final int SET_CONNECTION_TIMEOUT = 10000;
 	private static final int SET_SOCKET_TIMEOUT = 20000;
 
-	public static void setHeader(HttpUriRequest request) throws UException
-	{
-		request.setHeader("User-Agent", System.getProperties().getProperty("http.agent") + UConstants.APP_NAME);
+	public static void setHeader(HttpUriRequest request) throws UException {
+		request.setHeader("User-Agent",
+				System.getProperties().getProperty("http.agent")
+						+ UConstants.APP_NAME);
 	}
 
 	/**
@@ -73,59 +88,57 @@ public class HHttpUtility {
 	 *            : context of activity
 	 * @return HttpClient: HttpClient object
 	 */
-	public static HttpClient getHttpClient(Context context)
-	{
+	public static HttpClient getHttpClient(Context context) {
 		BasicHttpParams httpParameters = new BasicHttpParams();
 		// Set the default socket timeout (SO_TIMEOUT) // in
 		// milliseconds which is the timeout for waiting for data.
-		HttpConnectionParams.setConnectionTimeout(httpParameters, HHttpUtility.SET_CONNECTION_TIMEOUT);
-		HttpConnectionParams.setSoTimeout(httpParameters, HHttpUtility.SET_SOCKET_TIMEOUT);
+		HttpConnectionParams.setConnectionTimeout(httpParameters,
+				HHttpUtility.SET_CONNECTION_TIMEOUT);
+		HttpConnectionParams.setSoTimeout(httpParameters,
+				HHttpUtility.SET_SOCKET_TIMEOUT);
 		HttpClient client = new DefaultHttpClient(httpParameters);
-		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-		if (!wifiManager.isWifiEnabled())
-		{
+		WifiManager wifiManager = (WifiManager) context
+				.getSystemService(Context.WIFI_SERVICE);
+		if (!wifiManager.isWifiEnabled()) {
 			Uri uri = Uri.parse("content://telephony/carriers/preferapn");
-			Cursor mCursor = context.getContentResolver().query(uri, null, null, null, null);
-			if (mCursor != null && mCursor.moveToFirst())
-			{
-				String proxyStr = mCursor.getString(mCursor.getColumnIndex("proxy"));
-				if (proxyStr != null && proxyStr.trim().length() > 0)
-				{
+			Cursor mCursor = context.getContentResolver().query(uri, null,
+					null, null, null);
+			if (mCursor != null && mCursor.moveToFirst()) {
+				String proxyStr = mCursor.getString(mCursor
+						.getColumnIndex("proxy"));
+				if (proxyStr != null && proxyStr.trim().length() > 0) {
 					HttpHost proxy = new HttpHost(proxyStr, 80);
-					client.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY, proxy);
+					client.getParams().setParameter(
+							ConnRouteParams.DEFAULT_PROXY, proxy);
 				}
 				mCursor.close();
 			}
 		}
 		return client;
 	}
-	
-	public static String openUrl(Context context, String url, String method, Map<String, String> params) throws UException
-	{
+
+	public static String openUrl(Context context, String url, String method,
+			Map<String, String> params) throws UException {
 		String rlt = "";
 		String file = "";
 
-		try 
-		{
+		try {
 			Set<String> keySet = params.keySet();
-			if (keySet != null)
-			{
-				for (Iterator<String> iterator = keySet.iterator(); iterator.hasNext();)
-				{
+			if (keySet != null) {
+				for (Iterator<String> iterator = keySet.iterator(); iterator
+						.hasNext();) {
 					String key = iterator.next();
-					if (key.equals("avatar") || key.equals("image1") || key.equals("questionPic") || key.equals("answerPic"))
-					{
+					if (key.equals("avatar") || key.equals("image1")
+							|| key.equals("questionPic")
+							|| key.equals("answerPic")) {
 						file = params.get(key);
 					}
 				}
 			}
-			
-			if (TextUtils.isEmpty(file))
-			{
+
+			if (TextUtils.isEmpty(file)) {
 				rlt = openUrl(context, url, method, params, null);
-			}
-			else
-			{
+			} else {
 				List<HFileModel> files = new ArrayList<HFileModel>();
 				if (UConstants.isDataLoaderDebug) {
 					System.out.println(file);
@@ -134,87 +147,78 @@ public class HHttpUtility {
 				if (UConstants.isDataLoaderDebug) {
 					System.out.println("http//" + mHfiles[0]);
 				}
-				
-				for (int i = 0; i < mHfiles.length; i++)
-				{
-					
+
+				for (int i = 0; i < mHfiles.length; i++) {
+
 					HFileModel _help = new HFileModel(mHfiles[i]);
 					files.add(_help);
 				}
 
 				rlt = openUrl(context, url, method, params, files);
 			}
-		}
-		catch (UnsupportedEncodingException e)
-		{
+		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return rlt;
 	}
 
 	/**
-	 * author zenghui
+	 * @author zenghui.wang
 	 * 
-	 * 2013-1-25
+	 *         2013-1-25
 	 */
-	public static String openUrl(Context context, String url, String method, Map<String, String> params, List<HFileModel> files) throws Exception
-	{
+	public static String openUrl(Context context, String url, String method,
+			Map<String, String> params, List<HFileModel> files)
+			throws Exception {
 		String result = "";
-		
+
 		try {
 			HttpClient client = getHttpClient(context);
 			HttpUriRequest request = null;
 			ByteArrayOutputStream bos = null;
 
 			appendBasicParams(context, params);
-			if (method.equals("GET"))
-			{
+			if (method.equals("GET")) {
 				url = encodeUrl(url, params);
 				if (UConstants.isDataLoaderDebug) {
 					System.out.println("get:" + url);
 				}
 				HttpGet get = new HttpGet(url);
 				request = get;
-			}
-			else if (method.equals("POST"))
-			{
+			} else if (method.equals("POST")) {
 				HttpPost post = new HttpPost(url);
 				byte[] data = null;
 				bos = new ByteArrayOutputStream(1024 * 50);
-				
-				if (files != null && files.size() > 0)
-				{
+
+				if (files != null && files.size() > 0) {
 					paramToUpload(bos, params);
 					post.setHeader("transfer-coding", "chunked");
-					post.setHeader("Content-Type", MULTIPART_FORM_DATA + "; boundary=" + BOUNDARY);
+					post.setHeader("Content-Type", MULTIPART_FORM_DATA
+							+ "; boundary=" + BOUNDARY);
 					imageContentToUpload(context, bos, files);
-				}
-				else
-				{
-					post.setHeader("Content-Type", "application/x-www-form-urlencoded");
+				} else {
+					post.setHeader("Content-Type",
+							"application/x-www-form-urlencoded");
 					String postParam = encodeParameters(params);
 					if (UConstants.isDataLoaderDebug) {
-						System.out.println("post:" + url + "\nparams:" + postParam);
+						System.out.println("post:" + url + "\nparams:"
+								+ postParam);
 					}
 					data = postParam.getBytes("UTF-8");
 					bos.write(data);
 				}
-				
+
 				data = bos.toByteArray();
 				bos.close();
 				ByteArrayEntity formEntity = new ByteArrayEntity(data);
 				post.setEntity(formEntity);
 				request = post;
-			}
-			else if (method.equals("DELETE"))
-			{
+			} else if (method.equals("DELETE")) {
 				request = new HttpDelete(url);
 			}
 			setHeader(request);
@@ -222,63 +226,57 @@ public class HHttpUtility {
 			StatusLine status = response.getStatusLine();
 			int statusCode = status.getStatusCode();
 
-			if (statusCode != 200)
-			{
+			if (statusCode != 200) {
 				result = read(response);
-				throw new UException(String.format(status.toString()), statusCode);
+				throw new UException(String.format(status.toString()),
+						statusCode);
 			}
 			result = read(response);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
-			
+
 			e.printStackTrace();
 		} catch (ConnectTimeoutException e) {
 			// TODO: handle exception
-			//  指的是服务器请求超时
-			
+			// 指的是服务器请求超时
+
 			result = "ConnecTimeoutException";
 		} catch (SocketTimeoutException e) {
 			// TODO: handle exception
 			// 指的是服务器响应超时
 			result = "SocketTimeoutException";
-			
-		} catch (IOException e) { 
-            e.printStackTrace(); 
-        } 
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return result;
 	}
 
 	/**
-	 * author zenghui
+	 * @author zenghui.wang
 	 * 
-	 * 2013-1-25
+	 *         2013-1-25
 	 */
-	public static String encodeParameters(Map<String, String> params)
-	{
+	public static String encodeParameters(Map<String, String> params) {
 		StringBuilder sb = new StringBuilder();
-		try
-		{
+		try {
 			Set<String> keySet = params.keySet();
-			if (keySet != null)
-			{
+			if (keySet != null) {
 				boolean firstParam = true;
-				for (Iterator<String> iterator = keySet.iterator(); iterator.hasNext();)
-				{
+				for (Iterator<String> iterator = keySet.iterator(); iterator
+						.hasNext();) {
 					String key = iterator.next();
-					if (firstParam)
-					{
+					if (firstParam) {
 						firstParam = false;
-					}
-					else
-					{
+					} else {
 						sb.append("&");
 					}
-					sb.append(key).append("=").append(URLEncoder.encode(params.get(key), "UTF-8"));
+					sb.append(key)
+							.append("=")
+							.append(URLEncoder.encode(params.get(key), "UTF-8"));
 				}
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -288,66 +286,61 @@ public class HHttpUtility {
 	}
 
 	/**
-	 * author zenghui
+	 * @author zenghui.wang
 	 * 
-	 * 2013-1-25
+	 *         2013-1-25
 	 */
-	public static String encodeUrl(String url, Map<String, String> params)
-	{
+	public static String encodeUrl(String url, Map<String, String> params) {
 		StringBuilder sb = new StringBuilder();
-		try
-		{
+		try {
 			// TODO Auto-generated method stub
 			Set<String> keySet = params.keySet();
-			if (keySet != null)
-			{
-				if (url.indexOf("?") == -1)
-				{
+			if (keySet != null) {
+				if (url.indexOf("?") == -1) {
 					sb.append(url).append("?");
 					boolean firstParam = true;
-					for (Iterator<String> iterator = keySet.iterator(); iterator.hasNext();)
-					{
+					for (Iterator<String> iterator = keySet.iterator(); iterator
+							.hasNext();) {
 						String key = iterator.next();
-						if (firstParam)
-						{
+						if (firstParam) {
 							firstParam = false;
-						}
-						else
-						{
+						} else {
 							sb.append("&");
 						}
-						sb.append(key).append("=").append(URLEncoder.encode(params.get(key), "UTF-8"));
+						sb.append(key)
+								.append("=")
+								.append(URLEncoder.encode(params.get(key),
+										"UTF-8"));
 					}
-				}
-				else
-				{
+				} else {
 					boolean firstParm = false;
 					sb.append(url);
 					int i = url.indexOf("?");
 					int len = url.length();
-					if (i + 1 == len)
-					{
+					if (i + 1 == len) {
 						firstParm = true;
 					}
 
-					for (Iterator<String> iterator = keySet.iterator(); iterator.hasNext();)
-					{
+					for (Iterator<String> iterator = keySet.iterator(); iterator
+							.hasNext();) {
 						String key = iterator.next();
-						if (firstParm)
-						{
-							sb.append(key).append("=").append(URLEncoder.encode(params.get(key), "UTF-8"));
+						if (firstParm) {
+							sb.append(key)
+									.append("=")
+									.append(URLEncoder.encode(params.get(key),
+											"UTF-8"));
 							firstParm = false;
-						}
-						else
-						{
-							sb.append("&").append(key).append("=").append(URLEncoder.encode(params.get(key), "UTF-8"));
+						} else {
+							sb.append("&")
+									.append(key)
+									.append("=")
+									.append(URLEncoder.encode(params.get(key),
+											"UTF-8"));
 						}
 					}
 				}
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 		}
 
 		String u = sb.toString();
@@ -358,12 +351,12 @@ public class HHttpUtility {
 	}
 
 	/**
-	 * author zenghui
+	 * @author zenghui.wang
 	 * 
-	 * 2013-1-25
+	 *         2013-1-25
 	 */
-	public static void appendBasicParams(Context context, Map<String, String> params)
-	{
+	public static void appendBasicParams(Context context,
+			Map<String, String> params) {
 		// TODO Auto-generated method stub
 		params.put("platform", "android");
 		params.put("device", Build.MODEL);
@@ -378,9 +371,11 @@ public class HHttpUtility {
 		params.put("appName", UTools.OS.getAppName());
 		params.put("accessToken", UTools.OS.getAccessToken(context));
 		params.put("deviceName", "");
-//		params.put("time", String.valueOf(System.currentTimeMillis()));
-		params.put("network_type", String.valueOf(UTools.OS.getNetWorkType(context)));
-		params.put("screen_width", String.valueOf(context.getResources().getDisplayMetrics().widthPixels));
+		// params.put("time", String.valueOf(System.currentTimeMillis()));
+		params.put("network_type",
+				String.valueOf(UTools.OS.getNetWorkType(context)));
+		params.put("screen_width", String.valueOf(context.getResources()
+				.getDisplayMetrics().widthPixels));
 	}
 
 	/**
@@ -391,152 +386,143 @@ public class HHttpUtility {
 	 * 
 	 * @return String : http response content
 	 */
-	private static String read(HttpResponse response) throws UException
-	{
+	private static String read(HttpResponse response) throws UException {
 		String result = "";
 		HttpEntity entity = response.getEntity();
 		InputStream inputStream;
-		try
-		{
+		try {
 			inputStream = entity.getContent();
 			ByteArrayOutputStream content = new ByteArrayOutputStream();
 
 			Header header = response.getFirstHeader("Content-Encoding");
-			if (header != null && header.getValue().toLowerCase().indexOf("gzip") > -1)
-			{
+			if (header != null
+					&& header.getValue().toLowerCase().indexOf("gzip") > -1) {
 				inputStream = new GZIPInputStream(inputStream);
 			}
 
 			// Read response into a buffered stream
 			int readBytes = 0;
 			byte[] sBuffer = new byte[512];
-			while ((readBytes = inputStream.read(sBuffer)) != -1)
-			{
+			while ((readBytes = inputStream.read(sBuffer)) != -1) {
 				content.write(sBuffer, 0, readBytes);
 			}
 			// Return result from buffered stream
 			result = new String(content.toByteArray());
 			return result;
-		}
-		catch (IllegalStateException e)
-		{
+		} catch (IllegalStateException e) {
 			throw new UException(e);
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			throw new UException(e);
 		}
 	}
 
 	/**
-	 * author zenghui
+	 * @author zenghui.wang
 	 * 
-	 * 2013-1-25
+	 *         2013-1-25
 	 */
-	public static String get(Context context, String url, Map<String, String> params) throws Exception
-	{
-		if (params == null)
-		{
+	public static String get(Context context, String url,
+			Map<String, String> params) throws Exception {
+		if (params == null) {
 			params = new HashMap<String, String>();
 		}
 		return openUrl(context, url, "GET", params);
 	}
 
 	/**
-	 * author zenghui
+	 * @author zenghui.wang
 	 * 
-	 * 2013-1-25
+	 *         2013-1-25
 	 */
-	public static String post(Context context, String url, Map<String, String> params) throws Exception
-	{
-		if (params == null)
-		{
+	public static String post(Context context, String url,
+			Map<String, String> params) throws Exception {
+		if (params == null) {
 			params = new HashMap<String, String>();
 		}
 		return openUrl(context, url, "POST", params);
 	}
 
 	/**
-	 * author zenghui
+	 * @author zenghui.wang
 	 * 
-	 * 2013-1-25
+	 *         2013-1-25
 	 */
-	public static String getNetResource(String sourceUrl)
-	{
+	public static String getNetResource(String sourceUrl) {
 		String myString = "";
-		try
-		{
+		try {
 			URL myURL = new URL(sourceUrl);
 			URLConnection ucon = myURL.openConnection();
 			InputStream is = ucon.getInputStream();
 			BufferedInputStream bis = new BufferedInputStream(is);
 			ByteArrayBuffer baf = new ByteArrayBuffer(50);
 			int current = 0;
-			while ((current = bis.read()) != -1)
-			{
+			while ((current = bis.read()) != -1) {
 				baf.append((byte) current);
 			}
 			myString = EncodingUtils.getString(baf.toByteArray(), "UTF-8");
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			myString = e.getMessage();
 		}
 		return myString;
 	}
 
-	
-	private static void paramToUpload(OutputStream baos, Map<String, String> params) throws UException
-	{
+	private static void paramToUpload(OutputStream baos,
+			Map<String, String> params) throws UException {
 		Set<String> keySet = params.keySet();
-		if (keySet != null)
-		{
-			for (Iterator<String> iterator = keySet.iterator(); iterator.hasNext();)
-			{
+		if (keySet != null) {
+			for (Iterator<String> iterator = keySet.iterator(); iterator
+					.hasNext();) {
 				String key1 = iterator.next();
-				if (key1.equals("avatar") || key1.equals("image1") || key1.equals("questionPic") || key1.equals("answerPic"))
-				{
+				if (key1.equals("avatar") || key1.equals("image1")
+						|| key1.equals("questionPic")
+						|| key1.equals("answerPic")) {
 					continue;
 				}
 				StringBuilder temp = new StringBuilder(10);
 				temp.setLength(0);
 				temp.append(MP_BOUNDARY).append("\r\n");
-				temp.append("content-disposition: form-data; name=\"").append(key1).append("\"\r\n\r\n");
+				temp.append("content-disposition: form-data; name=\"")
+						.append(key1).append("\"\r\n\r\n");
 				temp.append(params.get(key1)).append("\r\n");
 				byte[] res = temp.toString().getBytes();
 				// Trace.log(temp.toString());
-				try
-				{
+				try {
 					baos.write(res);
-				}
-				catch (IOException e)
-				{
+				} catch (IOException e) {
 					throw new UException(e);
 				}
 			}
 		}
-		
+
 	}
-	
-	private static void imageContentToUpload(Context context, OutputStream out, List<HFileModel> files) throws UException
-	{
+
+	private static void imageContentToUpload(Context context, OutputStream out,
+			List<HFileModel> files) throws UException {
 		int length = files.size();
 		byte[][] data = new byte[length][];
-		for (int i = 0; i < length - 1; i++)
-		{
+		for (int i = 0; i < length - 1; i++) {
 			String filePath = files.get(i).value;
 			File file = new File(filePath);
 
-			String postFileParam = MP_BOUNDARY + "\r\n" + "Content-Disposition: form-data; name=\"" + files.get(i).key + "\"; filename=\"" + file.getName() + "\"\r\n" + "Content-Type: application/octet-stream" + "\r\n" + "Content-Transfer-Encoding: binary\r\n\r\n";
+			String postFileParam = MP_BOUNDARY + "\r\n"
+					+ "Content-Disposition: form-data; name=\""
+					+ files.get(i).key + "\"; filename=\"" + file.getName()
+					+ "\"\r\n" + "Content-Type: application/octet-stream"
+					+ "\r\n" + "Content-Transfer-Encoding: binary\r\n\r\n";
 
 			byte[] split_data = ("\r\n" + MP_BOUNDARY + "\r\n").getBytes();
 			byte[] postContentData = postFileParam.getBytes();
-			byte[] fileData = UTools.Storage.readBinary(context, files.get(i).value);
-			data[i] = new byte[postContentData.length + 4 + fileData.length + split_data.length];
+			byte[] fileData = UTools.Storage.readBinary(context,
+					files.get(i).value);
+			data[i] = new byte[postContentData.length + 4 + fileData.length
+					+ split_data.length];
 
-			System.arraycopy(postContentData, 0, data[i], 0, postContentData.length);
-			System.arraycopy(fileData, 0, data[i], postContentData.length, fileData.length);
-			System.arraycopy(split_data, 0, data[i], postContentData.length + fileData.length, split_data.length);
+			System.arraycopy(postContentData, 0, data[i], 0,
+					postContentData.length);
+			System.arraycopy(fileData, 0, data[i], postContentData.length,
+					fileData.length);
+			System.arraycopy(split_data, 0, data[i], postContentData.length
+					+ fileData.length, split_data.length);
 		}
 
 		// the last file
@@ -544,37 +530,40 @@ public class HHttpUtility {
 		File file = new File(files.get(k).value);
 
 		String postFileParam = "";
-		if (0 == length - 1)
-		{
-			postFileParam = MP_BOUNDARY + "\r\n" + "Content-Disposition: form-data; name=\"" + files.get(k).key + "\"; filename=\"" + file.getName() + "\"\r\n" + "Content-Type: application/octet-stream" + "\r\n" + "Content-Transfer-Encoding: binary\r\n\r\n";
-		}
-		else
-		{
-			postFileParam = "Content-Disposition: form-data; name=\"" + files.get(k).key + "\"; filename=\"" + file.getName() + "\"\r\n" + "Content-Type: application/octet-stream" + "\r\n" + "Content-Transfer-Encoding: binary\r\n\r\n";
+		if (0 == length - 1) {
+			postFileParam = MP_BOUNDARY + "\r\n"
+					+ "Content-Disposition: form-data; name=\""
+					+ files.get(k).key + "\"; filename=\"" + file.getName()
+					+ "\"\r\n" + "Content-Type: application/octet-stream"
+					+ "\r\n" + "Content-Transfer-Encoding: binary\r\n\r\n";
+		} else {
+			postFileParam = "Content-Disposition: form-data; name=\""
+					+ files.get(k).key + "\"; filename=\"" + file.getName()
+					+ "\"\r\n" + "Content-Type: application/octet-stream"
+					+ "\r\n" + "Content-Transfer-Encoding: binary\r\n\r\n";
 		}
 
 		byte[] split_data = ("\r\n" + END_MP_BOUNDARY + "\r\n").getBytes();
 		byte[] postContentData = postFileParam.getBytes();
-		byte[] fileData = UTools.Storage.readBinary(context, files.get(k).value);
-		data[k] = new byte[postContentData.length + fileData.length + split_data.length];
+		byte[] fileData = UTools.Storage
+				.readBinary(context, files.get(k).value);
+		data[k] = new byte[postContentData.length + fileData.length
+				+ split_data.length];
 
 		System.arraycopy(postContentData, 0, data[k], 0, postContentData.length);
-		System.arraycopy(fileData, 0, data[k], postContentData.length, fileData.length);
-		System.arraycopy(split_data, 0, data[k], postContentData.length + fileData.length, split_data.length);
+		System.arraycopy(fileData, 0, data[k], postContentData.length,
+				fileData.length);
+		System.arraycopy(split_data, 0, data[k], postContentData.length
+				+ fileData.length, split_data.length);
 
-		try
-		{
-			for (int i = 0; i < data.length; i++)
-			{
-				for (int j = 0; j < data[i].length; j++)
-				{
+		try {
+			for (int i = 0; i < data.length; i++) {
+				for (int j = 0; j < data[i].length; j++) {
 					byte bByte = data[i][j];
 					out.write(bByte);
 				}
 			}
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

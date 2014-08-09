@@ -1,90 +1,94 @@
+/*
+ * Copyright 2014 zenghui.wang.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.mobilepower.tong.http;
 
 import java.io.File;
 import java.net.URLEncoder;
 
-public class PostParameter implements java.io.Serializable
-{
+public class PostParameter implements java.io.Serializable {
 	String name;
 	String value = "";
 	private File file = null;
 
 	private static final long serialVersionUID = -8708108746980739212L;
 
-	public PostParameter(String name, String value)
-	{
+	public PostParameter(String name, String value) {
 		this.name = name;
 		if (value != null)
 			this.value = value;
 	}
 
-	public PostParameter(String name, long value)
-	{
+	public PostParameter(String name, long value) {
 		this.name = name;
 		this.value = String.valueOf(value);
 	}
 
-	public PostParameter(String name, double value)
-	{
+	public PostParameter(String name, double value) {
 		this.name = name;
 		this.value = String.valueOf(value);
 	}
 
-	public PostParameter(String name, int value)
-	{
+	public PostParameter(String name, int value) {
 		this.name = name;
 		this.value = String.valueOf(value);
 	}
 
-	public PostParameter(String name, File file)
-	{
+	public PostParameter(String name, File file) {
 		this.name = name;
 		this.file = file;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public String getValue()
-	{
+	public String getValue() {
 		return value;
 	}
 
-	public File getFile()
-	{
+	public File getFile() {
 		return file;
 	}
 
-	public boolean isFile()
-	{
+	public boolean isFile() {
 		return null != file;
 	}
 
-	public static PostParameter[] getParameterArray(String name, String value)
-	{
+	public static PostParameter[] getParameterArray(String name, String value) {
 		return new PostParameter[] { new PostParameter(name, value) };
 	}
 
-	public static PostParameter[] getParameterArray(String name, int value)
-	{
+	public static PostParameter[] getParameterArray(String name, int value) {
 		return getParameterArray(name, String.valueOf(value));
 	}
 
-	public static PostParameter[] getParameterArray(String name1, String value1, String name2, String value2)
-	{
-		return new PostParameter[] { new PostParameter(name1, value1), new PostParameter(name2, value2) };
+	public static PostParameter[] getParameterArray(String name1,
+			String value1, String name2, String value2) {
+		return new PostParameter[] { new PostParameter(name1, value1),
+				new PostParameter(name2, value2) };
 	}
 
-	public static PostParameter[] getParameterArray(String name1, int value1, String name2, int value2)
-	{
-		return getParameterArray(name1, String.valueOf(value1), name2, String.valueOf(value2));
+	public static PostParameter[] getParameterArray(String name1, int value1,
+			String name2, int value2) {
+		return getParameterArray(name1, String.valueOf(value1), name2,
+				String.valueOf(value2));
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		int result = name.hashCode();
 		result = 31 * result + value.hashCode();
 		result = 31 * result + (file != null ? file.hashCode() : 0);
@@ -92,18 +96,14 @@ public class PostParameter implements java.io.Serializable
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
-		if (null == obj)
-		{
+	public boolean equals(Object obj) {
+		if (null == obj) {
 			return false;
 		}
-		if (this == obj)
-		{
+		if (this == obj) {
 			return true;
 		}
-		if (obj instanceof PostParameter)
-		{
+		if (obj instanceof PostParameter) {
 			PostParameter that = (PostParameter) obj;
 
 			if (file != null ? !file.equals(that.file) : that.file != null)
@@ -115,46 +115,39 @@ public class PostParameter implements java.io.Serializable
 	}
 
 	@Override
-	public String toString()
-	{
-		return "PostParameter{" + "name='" + name + '\'' + ", value='" + value + '\'' + ", file=" + file + '}';
+	public String toString() {
+		return "PostParameter{" + "name='" + name + '\'' + ", value='" + value
+				+ '\'' + ", file=" + file + '}';
 	}
 
-	public int compareTo(Object o)
-	{
+	public int compareTo(Object o) {
 		int compared;
 		PostParameter that = (PostParameter) o;
 		compared = name.compareTo(that.name);
-		if (0 == compared)
-		{
+		if (0 == compared) {
 			compared = value.compareTo(that.value);
 		}
 		return compared;
 	}
 
-	public static String encodeParameters(PostParameter[] httpParams)
-	{
-		if (null == httpParams)
-		{
+	public static String encodeParameters(PostParameter[] httpParams) {
+		if (null == httpParams) {
 			return "";
 		}
 		StringBuffer buf = new StringBuffer();
-		for (int j = 0; j < httpParams.length; j++)
-		{
-			if (httpParams[j].isFile())
-			{
-				throw new IllegalArgumentException("parameter [" + httpParams[j].name + "]should be text");
+		for (int j = 0; j < httpParams.length; j++) {
+			if (httpParams[j].isFile()) {
+				throw new IllegalArgumentException("parameter ["
+						+ httpParams[j].name + "]should be text");
 			}
-			if (j != 0)
-			{
+			if (j != 0) {
 				buf.append("&");
 			}
-			try
-			{
-				buf.append(URLEncoder.encode(httpParams[j].name, "UTF-8")).append("=").append(URLEncoder.encode(httpParams[j].value, "UTF-8"));
-			}
-			catch (java.io.UnsupportedEncodingException neverHappen)
-			{
+			try {
+				buf.append(URLEncoder.encode(httpParams[j].name, "UTF-8"))
+						.append("=")
+						.append(URLEncoder.encode(httpParams[j].value, "UTF-8"));
+			} catch (java.io.UnsupportedEncodingException neverHappen) {
 			}
 		}
 		return buf.toString();
