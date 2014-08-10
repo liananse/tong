@@ -17,6 +17,7 @@ package com.mobilepower.tong.ui.activity;
 
 import android.os.Bundle;
 
+import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.squareup.otto.Bus;
 
@@ -29,6 +30,7 @@ public class ShopPageActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
+		setContentView(R.layout.shop_page_activity);
 		bus = TongApplication.getBus();
 	}
 

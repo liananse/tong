@@ -7,8 +7,16 @@
     <dimen name="activity_bar_default_height">48dp</dimen>
     <dimen name="activity_bar_title_size">22sp</dimen>
     <dimen name="activity_bar_btn_width">65dp</dimen>
+    <!-- add by zenghui 2013.09.06 header view line px -->
+    <dimen name="header_line_up_height">1px</dimen>
+    <dimen name="header_line_down_height">2px</dimen>
     
     <!-- splash activity -->
     <dimen name="splash_btn_padding">10dp</dimen>
 	<dimen name="splash_btn_text_size">18sp</dimen>
+	
+	<!-- login activity -->
+	<dimen name="login_and_register_margin_left">60dp</dimen>
+    <dimen name="login_and_register_margin_top">5dp</dimen>
+    <dimen name="login_and_register_padding">10dp</dimen>
 </resources>

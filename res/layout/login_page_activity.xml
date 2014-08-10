@@ -33,5 +33,46 @@
             android:textColor="@color/activity_bar_title_color"
             android:textSize="@dimen/activity_bar_title_size" />
     </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/login_mobile_et"
+            style="@style/UserNameAndPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login_mobile_tips"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/login_password_et"
+            style="@style/UserNameAndPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login_password_tips"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/login_forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/login_and_register_padding"
+            android:layout_marginLeft="@dimen/login_and_register_margin_left"
+            android:layout_marginTop="@dimen/login_and_register_margin_top"
+            android:paddingBottom="@dimen/login_and_register_margin_top"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/login_btn"
+            style="@style/LoginAndRegisterBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_title" />
+    </LinearLayout>
 
 </LinearLayout>
