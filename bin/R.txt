@@ -38,8 +38,11 @@ int attr activityChooserViewStyle 0x7f010068
 int attr background 0x7f01002b
 int attr backgroundSplit 0x7f01002d
 int attr backgroundStacked 0x7f01002c
+int attr border_color 0x7f01006c
+int attr border_width 0x7f01006b
 int attr buttonBarButtonStyle 0x7f010014
 int attr buttonBarStyle 0x7f010013
+int attr corner_radius 0x7f01006a
 int attr customNavigationLayout 0x7f01002e
 int attr disableChildrenWhenDisabled 0x7f010050
 int attr displayOptions 0x7f010024
@@ -67,7 +70,9 @@ int attr listPreferredItemHeightSmall 0x7f010019
 int attr listPreferredItemPaddingLeft 0x7f01001b
 int attr listPreferredItemPaddingRight 0x7f01001c
 int attr logo 0x7f010029
+int attr mutate_background 0x7f01006d
 int attr navigationMode 0x7f010023
+int attr oval 0x7f01006e
 int attr paddingEnd 0x7f010035
 int attr paddingStart 0x7f010034
 int attr panelMenuListTheme 0x7f010047
@@ -636,6 +641,13 @@ int styleable MenuView_android_itemTextAppearance 1
 int styleable MenuView_android_preserveIconSpacing 7
 int styleable MenuView_android_verticalDivider 3
 int styleable MenuView_android_windowAnimationStyle 0
+int[] styleable RoundedImageView { 0x0101011d, 0x7f01006a, 0x7f01006b, 0x7f01006c, 0x7f01006d, 0x7f01006e }
+int styleable RoundedImageView_android_scaleType 0
+int styleable RoundedImageView_border_color 3
+int styleable RoundedImageView_border_width 2
+int styleable RoundedImageView_corner_radius 1
+int styleable RoundedImageView_mutate_background 4
+int styleable RoundedImageView_oval 5
 int[] styleable SearchView { 0x0101011f, 0x01010220, 0x01010264, 0x7f010056, 0x7f010057 }
 int styleable SearchView_android_imeOptions 2
 int styleable SearchView_android_inputType 1
