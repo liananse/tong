@@ -15,38 +15,6 @@
  */
 package com.mobilepower.tong.ui.activity;
 
-import com.mobilepower.tong.R;
-
-import android.os.Bundle;
-
-public class LentActivity extends BaseActivity{
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.lent_activity);
-	}
-
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-	}
-
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
-	
-	
+public class ChatActivity extends BaseActivity{
 
 }

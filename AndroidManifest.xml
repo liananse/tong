@@ -114,6 +114,10 @@
             android:name=".ui.activity.AboutActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".ui.activity.ChatActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

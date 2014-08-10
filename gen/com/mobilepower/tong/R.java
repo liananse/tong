@@ -1175,14 +1175,15 @@ containing a value of this type.
         public static final int abc_search_view=0x7f030016;
         public static final int activity_main=0x7f030017;
         public static final int history_page_activity=0x7f030018;
-        public static final int login_page_activity=0x7f030019;
-        public static final int main_tab_activity=0x7f03001a;
-        public static final int nearby_page_activity=0x7f03001b;
-        public static final int register_step_one_activity=0x7f03001c;
-        public static final int self_page_activity=0x7f03001d;
-        public static final int shop_page_activity=0x7f03001e;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001f;
-        public static final int tong_page_activity=0x7f030020;
+        public static final int lent_activity=0x7f030019;
+        public static final int login_page_activity=0x7f03001a;
+        public static final int main_tab_activity=0x7f03001b;
+        public static final int nearby_page_activity=0x7f03001c;
+        public static final int register_step_one_activity=0x7f03001d;
+        public static final int self_page_activity=0x7f03001e;
+        public static final int shop_page_activity=0x7f03001f;
+        public static final int support_simple_spinner_dropdown_item=0x7f030020;
+        public static final int tong_page_activity=0x7f030021;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
@@ -1234,6 +1235,9 @@ containing a value of this type.
         /**  history page activity 
          */
         public static final int history_page_title=0x7f0a001c;
+        /**  lent activity 
+         */
+        public static final int lent_title=0x7f0a001f;
         public static final int login_and_register_login_code=0x7f0a0018;
         public static final int login_and_register_register_code=0x7f0a0017;
         public static final int login_mobile_tips=0x7f0a0013;

@@ -35,5 +35,8 @@
     
     <!-- self page activity -->
     <string name="self_page_title">我</string>
+    
+    <!-- lent activity -->
+    <string name="lent_title">转借</string>
 
 </resources>
