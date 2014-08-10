@@ -8,5 +8,26 @@
     <!-- splash activity -->
     <string name="splash_login">登录</string>
     <string name="splash_register">注册</string>
+    
+    <!-- login activity -->
+    <string name="login_title">登录</string>
+    
+    <!-- register activity -->
+    <string name="register_title">注册</string>
+    
+    <!-- tong page activity -->
+    <string name="tong_page_title">充电通</string>
+    
+    <!-- shop page activity -->
+	<string name="shop_page_title">店铺</string>
+	
+	<!-- history page activity -->
+	<string name="history_page_title">历史</string>
+	    
+    <!-- nearby page activity -->
+    <string name="nearby_page_title">附近</string>
+    
+    <!-- self page activity -->
+    <string name="self_page_title">我</string>
 
 </resources>

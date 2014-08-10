@@ -16,15 +16,19 @@
 package com.mobilepower.tong.ui.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobilepower.tong.R;
+import com.mobilepower.tong.ui.activity.LoginActivity;
+import com.mobilepower.tong.ui.activity.RegisterStepOneActivity;
 
 public class SplashView extends ViewGroup {
 
@@ -85,6 +89,29 @@ public class SplashView extends ViewGroup {
 		mRegisterBtn.setTextSize(TypedValue.COMPLEX_UNIT_PX,
 				mRes.getDimensionPixelSize(R.dimen.splash_btn_text_size));
 		mRegisterBtn.setSoundEffectsEnabled(false);
+
+		this.setBackgroundResource(R.color.activity_bg);
+
+		mLoginBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext, LoginActivity.class);
+				mContext.startActivity(intent);
+			}
+		});
+
+		mRegisterBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext,
+						RegisterStepOneActivity.class);
+				mContext.startActivity(intent);
+			}
+		});
 
 		addView(mSplashLogo);
 		addView(mLoginBtn);

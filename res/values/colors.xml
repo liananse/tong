@@ -3,5 +3,10 @@
 
     <color name="blue">#15ccf4</color>
     <color name="gray">#f2f2f2</color>
+    <color name="activity_bg">#f7f7f7</color>
+    
+    <!-- activity bar -->
+    <color name="activity_bar_bg">#ffffff</color>
+    <color name="activity_bar_title_color">#000000</color>
 
 </resources>

@@ -30,6 +30,8 @@ public class SelfPageActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		bus = TongApplication.getBus();
+		
+		
 	}
 
 	@Override
