@@ -46,30 +46,35 @@
                         style="@style/main_tab_bottom"
                         android:background="@null"
                         android:checked="true"
+                        android:text="@string/tong_page_title"
                         android:drawableTop="@drawable/main_tab_index_bg" />
 
                     <RadioButton
                         android:id="@+id/radio_past_event"
                         style="@style/main_tab_bottom"
                         android:background="@null"
+                        android:text="@string/shop_page_title"
                         android:drawableTop="@drawable/main_tab_chat_bg" />
 
                     <RadioButton
                         android:id="@+id/radio_event_type"
                         style="@style/main_tab_bottom"
                         android:background="@null"
+                        android:text="@string/history_page_title"
                         android:drawableTop="@drawable/main_tab_create_event_bg" />
 
                     <RadioButton
                         android:id="@+id/radio_friends"
                         style="@style/main_tab_bottom"
                         android:background="@null"
+                        android:text="@string/nearby_page_title"
                         android:drawableTop="@drawable/main_tab_friends_bg" />
 
                     <RadioButton
                         android:id="@+id/radio_more"
                         style="@style/main_tab_bottom"
                         android:background="@null"
+                        android:text="@string/self_page_title"
                         android:drawableTop="@drawable/main_tab_more_bg" />
                 </RadioGroup>
 
