@@ -5,3 +5,7 @@
 ② Otto
 	An enhanced event bus with emphasis on Android support
 	http://square.github.io/otto/
+③ZXing
+	ZXing is an open-source, multi-format 1D/2D barcode image processing library implemented in Java,
+	with ports to other languages.
+	https://github.com/zxing/zxing
