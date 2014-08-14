@@ -132,7 +132,7 @@
     </LinearLayout>
 
     <com.mobilepower.tong.ui.view.XListView
-        android:id="@+id/notification_listview"
+        android:id="@+id/tong_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:cacheColorHint="#00000000"
