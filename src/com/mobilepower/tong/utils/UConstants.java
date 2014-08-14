@@ -31,7 +31,7 @@ public class UConstants {
 
 	// 一些开关 开始
 	// 是否显示请求返回的信息
-	public static final boolean isDataLoaderDebug = false;
+	public static final boolean isDataLoaderDebug = true;
 	
 	// 一些开关 结束
 	// 请求返回正确

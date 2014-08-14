@@ -19,4 +19,7 @@
 	<dimen name="login_and_register_margin_left">60dp</dimen>
     <dimen name="login_and_register_margin_top">5dp</dimen>
     <dimen name="login_and_register_padding">10dp</dimen>
+    
+    <!-- tong page -->
+    <dimen name="tong_page_btn_text_size">16sp</dimen>
 </resources>

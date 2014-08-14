@@ -26,7 +26,7 @@ public class UConfig {
 	// 服务器请求地址
 
 	// 正式机
-	public static final String SERVER_HOST = "http://www.gotodada.com/jelly/";
+	public static final String SERVER_HOST = "http://115.29.29.126:8088";
 	public static final String IMAGE_SERVER = "http://pic.pypei.com.cn/width/";
 
 	// 测试机
@@ -35,4 +35,39 @@ public class UConfig {
 
 	// 请求连接
 
+	/**
+	 * 注册
+	 * mobile
+	 * pwd
+	 */
+	public static final String USER_ADD_URL = SERVER_HOST + "/UserAdd";
+	
+	/**
+	 * 登录
+	 * mobile
+	 * pwd
+	 */
+	public static final String USER_LOGIN_URL = SERVER_HOST + "/UserLogin";
+	
+	/**
+	 * 用户更新
+	 * age
+	 * nickName
+	 * resume
+	 */
+	public static final String USER_UPDATE_URL = SERVER_HOST + "/UserUpdate";
+	
+	/**
+	 * 充电宝历史
+	 * sortTime
+	 */
+	public static final String CHECK_HISTORY_LIST_URL = SERVER_HOST + "/checkHistoryGet";
+	
+	/**
+	 * 店铺列表
+	 * sortTime
+	 * lat 纬度
+	 * lng 经度
+	 */
+	public static final String SHOP_GET_URL = SERVER_HOST + "/shopGet";
 }

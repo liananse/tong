@@ -15,13 +15,16 @@
  */
 package com.mobilepower.tong.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.squareup.otto.Bus;
 
-public class TongPageActivity extends BaseActivity {
+public class TongPageActivity extends BaseActivity implements OnClickListener{
 
 	private Bus bus;
 	
@@ -32,6 +35,25 @@ public class TongPageActivity extends BaseActivity {
 		
 		setContentView(R.layout.tong_page_activity);
 		bus = TongApplication.getBus();
+		
+		initView();
+	}
+	
+	private View mBorrowBtn;
+	private View mReturnBtn;
+	private View mLentBtn;
+	private View mWantBorrowBtn;
+	
+	private void initView() {
+		mBorrowBtn = findViewById(R.id.borrow_btn);
+		mReturnBtn = findViewById(R.id.return_btn);
+		mLentBtn = findViewById(R.id.lent_btn);
+		mWantBorrowBtn = findViewById(R.id.want_borrow_btn);
+		
+		mBorrowBtn.setOnClickListener(this);
+		mReturnBtn.setOnClickListener(this);
+		mLentBtn.setOnClickListener(this);
+		mWantBorrowBtn.setOnClickListener(this);
 	}
 
 	@Override
@@ -52,6 +74,42 @@ public class TongPageActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		this.bus.unregister(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if (v == mBorrowBtn) {
+			borrowBtnMethod();
+		} else if (v == mReturnBtn) {
+			returnBtnMethod();
+		} else if (v == mLentBtn) {
+			lentBtnMethod();
+		} else if (v == mWantBorrowBtn) {
+			wantBorrowBtnMethod();
+		}
+	}
+	
+	private void borrowBtnMethod() {
+		Intent intent = new Intent();
+		intent.setClass(this, ScanActivity.class);
+		startActivity(intent);
+	}
+	
+	private void returnBtnMethod() {
+		Intent intent = new Intent();
+		intent.setClass(this, ScanActivity.class);
+		startActivity(intent);
+	}
+	
+	private void lentBtnMethod() {
+		Intent intent = new Intent();
+		intent.setClass(this, LentActivity.class);
+		startActivity(intent);
+	}
+	
+	private void wantBorrowBtnMethod() {
+		
 	}
 
 }

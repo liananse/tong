@@ -22,6 +22,8 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -163,6 +165,22 @@ public class UTools {
 			}
 
 			return version;
+		}
+		
+		public static boolean isMobile(String mobile)
+		{
+			Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9])|(17[0-9]))\\d{8}$");   
+			Matcher m = p.matcher(mobile);
+			return m.matches();
+		}
+		
+		public static boolean isPassword(String password) {
+			
+			if (!password.equals("") && password.length() >= 6 && password.length() <= 16) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		/**

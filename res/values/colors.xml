@@ -17,5 +17,8 @@
     <!-- login -->
     <color name="login_and_register_btn_color">#39d4f5</color>
     <color name="login_and_register_btn_color_unavailable">#9a9a9a</color>
+    
+    <!-- tong page -->
+    <color name="tong_page_btn_text_color">@color/black</color>
 
 </resources>

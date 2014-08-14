@@ -91,6 +91,14 @@
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>
+        
+        <EditText
+            android:id="@+id/register_password_et"
+            style="@style/UserNameAndPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login_password_tips"
+            android:inputType="textPassword" />
 
         <TextView
             android:id="@+id/register_next_btn"
