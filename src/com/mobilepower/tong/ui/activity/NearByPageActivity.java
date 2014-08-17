@@ -15,10 +15,16 @@
  */
 package com.mobilepower.tong.ui.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.model.UserInfo;
+import com.mobilepower.tong.ui.adapter.NearbyUserAdapter;
+import com.mobilepower.tong.ui.view.XListView;
 import com.squareup.otto.Bus;
 
 public class NearByPageActivity extends BaseActivity {
@@ -32,6 +38,35 @@ public class NearByPageActivity extends BaseActivity {
 		
 		setContentView(R.layout.nearby_page_activity);
 		bus = TongApplication.getBus();
+		
+		initView();
+		initData();
+	}
+	
+	private XListView mListView;
+	private NearbyUserAdapter mAdapter;
+	private void initView() {
+		mListView = (XListView) findViewById(R.id.nearby_list);
+		
+		mAdapter = new NearbyUserAdapter(this);
+		mListView.setAdapter(mAdapter);
+	}
+	
+	
+	private void initData() {
+		List<UserInfo> mNearbyList = new ArrayList<UserInfo>();
+		
+		for (int i = 0; i < 10; i++) {
+			UserInfo mModel = new UserInfo();
+			mModel.avatar = "http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg";
+			mModel.nickName = "zenghui.wang";
+			mModel.distance = "1km";
+			mModel.resume = "i want you";
+			
+			mNearbyList.add(mModel);
+		}
+		
+		mAdapter.refreshData(mNearbyList);
 	}
 
 	@Override

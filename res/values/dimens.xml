@@ -4,6 +4,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_default_padding">10dp</dimen>
+    <dimen name="list_default_padding">5dp</dimen>
     <!-- activity bar -->
     <dimen name="activity_bar_default_height">48dp</dimen>
     <dimen name="activity_bar_title_size">22sp</dimen>
@@ -34,4 +35,6 @@
     <!-- user info activity -->
     <dimen name="user_des_min_height">100dp</dimen>
     
+    <!-- nearby user info list item -->
+	<dimen name="user_avatar_size">50dp</dimen>    
 </resources>
