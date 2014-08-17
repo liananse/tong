@@ -49,5 +49,10 @@
     
     <!-- lent activity -->
     <string name="lent_title">转借</string>
+    
+    <!-- userinfo activity -->
+    <string name="user_info_title">详细资料</string>
+    <string name="user_info_send_msg">发送消息</string>
+    <string name="user_info_put_in_blacklist">列入黑名单</string>
 
 </resources>

@@ -970,31 +970,32 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f060002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f070012;
+        public static final int abc_search_url_text_holo=0x7f070013;
         public static final int abc_search_url_text_normal=0x7f070000;
         public static final int abc_search_url_text_pressed=0x7f070002;
         public static final int abc_search_url_text_selected=0x7f070001;
         /**  activity bar 
          */
-        public static final int activity_bar_bg=0x7f07000b;
-        public static final int activity_bar_title_color=0x7f07000c;
-        public static final int activity_bg=0x7f070009;
+        public static final int activity_bar_bg=0x7f07000c;
+        public static final int activity_bar_title_color=0x7f07000d;
+        public static final int activity_bg=0x7f07000a;
         public static final int black=0x7f070004;
         public static final int blue=0x7f070005;
         public static final int gray=0x7f070006;
-        public static final int header_line_down=0x7f07000e;
-        public static final int header_line_up=0x7f07000d;
+        public static final int header_line_down=0x7f07000f;
+        public static final int header_line_up=0x7f07000e;
         /**  login 
          */
-        public static final int login_and_register_btn_color=0x7f07000f;
-        public static final int login_and_register_btn_color_unavailable=0x7f070010;
-        public static final int textcolor=0x7f07000a;
+        public static final int login_and_register_btn_color=0x7f070010;
+        public static final int login_and_register_btn_color_unavailable=0x7f070011;
+        public static final int red=0x7f070007;
+        public static final int textcolor=0x7f07000b;
         /**  tong page 
          */
-        public static final int tong_page_btn_text_color=0x7f070011;
-        public static final int transparent=0x7f070007;
+        public static final int tong_page_btn_text_color=0x7f070012;
+        public static final int transparent=0x7f070008;
         public static final int white=0x7f070003;
-        public static final int white_alpha=0x7f070008;
+        public static final int white_alpha=0x7f070009;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1118,6 +1119,9 @@ containing a value of this type.
         /**  tong page 
          */
         public static final int tong_page_btn_text_size=0x7f08001e;
+        /**  user info activity 
+         */
+        public static final int user_des_min_height=0x7f080024;
     }
     public static final class drawable {
         public static final int abc_ab_bottom_solid_dark_holo=0x7f020000;
@@ -1210,33 +1214,36 @@ containing a value of this type.
         public static final int action_bar_back=0x7f020057;
         public static final int blue_btn_bg=0x7f020058;
         public static final int default_btn=0x7f020059;
-        public static final int ic_head_holder=0x7f02005a;
-        public static final int ic_launcher=0x7f02005b;
-        public static final int loading_bar=0x7f02005c;
-        public static final int loading_icon_down=0x7f02005d;
-        public static final int loading_icon_round=0x7f02005e;
-        public static final int login_and_register_btn_bg=0x7f02005f;
-        public static final int login_and_register_btn_bg_available=0x7f020060;
-        public static final int login_and_register_btn_bg_unavailable=0x7f020061;
-        public static final int main_tab_chat_bg=0x7f020062;
-        public static final int main_tab_chat_normal=0x7f020063;
-        public static final int main_tab_chat_press=0x7f020064;
-        public static final int main_tab_create_event_bg=0x7f020065;
-        public static final int main_tab_create_event_normal=0x7f020066;
-        public static final int main_tab_create_event_press=0x7f020067;
-        public static final int main_tab_friends_bg=0x7f020068;
-        public static final int main_tab_friends_normal=0x7f020069;
-        public static final int main_tab_friends_press=0x7f02006a;
-        public static final int main_tab_index_bg=0x7f02006b;
-        public static final int main_tab_index_normal=0x7f02006c;
-        public static final int main_tab_index_press=0x7f02006d;
-        public static final int main_tab_item_text_color=0x7f02006e;
-        public static final int main_tab_more_bg=0x7f02006f;
-        public static final int main_tab_more_normal=0x7f020070;
-        public static final int main_tab_more_press=0x7f020071;
-        public static final int main_tab_notify=0x7f020072;
-        public static final int progressbar_bg=0x7f020073;
-        public static final int username_and_password_et_bg=0x7f020074;
+        public static final int flag_gender_female=0x7f02005a;
+        public static final int flag_gender_male=0x7f02005b;
+        public static final int ic_head_holder=0x7f02005c;
+        public static final int ic_launcher=0x7f02005d;
+        public static final int loading_bar=0x7f02005e;
+        public static final int loading_icon_down=0x7f02005f;
+        public static final int loading_icon_round=0x7f020060;
+        public static final int login_and_register_btn_bg=0x7f020061;
+        public static final int login_and_register_btn_bg_available=0x7f020062;
+        public static final int login_and_register_btn_bg_unavailable=0x7f020063;
+        public static final int main_tab_chat_bg=0x7f020064;
+        public static final int main_tab_chat_normal=0x7f020065;
+        public static final int main_tab_chat_press=0x7f020066;
+        public static final int main_tab_create_event_bg=0x7f020067;
+        public static final int main_tab_create_event_normal=0x7f020068;
+        public static final int main_tab_create_event_press=0x7f020069;
+        public static final int main_tab_friends_bg=0x7f02006a;
+        public static final int main_tab_friends_normal=0x7f02006b;
+        public static final int main_tab_friends_press=0x7f02006c;
+        public static final int main_tab_index_bg=0x7f02006d;
+        public static final int main_tab_index_normal=0x7f02006e;
+        public static final int main_tab_index_press=0x7f02006f;
+        public static final int main_tab_item_text_color=0x7f020070;
+        public static final int main_tab_more_bg=0x7f020071;
+        public static final int main_tab_more_normal=0x7f020072;
+        public static final int main_tab_more_press=0x7f020073;
+        public static final int main_tab_notify=0x7f020074;
+        public static final int progressbar_bg=0x7f020075;
+        public static final int red_btn_bg=0x7f020076;
+        public static final int username_and_password_et_bg=0x7f020077;
     }
     public static final class id {
         public static final int action_bar=0x7f05001c;
@@ -1250,11 +1257,12 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f050068;
+        public static final int action_settings=0x7f05006c;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int back_btn=0x7f05003f;
         public static final int beginning=0x7f050011;
+        public static final int black_list_btn=0x7f050063;
         public static final int borrow_btn=0x7f05005b;
         public static final int checkbox=0x7f05002d;
         public static final int collapseActionView=0x7f05000d;
@@ -1321,6 +1329,7 @@ containing a value of this type.
         public static final int self_info_score=0x7f050059;
         public static final int self_info_top=0x7f050056;
         public static final int self_pate_avatar=0x7f050055;
+        public static final int send_msg_btn=0x7f050062;
         public static final int shop_list=0x7f05005a;
         public static final int shortcut=0x7f05002e;
         public static final int showCustom=0x7f050007;
@@ -1334,16 +1343,18 @@ containing a value of this type.
         public static final int top_action_bar=0x7f050020;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
+        public static final int user_info_avatar=0x7f050060;
+        public static final int user_info_nickname=0x7f050061;
         public static final int want_borrow_btn=0x7f05005e;
         public static final int withText=0x7f05000c;
-        public static final int xlistview_footer_content=0x7f050060;
-        public static final int xlistview_footer_hint_textview=0x7f050062;
-        public static final int xlistview_footer_progressbar=0x7f050061;
-        public static final int xlistview_header_arrow=0x7f050066;
-        public static final int xlistview_header_content=0x7f050063;
-        public static final int xlistview_header_hint_textview=0x7f050065;
-        public static final int xlistview_header_progressbar=0x7f050067;
-        public static final int xlistview_header_text=0x7f050064;
+        public static final int xlistview_footer_content=0x7f050064;
+        public static final int xlistview_footer_hint_textview=0x7f050066;
+        public static final int xlistview_footer_progressbar=0x7f050065;
+        public static final int xlistview_header_arrow=0x7f05006a;
+        public static final int xlistview_header_content=0x7f050067;
+        public static final int xlistview_header_hint_textview=0x7f050069;
+        public static final int xlistview_header_progressbar=0x7f05006b;
+        public static final int xlistview_header_text=0x7f050068;
     }
     public static final class integer {
         /**  The maximum number of action buttons that should be permitted within
@@ -1406,8 +1417,9 @@ containing a value of this type.
         public static final int shop_page_activity=0x7f030020;
         public static final int support_simple_spinner_dropdown_item=0x7f030021;
         public static final int tong_page_activity=0x7f030022;
-        public static final int xlistview_footer=0x7f030023;
-        public static final int xlistview_header=0x7f030024;
+        public static final int user_info_activity=0x7f030023;
+        public static final int xlistview_footer=0x7f030024;
+        public static final int xlistview_header=0x7f030025;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
@@ -1494,6 +1506,11 @@ containing a value of this type.
          */
         public static final int tong_page_title=0x7f0a0020;
         public static final int tong_page_want_borrow=0x7f0a0024;
+        public static final int user_info_put_in_blacklist=0x7f0a002c;
+        public static final int user_info_send_msg=0x7f0a002b;
+        /**  userinfo activity 
+         */
+        public static final int user_info_title=0x7f0a002a;
         public static final int xlistview_footer_hint_normal=0x7f0a0014;
         public static final int xlistview_footer_hint_ready=0x7f0a0015;
         public static final int xlistview_header_hint_loading=0x7f0a0012;

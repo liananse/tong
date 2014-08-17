@@ -31,4 +31,7 @@
     <dimen name="self_page_pay_size">16sp</dimen>
     <dimen name="self_page_score_size">14sp</dimen>
     
+    <!-- user info activity -->
+    <dimen name="user_des_min_height">100dp</dimen>
+    
 </resources>

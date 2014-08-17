@@ -15,14 +15,17 @@
  */
 package com.mobilepower.tong.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.ui.view.CustomAvatarView;
 import com.squareup.otto.Bus;
 
-public class SelfPageActivity extends BaseActivity {
+public class SelfPageActivity extends BaseActivity implements OnClickListener{
 
 	private Bus bus;
 	
@@ -35,15 +38,20 @@ public class SelfPageActivity extends BaseActivity {
 		bus = TongApplication.getBus();
 		
 		initView();
+		initData();
 	}
 
 	private CustomAvatarView mAvatarView;
 	
 	private void initView() {
 		mAvatarView = (CustomAvatarView) findViewById(R.id.self_pate_avatar);
+		mAvatarView.setOnClickListener(this);
 		
+		
+	}
+	
+	private void initData() {
 		mAvatarView.setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
-		
 	}
 	@Override
 	protected void onResume() {
@@ -63,6 +71,16 @@ public class SelfPageActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		this.bus.unregister(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if (v == mAvatarView) {
+			Intent intent = new Intent();
+			intent.setClass(this, UserInfoActivity.class);
+			this.startActivity(intent);
+		}
 	}
 
 }
