@@ -19,6 +19,7 @@ import android.os.Bundle;
 
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.ui.view.CustomAvatarView;
 import com.squareup.otto.Bus;
 
 public class SelfPageActivity extends BaseActivity {
@@ -33,9 +34,17 @@ public class SelfPageActivity extends BaseActivity {
 		setContentView(R.layout.self_page_activity);
 		bus = TongApplication.getBus();
 		
-		
+		initView();
 	}
 
+	private CustomAvatarView mAvatarView;
+	
+	private void initView() {
+		mAvatarView = (CustomAvatarView) findViewById(R.id.self_pate_avatar);
+		
+		mAvatarView.setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
+		
+	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub

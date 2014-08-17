@@ -3,6 +3,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_default_padding">10dp</dimen>
     <!-- activity bar -->
     <dimen name="activity_bar_default_height">48dp</dimen>
     <dimen name="activity_bar_title_size">22sp</dimen>
@@ -22,4 +23,12 @@
     
     <!-- tong page -->
     <dimen name="tong_page_btn_text_size">16sp</dimen>
+    
+    <!-- self page -->
+    <dimen name="self_page_avatar_size">65dp</dimen>
+    <dimen name="self_page_avatar_rim">3dp</dimen>
+    <dimen name="self_page_nickname_size">18sp</dimen>
+    <dimen name="self_page_pay_size">16sp</dimen>
+    <dimen name="self_page_score_size">14sp</dimen>
+    
 </resources>
