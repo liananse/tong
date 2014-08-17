@@ -15,6 +15,36 @@
  */
 package com.mobilepower.tong.ui.activity;
 
+import android.os.Bundle;
+
+import com.mobilepower.tong.R;
+
 public class BorrowTipsActivity extends BaseActivity{
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.borrow_tips_activity);
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+
+	
 }

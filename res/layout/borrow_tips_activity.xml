@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/activity_bg"
     android:orientation="vertical" >
-
+    
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_bar_default_height"
@@ -28,24 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:text="@string/scan_title"
+            android:text="@string/borrow_tips_title"
             android:textColor="@color/activity_bar_title_color"
             android:textSize="@dimen/activity_bar_title_size" />
     </RelativeLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <SurfaceView
-            android:id="@+id/preview_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <com.mobilepower.tong.dimencode.ViewfinderView
-            android:id="@+id/viewfinder_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
 
 </LinearLayout>
