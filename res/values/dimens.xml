@@ -36,5 +36,8 @@
     <dimen name="user_des_min_height">100dp</dimen>
     
     <!-- nearby user info list item -->
-	<dimen name="user_avatar_size">50dp</dimen>    
+	<dimen name="user_avatar_size">50dp</dimen> 
+	
+	<dimen name="standard_padding">8dip</dimen>
+  <dimen name="half_padding">4dip</dimen>
 </resources>

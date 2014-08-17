@@ -22,6 +22,7 @@ import android.view.View.OnClickListener;
 
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.dimencode.ScanActivity;
 import com.squareup.otto.Bus;
 
 public class TongPageActivity extends BaseActivity implements OnClickListener{
