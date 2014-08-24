@@ -39,11 +39,18 @@ public class SplashActivity extends BaseActivity {
 
 		setContentView(mSplashViewController.getView());
 
-		PushManager.startWork(getApplicationContext(),
-				PushConstants.LOGIN_TYPE_API_KEY,
-				TongPushUtils.getMetaValue(SplashActivity.this, "api_key"));
-		// Push: 如果想基于地理位置推送，可以打开支持地理位置的推送的开关
-		// PushManager.enableLbs(getApplicationContext());
+		if (!TongPushUtils.hasBind(getApplicationContext())) {
+			PushManager.startWork(getApplicationContext(),
+					PushConstants.LOGIN_TYPE_API_KEY,
+					TongPushUtils.getMetaValue(SplashActivity.this, "api_key"));
+			// Push: 如果想基于地理位置推送，可以打开支持地理位置的推送的开关
+			// PushManager.enableLbs(getApplicationContext());
+
+		} else {
+			if (PushManager.isPushEnabled(getApplicationContext())) {
+				PushManager.resumeWork(getApplicationContext());
+			}
+		}
 	}
 
 	@Override

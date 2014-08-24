@@ -15,11 +15,22 @@
  */
 package com.mobilepower.tong;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.baidu.frontia.FrontiaApplication;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
 import com.mobilepower.tong.model.UserInfo;
+import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 
 public class TongApplication extends FrontiaApplication {
@@ -30,6 +41,9 @@ public class TongApplication extends FrontiaApplication {
 		return instance;
 	}
 
+	public LocationClient mLocationClient;
+	public MyLocationListener mMyLocationListener;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -38,6 +52,8 @@ public class TongApplication extends FrontiaApplication {
 		// 百度push接口
 		FrontiaApplication.initFrontiaApplication(this);
 		bus = new Bus();
+
+		initLocation();
 	}
 
 	private static UserInfo mine;
@@ -50,6 +66,20 @@ public class TongApplication extends FrontiaApplication {
 			bus = new Bus();
 		}
 		return bus;
+	}
+
+	private void initLocation() {
+		mLocationClient = new LocationClient(this.getApplicationContext());
+		mMyLocationListener = new MyLocationListener();
+		mLocationClient.registerLocationListener(mMyLocationListener);
+
+		LocationClientOption option = new LocationClientOption();
+		option.setLocationMode(LocationMode.Hight_Accuracy);// 设置定位模式
+		option.setCoorType("bd09ll");// 返回的定位结果是百度经纬度，默认值gcj02
+		int span = 1000;
+		option.setScanSpan(span);// 设置发起定位请求的间隔时间为5000ms
+		option.setIsNeedAddress(true);
+		mLocationClient.setLocOption(option);
 	}
 
 	public static void initMineInfo(Context ctx, UserInfo model) {
@@ -102,5 +132,38 @@ public class TongApplication extends FrontiaApplication {
 		// intent.setClass(act, LoginAndRegisterActivity.class);
 		// act.startActivity(intent);
 		// act.finish();
+	}
+
+	/**
+	 * 实现实位回调监听
+	 */
+	public class MyLocationListener implements BDLocationListener {
+
+		@Override
+		public void onReceiveLocation(BDLocation location) {
+			if (location == null)
+				return;
+			SharedPreferences.Editor mEditor = UTools.Storage
+					.getSharedPreEditor(getApplicationContext(),
+							UConstants.BASE_PREFS_NAME);
+			mEditor.putString(UConstants.LOCATION_LATITUDE,
+					String.valueOf(location.getLatitude()));
+			mEditor.putString(UConstants.LOCATION_LONGITUDE,
+					String.valueOf(location.getLongitude()));
+
+			if (location.hasAddr() && location.getCity() != null) {
+				mEditor.putString(UConstants.LOCATION_CITY, location.getCity());
+			}
+			mEditor.commit();
+
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("x", String.valueOf(location.getLatitude()));
+			params.put("y", String.valueOf(location.getLongitude()));
+
+			System.out.println("latitude " + location.getLatitude());
+			// 可以请求店铺地址
+			mLocationClient.stop();
+		}
+
 	}
 }

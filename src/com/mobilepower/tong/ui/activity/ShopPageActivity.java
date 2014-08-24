@@ -17,6 +17,7 @@ package com.mobilepower.tong.ui.activity;
 
 import android.os.Bundle;
 
+import com.baidu.location.LocationClient;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.squareup.otto.Bus;
@@ -24,14 +25,23 @@ import com.squareup.otto.Bus;
 public class ShopPageActivity extends BaseActivity {
 
 	private Bus bus;
-	
+	LocationClient mLocClient;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.shop_page_activity);
 		bus = TongApplication.getBus();
+
+		initLocation();
+	}
+
+	private void initLocation() {
+		mLocClient = ((TongApplication) getApplication()).mLocationClient;
+
+		mLocClient.start();
 	}
 
 	@Override
