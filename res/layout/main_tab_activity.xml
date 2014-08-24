@@ -144,7 +144,8 @@
                         android:id="@+id/main_tab_friends"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/main_tab_notify" />
+                        android:src="@drawable/main_tab_notify"
+                        android:visibility="invisible" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -157,7 +158,8 @@
                         android:id="@+id/main_tab_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/main_tab_notify" />
+                        android:src="@drawable/main_tab_notify"
+                        android:visibility="invisible" />
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>

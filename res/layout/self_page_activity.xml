@@ -114,6 +114,7 @@
             <!-- chat -->
 
             <LinearLayout
+                android:id="@+id/self_page_chat_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_default_padding"
@@ -131,13 +132,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_default_padding"
-                    android:text="聊天"
+                    android:text="@string/self_page_chat"
                     android:textColor="@color/black"
                     android:textSize="@dimen/self_page_pay_size" />
             </LinearLayout>
             <!-- friend -->
 
             <LinearLayout
+                android:id="@+id/self_page_friend_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_default_padding"
@@ -155,7 +157,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_default_padding"
-                    android:text="好友"
+                    android:text="@string/self_page_friend"
                     android:textColor="@color/black"
                     android:textSize="@dimen/self_page_pay_size" />
             </LinearLayout>
@@ -175,12 +177,23 @@
                     android:src="@drawable/main_tab_chat_bg" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_default_padding"
-                    android:text="想借推送"
+                    android:layout_weight="1"
+                    android:text="@string/self_page_want_info_push"
                     android:textColor="@color/black"
                     android:textSize="@dimen/self_page_pay_size" />
+
+                <CheckBox
+                    android:id="@+id/setting_want_info_push"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/radio_bg"
+                    android:button="@null"
+                    android:checked="true" >
+                </CheckBox>
             </LinearLayout>
 
             <LinearLayout
@@ -198,11 +211,89 @@
                     android:src="@drawable/main_tab_chat_bg" />
 
                 <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_default_padding"
+                    android:layout_weight="1"
+                    android:text="@string/self_page_nearby_user"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/self_page_pay_size" />
+
+                <CheckBox
+                    android:id="@+id/setting_nearby_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/radio_bg"
+                    android:button="@null"
+                    android:checked="true" >
+                </CheckBox>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/self_page_score_des_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_default_padding"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/activity_default_padding" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/main_tab_chat_bg" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_default_padding"
-                    android:text="显示附近的人"
+                    android:text="@string/self_page_score_des"
                     android:textColor="@color/black"
+                    android:textSize="@dimen/self_page_pay_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/self_page_about_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_default_padding"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/activity_default_padding" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/main_tab_chat_bg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_default_padding"
+                    android:text="@string/self_page_about"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/self_page_pay_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/self_page_exit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_default_padding"
+                android:background="@color/red"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/activity_default_padding" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_default_padding"
+                    android:text="@string/self_page_exit"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/self_page_pay_size" />
             </LinearLayout>
         </LinearLayout>

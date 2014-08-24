@@ -50,6 +50,14 @@
     <!-- self page activity -->
     <string name="self_page_tab_str">我</string>
     <string name="self_page_title">我</string>
+    <string name="self_page_chat">聊天</string>
+    <string name="self_page_friend">好友</string>
+    <string name="self_page_want_info_push">想借推送</string>
+    <string name="self_page_nearby_user">显示在附近的人</string>
+    <string name="self_page_score_des">积分系统说明</string>
+    <string name="self_page_about">关于</string>
+    <string name="self_page_exit">退出登录</string>
+    
 
     <!-- lent activity -->
     <string name="lent_title">转借</string>

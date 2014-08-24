@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
 
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
@@ -43,11 +44,30 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener{
 
 	private CustomAvatarView mAvatarView;
 	
+	// 按钮 选项
+	private View mChatBtn;
+	private View mFriendBtn;
+	private View mScoreDesBtn;
+	private View mAboutBtn;
+	private CheckBox mWantPush;
+	private CheckBox mNearbyUser;
+	
 	private void initView() {
 		mAvatarView = (CustomAvatarView) findViewById(R.id.self_pate_avatar);
 		mAvatarView.setOnClickListener(this);
 		
+		mChatBtn = findViewById(R.id.self_page_chat_btn);
+		mFriendBtn = findViewById(R.id.self_page_friend_btn);
+		mScoreDesBtn = findViewById(R.id.self_page_score_des_btn);
+		mAboutBtn = findViewById(R.id.self_page_about_btn);
 		
+		mWantPush = (CheckBox) findViewById(R.id.setting_want_info_push);
+		mNearbyUser = (CheckBox) findViewById(R.id.setting_nearby_user);
+		
+		mChatBtn.setOnClickListener(this);
+		mFriendBtn.setOnClickListener(this);
+		mScoreDesBtn.setOnClickListener(this);
+		mAboutBtn.setOnClickListener(this);
 	}
 	
 	private void initData() {
@@ -80,7 +100,19 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener{
 			Intent intent = new Intent();
 			intent.setClass(this, UserInfoActivity.class);
 			this.startActivity(intent);
+		} else if (v == mChatBtn) {
+			
+		} else if (v == mFriendBtn) {
+			
+		} else if (v == mScoreDesBtn) {
+			
+		} else if (v == mAboutBtn) {
+			Intent intent = new Intent();
+			intent.setClass(this, AboutActivity.class);
+			this.startActivity(intent);
 		}
 	}
+	
+	
 
 }
