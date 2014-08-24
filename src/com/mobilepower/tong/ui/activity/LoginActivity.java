@@ -197,11 +197,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		// UConstants.BASE_PREFS_NAME);
 
 		Map<String, String> params = new HashMap<String, String>();
-		// params.put("avatar",
-		// "avatar:" + UTools.Storage.getHeadPicSmallImagePath());
-		// params.put("nickName", mUserName.getText().toString().trim());
 		params.put("mobile", mMobileEt.getText().toString());
-		params.put("password", mPasswordEt.getText().toString());
+		params.put("pwd", mPasswordEt.getText().toString());
 		// params.put("xiaomiUserId", sp.getString(UConstants.XIAOMI_REGID,
 		// ""));
 		// params.put("x", sp.getString(UConstants.LOCATION_LATITUDE, "0.0"));

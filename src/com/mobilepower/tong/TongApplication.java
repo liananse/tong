@@ -16,13 +16,13 @@
 package com.mobilepower.tong;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 
+import com.baidu.frontia.FrontiaApplication;
 import com.mobilepower.tong.model.UserInfo;
 import com.squareup.otto.Bus;
 
-public class TongApplication extends Application {
+public class TongApplication extends FrontiaApplication {
 
 	private static TongApplication instance;
 
@@ -35,7 +35,8 @@ public class TongApplication extends Application {
 		super.onCreate();
 
 		instance = this;
-
+		// 百度push接口
+		FrontiaApplication.initFrontiaApplication(this);
 		bus = new Bus();
 	}
 

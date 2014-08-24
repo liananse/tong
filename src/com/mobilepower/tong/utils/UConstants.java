@@ -81,6 +81,11 @@ public class UConstants {
 	 */
 	public static final String LAST_VALID_TIME = "last_valid_time";
 	
+	/**
+	 * 是否绑定到push
+	 */
+	public static final String PUSH_BIND_FLAG = "push_bind_flag";
+	
 	public static final int GETIMAGE = 3;
 	public static final int CAPUTRE = 4;
 	

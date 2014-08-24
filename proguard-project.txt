@@ -21,9 +21,11 @@
 
 -dontwarn com.squareup.picasso.**
 -dontwarn com.squareup.otto.**
+-dontwarn com.baidu.**
 
 -libraryjars libs/picasso-2.3.3.jar
 -libraryjars libs/otto-1.3.4.jar
+￼-libraryjars libs/pushservice-VERSION.jar 
 
 -keep class com.squareup.picasso.** {*;}
 -keepclassmembers class ** {

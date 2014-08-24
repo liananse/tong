@@ -17,7 +17,10 @@ package com.mobilepower.tong.ui.activity;
 
 import android.os.Bundle;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.push.TongPushUtils;
 import com.mobilepower.tong.ui.controller.SplashViewController;
 import com.squareup.otto.Bus;
 
@@ -30,11 +33,17 @@ public class SplashActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
+
 		bus = TongApplication.getBus();
 		mSplashViewController = new SplashViewController(this);
 
 		setContentView(mSplashViewController.getView());
+
+		PushManager.startWork(getApplicationContext(),
+				PushConstants.LOGIN_TYPE_API_KEY,
+				TongPushUtils.getMetaValue(SplashActivity.this, "api_key"));
+		// Push: 如果想基于地理位置推送，可以打开支持地理位置的推送的开关
+		// PushManager.enableLbs(getApplicationContext());
 	}
 
 	@Override
@@ -51,7 +60,7 @@ public class SplashActivity extends BaseActivity {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		
+
 	}
 
 	@Override

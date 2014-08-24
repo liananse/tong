@@ -5,4 +5,6 @@ public class UserInfo {
 	public String avatar;
 	public String distance;
 	public String resume;
+	public long age;
+	public int gender;
 }

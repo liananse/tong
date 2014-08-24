@@ -27,12 +27,11 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
-    
-     <!-- Don't require camera, as this requires a rear camera. This allows it to work on the Nexus 7 -->
+
+    <!-- Don't require camera, as this requires a rear camera. This allows it to work on the Nexus 7 -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -59,7 +58,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
-        
+
         <!-- Jelly umeng appkey -->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -67,7 +66,14 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="neice" />
-        
+        <meta-data
+            android:name="BaiduPush_CHANNEL"
+            android:value="neice" />
+        <!-- 在百度开发者中心查询应用的API Key -->
+        <meta-data
+            android:name="api_key"
+            android:value="XgaFFSFsfHqB47chjQgG2QG0" />
+
         <activity
             android:name=".ui.activity.SplashActivity"
             android:screenOrientation="portrait" >
@@ -92,7 +98,6 @@
         <activity
             android:name=".ui.activity.MainTabActivity"
             android:screenOrientation="portrait" >
-            
         </activity>
         <activity
             android:name=".ui.activity.TongPageActivity"
@@ -150,6 +155,55 @@
             android:name=".ui.activity.ChatActivity"
             android:screenOrientation="portrait" >
         </activity>
+
+        <!-- push service client -->
+        <receiver android:name="com.mobilepower.tong.push.TongPushMessageReceiver" >
+            <intent-filter>
+                <!-- 接收 push 消息 -->
+                <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
+                <!-- 接收 bind、setTags 等 method 的返回结果 -->
+                <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- push service start -->
+        <!-- 用于接收系统消息以保证 PushService 正常运行 -->
+        <receiver
+            android:name="com.baidu.android.pushservice.PushServiceReceiver"
+            android:process=":tongpush" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.baidu.android.pushservice.action.notification.SHOW" />
+                <action android:name="com.baidu.android.pushservice.action.media.CLICK" />
+            </intent-filter>
+        </receiver>
+        <!-- Push 服务接收客户端发送的各种请求 -->
+        <!-- 注意:RegistrationReceiver 在 2.1.1 及之前版本有拼写失误,为 RegistratonReceiver ,用 新版本 SDK 时请更改为如下代码 -->
+        <receiver
+            android:name="com.baidu.android.pushservice.RegistrationReceiver"
+            android:process=":tongpush" >
+            <intent-filter>
+                <action android:name="com.baidu.android.pushservice.action.METHOD" />
+                <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <!-- Push 服务 -->
+        <!-- 注意:在 4.0 (包含)之后的版本需加上如下所示的 intent-filter action -->
+        <service
+            android:name="com.baidu.android.pushservice.PushService"
+            android:exported="true"
+            android:process=":tongpush" >
+            <intent-filter>
+                <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
+            </intent-filter>
+        </service>
+        <!-- push service end -->
     </application>
 
 </manifest>
