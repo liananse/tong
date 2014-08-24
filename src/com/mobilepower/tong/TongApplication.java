@@ -28,6 +28,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
+import com.baidu.mapapi.SDKInitializer;
 import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UTools;
@@ -47,7 +48,7 @@ public class TongApplication extends FrontiaApplication {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
+		SDKInitializer.initialize(this);
 		instance = this;
 		// 百度push接口
 		FrontiaApplication.initFrontiaApplication(this);

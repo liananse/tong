@@ -59,35 +59,35 @@
                     android:background="@null"
                     android:checked="true"
                     android:drawableTop="@drawable/main_tab_index_bg"
-                    android:text="@string/tong_page_title" />
+                    android:text="@string/tong_page_tab_str" />
 
                 <RadioButton
                     android:id="@+id/radio_past_event"
                     style="@style/main_tab_bottom"
                     android:background="@null"
                     android:drawableTop="@drawable/main_tab_chat_bg"
-                    android:text="@string/shop_page_title" />
+                    android:text="@string/shop_page_tab_str" />
 
                 <RadioButton
                     android:id="@+id/radio_event_type"
                     style="@style/main_tab_bottom"
                     android:background="@null"
                     android:drawableTop="@drawable/main_tab_create_event_bg"
-                    android:text="@string/history_page_title" />
+                    android:text="@string/history_page_tab_str" />
 
                 <RadioButton
                     android:id="@+id/radio_friends"
                     style="@style/main_tab_bottom"
                     android:background="@null"
                     android:drawableTop="@drawable/main_tab_friends_bg"
-                    android:text="@string/nearby_page_title" />
+                    android:text="@string/nearby_page_tab_str" />
 
                 <RadioButton
                     android:id="@+id/radio_more"
                     style="@style/main_tab_bottom"
                     android:background="@null"
                     android:drawableTop="@drawable/main_tab_more_bg"
-                    android:text="@string/self_page_title" />
+                    android:text="@string/self_page_tab_str" />
             </RadioGroup>
 
             <LinearLayout
