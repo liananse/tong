@@ -72,5 +72,8 @@
     
     <!-- borrow tips activity -->
     <string name="borrow_tips_title">借入(归还)</string>
+    
+    <!-- about page activity -->
+    <string name="about_title">关于</string>
 
 </resources>

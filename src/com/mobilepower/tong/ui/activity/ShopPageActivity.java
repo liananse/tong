@@ -26,9 +26,10 @@ import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.model.ShopInfo;
 import com.mobilepower.tong.ui.adapter.NearbyShopAdapter;
 import com.mobilepower.tong.ui.view.XListView;
+import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
 import com.squareup.otto.Bus;
 
-public class ShopPageActivity extends BaseActivity {
+public class ShopPageActivity extends BaseActivity implements IXListViewListener{
 
 	private Bus bus;
 	LocationClient mLocClient;
@@ -53,6 +54,10 @@ public class ShopPageActivity extends BaseActivity {
 	private void initView() {
 		mListView = (XListView) findViewById(R.id.shop_list);
 
+		mListView.setPullRefreshEnable(true);
+		mListView.setPullLoadEnable(true);
+		mListView.setXListViewListener(this);
+		
 		mAdapter = new NearbyShopAdapter(this);
 		mListView.setAdapter(mAdapter);
 	}
@@ -102,6 +107,24 @@ public class ShopPageActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		this.bus.unregister(this);
+	}
+
+	@Override
+	public void onRefresh() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLoadMore() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void onStopLoad()
+	{
+		mListView.stopLoadMore();
+		mListView.stopRefresh();
 	}
 
 }

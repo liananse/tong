@@ -65,6 +65,10 @@ public class ShopPageMapActivity extends BaseActivity implements
 		mBaiduMap = mMapView.getMap();
 		mBaiduMap.setMaxAndMinZoomLevel(19, 13);
 	}
+	
+	private void initLocation() {
+		
+	}
 
 	@Override
 	protected void onResume() {

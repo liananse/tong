@@ -1288,13 +1288,13 @@ containing a value of this type.
         public static final int action_settings=0x7f060084;
         public static final int activity_chooser_view_content=0x7f06002c;
         public static final int always=0x7f06000b;
-        public static final int back_btn=0x7f060044;
+        public static final int back_btn=0x7f060043;
         public static final int beginning=0x7f060011;
         public static final int black_list_btn=0x7f06007b;
         public static final int borrow_btn=0x7f060073;
         public static final int checkbox=0x7f060034;
         public static final int collapseActionView=0x7f06000d;
-        public static final int container=0x7f060043;
+        public static final int container=0x7f060044;
         public static final int decode=0x7f06001a;
         public static final int decode_failed=0x7f06001b;
         public static final int decode_succeeded=0x7f06001c;
@@ -1457,26 +1457,27 @@ containing a value of this type.
         public static final int abc_popup_menu_item_layout=0x7f030014;
         public static final int abc_search_dropdown_item_icons_2line=0x7f030015;
         public static final int abc_search_view=0x7f030016;
-        public static final int activity_main=0x7f030017;
-        public static final int borrow_tips_activity=0x7f030018;
-        public static final int dialog_fragment_loading_progressbar=0x7f030019;
-        public static final int history_page_activity=0x7f03001a;
-        public static final int lent_activity=0x7f03001b;
-        public static final int login_page_activity=0x7f03001c;
-        public static final int main_tab_activity=0x7f03001d;
-        public static final int nearby_page_activity=0x7f03001e;
-        public static final int nearby_page_activity_list_item=0x7f03001f;
-        public static final int register_step_one_activity=0x7f030020;
-        public static final int scan_activity=0x7f030021;
-        public static final int self_page_activity=0x7f030022;
-        public static final int shop_page_activity=0x7f030023;
-        public static final int shop_page_activity_list_item=0x7f030024;
-        public static final int shop_page_map_activity=0x7f030025;
-        public static final int support_simple_spinner_dropdown_item=0x7f030026;
-        public static final int tong_page_activity=0x7f030027;
-        public static final int user_info_activity=0x7f030028;
-        public static final int xlistview_footer=0x7f030029;
-        public static final int xlistview_header=0x7f03002a;
+        public static final int about_activity=0x7f030017;
+        public static final int activity_main=0x7f030018;
+        public static final int borrow_tips_activity=0x7f030019;
+        public static final int dialog_fragment_loading_progressbar=0x7f03001a;
+        public static final int history_page_activity=0x7f03001b;
+        public static final int lent_activity=0x7f03001c;
+        public static final int login_page_activity=0x7f03001d;
+        public static final int main_tab_activity=0x7f03001e;
+        public static final int nearby_page_activity=0x7f03001f;
+        public static final int nearby_page_activity_list_item=0x7f030020;
+        public static final int register_step_one_activity=0x7f030021;
+        public static final int scan_activity=0x7f030022;
+        public static final int self_page_activity=0x7f030023;
+        public static final int shop_page_activity=0x7f030024;
+        public static final int shop_page_activity_list_item=0x7f030025;
+        public static final int shop_page_map_activity=0x7f030026;
+        public static final int support_simple_spinner_dropdown_item=0x7f030027;
+        public static final int tong_page_activity=0x7f030028;
+        public static final int user_info_activity=0x7f030029;
+        public static final int xlistview_footer=0x7f03002a;
+        public static final int xlistview_header=0x7f03002b;
     }
     public static final class menu {
         public static final int main=0x7f0e0000;
@@ -1525,6 +1526,9 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0b000b;
+        /**  about page activity 
+         */
+        public static final int about_title=0x7f0b003b;
         public static final int action_settings=0x7f0b000f;
         public static final int app_name=0x7f0b000d;
         /**  borrow tips activity 
