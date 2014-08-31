@@ -18,12 +18,12 @@ package com.mobilepower.tong.dimencode;
 import java.io.IOException;
 import java.util.Collection;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
@@ -32,14 +32,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.dimencode.camera.CameraManager;
+import com.mobilepower.tong.ui.activity.BaseActivity;
+import com.mobilepower.tong.ui.activity.BorrowTipsActivity;
+import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 
-public class ScanActivity extends Activity implements SurfaceHolder.Callback, OnClickListener {
+public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback, OnClickListener {
 
 	private static final String TAG = ScanActivity.class.getSimpleName();
 
@@ -224,7 +226,26 @@ public class ScanActivity extends Activity implements SurfaceHolder.Callback, On
 	 */
 	public void handleDecode(Result rawResult, Bitmap barcode) {
 		inactivityTimer.onActivity();
-		Toast.makeText(this, rawResult.getText(), Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, rawResult.getText(), Toast.LENGTH_SHORT).show();
+		
+		final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mLoadingProgressBarFragment.show(ft, "dialog");
+		
+		new Handler().postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				mLoadingProgressBarFragment.dismiss();
+				
+				Intent intent = new Intent();
+				intent.setClass(ScanActivity.this, BorrowTipsActivity.class);
+				ScanActivity.this.startActivity(intent);
+				ScanActivity.this.finish();
+			}
+		}, 1000);
+		
 	}
 
 	private void initCamera(SurfaceHolder surfaceHolder) {
