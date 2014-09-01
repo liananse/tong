@@ -26,24 +26,24 @@ import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.ui.view.CustomAvatarView;
 import com.squareup.otto.Bus;
 
-public class SelfPageActivity extends BaseActivity implements OnClickListener{
+public class SelfPageActivity extends BaseActivity implements OnClickListener {
 
 	private Bus bus;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.self_page_activity);
 		bus = TongApplication.getBus();
-		
+
 		initView();
 		initData();
 	}
 
 	private CustomAvatarView mAvatarView;
-	
+
 	// 按钮 选项
 	private View mChatBtn;
 	private View mFriendBtn;
@@ -51,28 +51,30 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener{
 	private View mAboutBtn;
 	private CheckBox mWantPush;
 	private CheckBox mNearbyUser;
-	
+
 	private void initView() {
 		mAvatarView = (CustomAvatarView) findViewById(R.id.self_pate_avatar);
 		mAvatarView.setOnClickListener(this);
-		
+
 		mChatBtn = findViewById(R.id.self_page_chat_btn);
 		mFriendBtn = findViewById(R.id.self_page_friend_btn);
 		mScoreDesBtn = findViewById(R.id.self_page_score_des_btn);
 		mAboutBtn = findViewById(R.id.self_page_about_btn);
-		
+
 		mWantPush = (CheckBox) findViewById(R.id.setting_want_info_push);
 		mNearbyUser = (CheckBox) findViewById(R.id.setting_nearby_user);
-		
+
 		mChatBtn.setOnClickListener(this);
 		mFriendBtn.setOnClickListener(this);
 		mScoreDesBtn.setOnClickListener(this);
 		mAboutBtn.setOnClickListener(this);
 	}
-	
+
 	private void initData() {
-		mAvatarView.setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
+		mAvatarView
+				.setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
 	}
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -101,18 +103,22 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener{
 			intent.setClass(this, UserInfoActivity.class);
 			this.startActivity(intent);
 		} else if (v == mChatBtn) {
-			
+			Intent intent = new Intent();
+			intent.setClass(this, ChatActivity.class);
+			this.startActivity(intent);
 		} else if (v == mFriendBtn) {
-			
+			Intent intent = new Intent();
+			intent.setClass(this, FriendsActivity.class);
+			this.startActivity(intent);
 		} else if (v == mScoreDesBtn) {
-			
+			Intent intent = new Intent();
+			intent.setClass(this, ScoreDescActivity.class);
+			this.startActivity(intent);
 		} else if (v == mAboutBtn) {
 			Intent intent = new Intent();
 			intent.setClass(this, AboutActivity.class);
 			this.startActivity(intent);
 		}
 	}
-	
-	
 
 }

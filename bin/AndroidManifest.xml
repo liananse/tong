@@ -173,6 +173,10 @@
             android:name=".ui.activity.ShopPageMapActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".ui.activity.FriendsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <!-- push service client -->
         <receiver android:name="com.mobilepower.tong.push.TongPushMessageReceiver" >

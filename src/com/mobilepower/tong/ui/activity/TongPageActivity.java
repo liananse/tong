@@ -15,6 +15,9 @@
  */
 package com.mobilepower.tong.ui.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,9 +26,14 @@ import android.view.View.OnClickListener;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.dimencode.ScanActivity;
+import com.mobilepower.tong.model.ShopInfo;
+import com.mobilepower.tong.model.TongInfo;
+import com.mobilepower.tong.ui.adapter.TongListAdapter;
+import com.mobilepower.tong.ui.view.XListView;
+import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
 import com.squareup.otto.Bus;
 
-public class TongPageActivity extends BaseActivity implements OnClickListener{
+public class TongPageActivity extends BaseActivity implements OnClickListener, IXListViewListener{
 
 	private Bus bus;
 	
@@ -38,6 +46,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener{
 		bus = TongApplication.getBus();
 		
 		initView();
+		initData();
 	}
 	
 	private View mBorrowBtn;
@@ -45,6 +54,8 @@ public class TongPageActivity extends BaseActivity implements OnClickListener{
 	private View mLentBtn;
 	private View mWantBorrowBtn;
 	
+	private XListView mListView;
+	private TongListAdapter mAdapter;
 	private void initView() {
 		mBorrowBtn = findViewById(R.id.borrow_btn);
 		mReturnBtn = findViewById(R.id.return_btn);
@@ -55,8 +66,30 @@ public class TongPageActivity extends BaseActivity implements OnClickListener{
 		mReturnBtn.setOnClickListener(this);
 		mLentBtn.setOnClickListener(this);
 		mWantBorrowBtn.setOnClickListener(this);
+		
+		mListView = (XListView) findViewById(R.id.tong_list);
+		
+		mListView.setPullRefreshEnable(true);
+		mListView.setPullLoadEnable(true);
+		mListView.setXListViewListener(this);
+		
+		mAdapter = new TongListAdapter(this);
+		mListView.setAdapter(mAdapter);
 	}
+	
+	private void initData() {
+		List<TongInfo> mTongList = new ArrayList<TongInfo>();
 
+		for (int i = 0; i < 10; i++) {
+			TongInfo mModel = new TongInfo();
+
+			mTongList.add(mModel);
+		}
+
+		mAdapter.refreshData(mTongList);
+	}
+	
+	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -110,6 +143,20 @@ public class TongPageActivity extends BaseActivity implements OnClickListener{
 	}
 	
 	private void wantBorrowBtnMethod() {
+		
+	}
+
+
+	@Override
+	public void onRefresh() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onLoadMore() {
+		// TODO Auto-generated method stub
 		
 	}
 

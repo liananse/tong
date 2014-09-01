@@ -75,5 +75,14 @@
     
     <!-- about page activity -->
     <string name="about_title">关于</string>
+    
+    <!-- score page activity -->
+    <string name="score_page_title">积分系统说明</string>
+    
+    <!-- chat activity -->
+    <string name="chat_title">聊天</string>
+    
+    <!-- friends activity -->
+    <string name="friends_title">好友</string>
 
 </resources>
