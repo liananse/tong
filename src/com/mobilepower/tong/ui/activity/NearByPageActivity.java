@@ -58,9 +58,9 @@ public class NearByPageActivity extends BaseActivity {
 		
 		for (int i = 0; i < 10; i++) {
 			UserInfo mModel = new UserInfo();
-			mModel.avatar = "http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg";
+//			mModel.avatar = "http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg";
 			mModel.nickName = "zenghui.wang";
-			mModel.distance = "1km";
+//			mModel.distance = "1km";
 			mModel.resume = "i want you";
 			
 			mNearbyList.add(mModel);

@@ -73,14 +73,16 @@
                     style="@style/main_tab_bottom"
                     android:background="@null"
                     android:drawableTop="@drawable/main_tab_create_event_bg"
-                    android:text="@string/history_page_tab_str" />
+                    android:text="@string/history_page_tab_str"
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/radio_friends"
                     style="@style/main_tab_bottom"
                     android:background="@null"
                     android:drawableTop="@drawable/main_tab_friends_bg"
-                    android:text="@string/nearby_page_tab_str" />
+                    android:text="@string/nearby_page_tab_str"
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/radio_more"

@@ -26,7 +26,7 @@ public class UConfig {
 	// 服务器请求地址
 
 	// 正式机
-	public static final String SERVER_HOST = "http://115.29.29.126:8088";
+	public static final String SERVER_HOST = "http://61.153.100.47:8088/cdt";
 	public static final String IMAGE_SERVER = "http://pic.pypei.com.cn/width/";
 
 	// 测试机

@@ -15,11 +15,13 @@
  */
 package com.mobilepower.tong.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.push.TongPushUtils;
 import com.mobilepower.tong.ui.controller.SplashViewController;
 import com.squareup.otto.Bus;
@@ -35,9 +37,6 @@ public class SplashActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 
 		bus = TongApplication.getBus();
-		mSplashViewController = new SplashViewController(this);
-
-		setContentView(mSplashViewController.getView());
 
 		if (!TongPushUtils.hasBind(getApplicationContext())) {
 			PushManager.startWork(getApplicationContext(),
@@ -50,6 +49,30 @@ public class SplashActivity extends BaseActivity {
 			if (PushManager.isPushEnabled(getApplicationContext())) {
 				PushManager.resumeWork(getApplicationContext());
 			}
+		}
+		
+		gotoActivity();
+	}
+
+	private void gotoActivity() {
+		UserInfo mInfo = TongApplication.getMineInfo(this);
+
+		if (mInfo != null) {
+			if (mInfo.nickName != null && !mInfo.nickName.equals("")) {
+				Intent intent = new Intent(this, MainTabActivity.class);
+				this.startActivity(intent);
+				this.finish();
+			} else {
+//				Intent intent = new Intent(this, RegisterStepTwoActivity.class);
+//				this.startActivity(intent);
+//				this.finish();
+				Intent intent = new Intent(this, MainTabActivity.class);
+				this.startActivity(intent);
+				this.finish();
+			}
+		} else {
+			mSplashViewController = new SplashViewController(this);
+			setContentView(mSplashViewController.getView());
 		}
 	}
 
@@ -67,7 +90,6 @@ public class SplashActivity extends BaseActivity {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-
 	}
 
 	@Override

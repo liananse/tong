@@ -38,8 +38,8 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 
 	public static final String TAB_TONG = "TabTong";
 	public static final String TAB_SHOP = "TabShop";
-	public static final String TAB_HISTORY = "TabHistory";
-	public static final String TAB_NEARBY = "TabNearby";
+//	public static final String TAB_HISTORY = "TabHistory";
+//	public static final String TAB_NEARBY = "TabNearby";
 	public static final String TAB_SELF = "TabSelf";
 	
 	@Override
@@ -62,16 +62,16 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 				.setIndicator(TAB_SHOP)
 				.setContent(
 						new Intent(MainTabActivity.this, ShopPageActivity.class)));
-		tabHost.addTab(tabHost
-				.newTabSpec(TAB_HISTORY)
-				.setIndicator(TAB_HISTORY)
-				.setContent(
-						new Intent(MainTabActivity.this, HistoryPageActivity.class)));
-		tabHost.addTab(tabHost
-				.newTabSpec(TAB_NEARBY)
-				.setIndicator(TAB_NEARBY)
-				.setContent(
-						new Intent(MainTabActivity.this, NearByPageActivity.class)));
+//		tabHost.addTab(tabHost
+//				.newTabSpec(TAB_HISTORY)
+//				.setIndicator(TAB_HISTORY)
+//				.setContent(
+//						new Intent(MainTabActivity.this, HistoryPageActivity.class)));
+//		tabHost.addTab(tabHost
+//				.newTabSpec(TAB_NEARBY)
+//				.setIndicator(TAB_NEARBY)
+//				.setContent(
+//						new Intent(MainTabActivity.this, NearByPageActivity.class)));
 		tabHost.addTab(tabHost
 				.newTabSpec(TAB_SELF)
 				.setIndicator(TAB_SELF)
@@ -93,10 +93,10 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 					tabHost.setCurrentTabByTag(TAB_SHOP);
 					break;
 				case R.id.radio_event_type:
-					tabHost.setCurrentTabByTag(TAB_HISTORY);
+//					tabHost.setCurrentTabByTag(TAB_HISTORY);
 					break;
 				case R.id.radio_friends:
-					tabHost.setCurrentTabByTag(TAB_NEARBY);
+//					tabHost.setCurrentTabByTag(TAB_NEARBY);
 					break;
 				case R.id.radio_more:
 					tabHost.setCurrentTabByTag(TAB_SELF);

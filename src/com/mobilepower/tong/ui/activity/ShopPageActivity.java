@@ -16,17 +16,25 @@
 package com.mobilepower.tong.ui.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.baidu.location.LocationClient;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.http.HHttpDataLoader;
+import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.ShopInfo;
 import com.mobilepower.tong.ui.adapter.NearbyShopAdapter;
 import com.mobilepower.tong.ui.view.XListView;
 import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
+import com.mobilepower.tong.utils.UConfig;
+import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 
 public class ShopPageActivity extends BaseActivity implements IXListViewListener{
@@ -45,6 +53,7 @@ public class ShopPageActivity extends BaseActivity implements IXListViewListener
 		initView();
 
 		initLocation();
+		getShopListData();
 		initData();
 	}
 
@@ -60,6 +69,47 @@ public class ShopPageActivity extends BaseActivity implements IXListViewListener
 		
 		mAdapter = new NearbyShopAdapter(this);
 		mListView.setAdapter(mAdapter);
+	}
+	
+	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
+	
+	private void getShopListData() {
+		SharedPreferences sp = UTools.Storage.getSharedPreferences(this,
+				UConstants.BASE_PREFS_NAME);
+		
+		String lat = sp.getString(UConstants.LOCATION_LATITUDE, "22.537976");
+		String lng = sp.getString(UConstants.LOCATION_LONGITUDE, "113.943617");
+		
+		Map<String, String> params = new HashMap<String, String>();
+//		params.put("lat", lat);
+//		params.put("lng", lng);
+		params.put("sortTime", "0");
+		mDataLoader.getData(UConfig.CHECK_HISTORY_LIST_URL, params, this, new HDataListener() {
+			
+			@Override
+			public void onSocketTimeoutException(String msg) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onFinish(String source) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onFail(String msg) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onConnectTimeoutException(String msg) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	private void initData() {

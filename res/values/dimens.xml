@@ -32,6 +32,11 @@
     <dimen name="self_page_pay_size">16sp</dimen>
     <dimen name="self_page_score_size">14sp</dimen>
     
+    <!-- about page -->
+    <dimen name="about_page_content_margin">20dp</dimen>
+    <dimen name="about_page_company_margin_top">10dp</dimen>
+    <dimen name="about_page_divide_margin">40dp</dimen>
+    
     <!-- user info activity -->
     <dimen name="user_des_min_height">100dp</dimen>
     

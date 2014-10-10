@@ -30,10 +30,13 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
+import com.mobilepower.tong.model.UserInfo;
+
 public class DDBOpenHelper extends SQLiteOpenHelper {
 
 	public static final String DATABASE_NAME = "tong.db";
 	public static final int DATABASE_VERSION = 1;
+	public static final String USER_TABLE_NAME = "user_info";
 
 	public DDBOpenHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -52,9 +55,9 @@ public class DDBOpenHelper extends SQLiteOpenHelper {
 	}
 
 	@Override
-	public void onCreate(SQLiteDatabase arg0) {
+	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-
+		db.execSQL(getCreateTable(UserInfo.class, USER_TABLE_NAME, "access_token", false));
 	}
 
 	@Override

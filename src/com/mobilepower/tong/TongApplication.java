@@ -15,7 +15,9 @@
  */
 package com.mobilepower.tong;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
@@ -29,6 +31,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.mapapi.SDKInitializer;
+import com.mobilepower.tong.db.DDBOpenHelper;
 import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UTools;
@@ -87,8 +90,8 @@ public class TongApplication extends FrontiaApplication {
 		mine = model;
 		// 初始化个人信息同时存到数据库中
 		if (mine != null) {
-			// DDBOpenHelper db = DDBOpenHelper.getInstance(ctx);
-			// db.insertOnlyClassData(model, DDBOpenHelper.USER_TABLE_NAME);
+			DDBOpenHelper db = DDBOpenHelper.getInstance(ctx);
+			db.insertOnlyClassData(model, DDBOpenHelper.USER_TABLE_NAME);
 		}
 	}
 
@@ -100,15 +103,14 @@ public class TongApplication extends FrontiaApplication {
 	public static UserInfo getMineInfo(Context ctx) {
 		// 如果内存中个人信息为空，则从数据库中读取个人信息
 		if (mine == null) {
-			// DDBOpenHelper db = DDBOpenHelper.getInstance(ctx);
-			// Object o = db.query(DDBOpenHelper.USER_TABLE_NAME,
-			// UserInfo.class,
-			// null, null, null);
-			// List<UserInfo> mList = (ArrayList<UserInfo>) o;
-			//
-			// if (mList != null && mList.size() > 0) {
-			// mine = mList.get(0);
-			// }
+			DDBOpenHelper db = DDBOpenHelper.getInstance(ctx);
+			Object o = db.query(DDBOpenHelper.USER_TABLE_NAME, UserInfo.class,
+					null, null, null);
+			List<UserInfo> mList = (ArrayList<UserInfo>) o;
+
+			if (mList != null && mList.size() > 0) {
+				mine = mList.get(0);
+			}
 		}
 		return mine;
 	}
@@ -161,7 +163,6 @@ public class TongApplication extends FrontiaApplication {
 			params.put("x", String.valueOf(location.getLatitude()));
 			params.put("y", String.valueOf(location.getLongitude()));
 
-			System.out.println("latitude " + location.getLatitude());
 			// 可以请求店铺地址
 			mLocationClient.stop();
 		}

@@ -35,9 +35,9 @@ public class UConstants {
 	
 	// 一些开关 结束
 	// 请求返回正确
-	public static int SUCCESS = 0;
+	public static int SUCCESS = 1;
 	// 请求返回错误
-	public static int FAILURE = 1;
+	public static int FAILURE = -1;
 	// 已失效，已过期
 	public static int INVALID = 2;
 	

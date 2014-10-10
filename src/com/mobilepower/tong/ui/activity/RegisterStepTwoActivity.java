@@ -15,21 +15,133 @@
  */
 package com.mobilepower.tong.ui.activity;
 
-import android.os.Bundle;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
+import android.app.DatePickerDialog;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.http.HHttpDataLoader;
+import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
+import com.mobilepower.tong.ui.fragment.DatePickerFragment;
+import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
+import com.mobilepower.tong.utils.UConfig;
+import com.mobilepower.tong.utils.UTimeUtils;
+import com.mobilepower.tong.utils.UToast;
 import com.squareup.otto.Bus;
 
-public class RegisterStepTwoActivity extends BaseActivity {
+public class RegisterStepTwoActivity extends BaseActivity implements
+		OnClickListener {
 
 	private Bus bus;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.register_step_two_activity);
 		bus = TongApplication.getBus();
+		initView();
+	}
+
+	private EditText mNickNameEt;
+	private TextView mAgeEt;
+	private EditText mResumeEt;
+
+	private TextView mNextBtn;
+
+	/**
+	 * 初始化布局view
+	 */
+	private void initView() {
+		mNickNameEt = (EditText) findViewById(R.id.register_nickname_et);
+		mNickNameEt.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				if (mNickNameEt.getText().toString().trim().equals("")) {
+					mNextBtn.setEnabled(false);
+					return;
+				}
+
+				if (mAgeEt.getText().toString().trim().equals("")) {
+					mNextBtn.setEnabled(false);
+					return;
+				}
+
+				mNextBtn.setEnabled(true);
+			}
+		});
+
+		mSelectedDate = Calendar.getInstance();
 		
+		mAgeEt = (TextView) findViewById(R.id.register_age_et);
+		mAgeEt.setOnClickListener(this);
+		mAgeEt.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				if (mNickNameEt.getText().toString().trim().equals("")) {
+					mNextBtn.setEnabled(false);
+					return;
+				}
+
+				if (mAgeEt.getText().toString().trim().equals("")) {
+					mNextBtn.setEnabled(false);
+					return;
+				}
+
+				mNextBtn.setEnabled(true);
+			}
+		});
+
+		mResumeEt = (EditText) findViewById(R.id.register_resume_et);
+
+		mNextBtn = (TextView) findViewById(R.id.register_next_btn);
+		mNextBtn.setOnClickListener(this);
+
+		mNextBtn.setEnabled(false);
 	}
 
 	@Override
@@ -50,6 +162,83 @@ public class RegisterStepTwoActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		this.bus.unregister(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if (v == mNextBtn) {
+			updateMethod();
+		} else if (v == mAgeEt) {
+			DatePickerFragment mDatePickerFragment = new DatePickerFragment();
+			mDatePickerFragment.setOnDateSetListener(mOnDateChangedListener);
+			mDatePickerFragment.show(getSupportFragmentManager(),
+					"DatePickerFragment");
+		}
+	}
+
+	private Calendar mSelectedDate;
+	
+	private DatePickerDialog.OnDateSetListener mOnDateChangedListener = new DatePickerDialog.OnDateSetListener() {
+		@Override
+		public void onDateSet(DatePicker view, int year, int monthOfYear,
+				int dayOfMonth) {
+			mSelectedDate.set(year, monthOfYear, dayOfMonth);
+			mAgeEt.setText(UTimeUtils.dateFormat2.format(mSelectedDate
+					.getTime()));
+		}
+	};
+
+	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
+
+	private void updateMethod() {
+		// dialog show
+		final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mLoadingProgressBarFragment.show(ft, "dialog");
+
+		// 设置不可点击
+		mNextBtn.setEnabled(false);
+
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("nickName", mNickNameEt.getText().toString());
+		params.put("age", String.valueOf(mSelectedDate.getTimeInMillis()));
+		params.put("resume", mResumeEt.getText().toString());
+		mDataLoader.postData(UConfig.USER_UPDATE_URL, params,
+				RegisterStepTwoActivity.this, new HDataListener() {
+
+					@Override
+					public void onSocketTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						UToast.showSocketTimeoutToast(RegisterStepTwoActivity.this);
+						mLoadingProgressBarFragment.dismiss();
+						mNextBtn.setEnabled(true);
+					}
+
+					@Override
+					public void onFinish(String source) {
+						// TODO Auto-generated method stub
+
+						mLoadingProgressBarFragment.dismiss();
+						mNextBtn.setEnabled(true);
+					}
+
+					@Override
+					public void onFail(String msg) {
+						// TODO Auto-generated method stub
+						UToast.showOnFail(RegisterStepTwoActivity.this);
+						mLoadingProgressBarFragment.dismiss();
+						mNextBtn.setEnabled(true);
+					}
+
+					@Override
+					public void onConnectTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						UToast.showConnectTimeoutToast(RegisterStepTwoActivity.this);
+						mLoadingProgressBarFragment.dismiss();
+						mNextBtn.setEnabled(true);
+					}
+				});
 	}
 
 }

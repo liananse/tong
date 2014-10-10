@@ -18,6 +18,8 @@ package com.mobilepower.tong.ui.activity;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
@@ -27,12 +29,18 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
+import com.mobilepower.tong.model.BaseInfo;
+import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 import com.mobilepower.tong.utils.UConfig;
+import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UToast;
 import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
@@ -216,7 +224,7 @@ public class RegisterStepOneActivity extends BaseActivity implements
 	}
 
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
-	
+
 	private void registerMethod() {
 		// dialog show
 		final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
@@ -227,22 +235,21 @@ public class RegisterStepOneActivity extends BaseActivity implements
 		mNextBtn.setEnabled(false);
 
 		// 参数
-//		SharedPreferences sp = UTools.Storage.getSharedPreferences(mContext,
-//				UConstants.BASE_PREFS_NAME);
+		// SharedPreferences sp = UTools.Storage.getSharedPreferences(mContext,
+		// UConstants.BASE_PREFS_NAME);
 
 		Map<String, String> params = new HashMap<String, String>();
-//		params.put("avatar",
-//				"avatar:" + UTools.Storage.getHeadPicSmallImagePath());
-//		params.put("nickName", mUserName.getText().toString().trim());
-		params.put("mobile",
-				mMobileEt.getText().toString());
-		params.put("password",
-				mPasswordEt.getText().toString());
-//		params.put("xiaomiUserId", sp.getString(UConstants.XIAOMI_REGID, ""));
-//		params.put("x", sp.getString(UConstants.LOCATION_LATITUDE, "0.0"));
-//		params.put("y", sp.getString(UConstants.LOCATION_LONGITUDE, "0.0"));
-		mDataLoader.postData(UConfig.USER_ADD_URL, params, RegisterStepOneActivity.this,
-				new HDataListener() {
+		// params.put("avatar",
+		// "avatar:" + UTools.Storage.getHeadPicSmallImagePath());
+		// params.put("nickName", mUserName.getText().toString().trim());
+		params.put("mobile", mMobileEt.getText().toString());
+		params.put("pwd", mPasswordEt.getText().toString());
+		// params.put("xiaomiUserId", sp.getString(UConstants.XIAOMI_REGID,
+		// ""));
+		// params.put("x", sp.getString(UConstants.LOCATION_LATITUDE, "0.0"));
+		// params.put("y", sp.getString(UConstants.LOCATION_LONGITUDE, "0.0"));
+		mDataLoader.postData(UConfig.USER_ADD_URL, params,
+				RegisterStepOneActivity.this, new HDataListener() {
 
 					@Override
 					public void onSocketTimeoutException(String msg) {
@@ -255,8 +262,56 @@ public class RegisterStepOneActivity extends BaseActivity implements
 					@Override
 					public void onFinish(String source) {
 						// TODO Auto-generated method stub
-						
 						mLoadingProgressBarFragment.dismiss();
+
+						Gson gson = new Gson();
+
+						try {
+							TempModel mResultModel = gson.fromJson(source,
+									new TypeToken<TempModel>() {
+									}.getType());
+
+							if (mResultModel != null) {
+								if (mResultModel.result == UConstants.SUCCESS) {
+									UserInfo mSelf = new UserInfo();
+									mSelf.access_token = mResultModel.access_token;
+									// 将用户个人信息存数据库
+									TongApplication
+											.initMineInfo(
+													RegisterStepOneActivity.this,
+													mSelf);
+									// 将accesstoken同时放到sharedpreferences中
+									SharedPreferences.Editor mEditor = UTools.Storage
+											.getSharedPreEditor(
+													RegisterStepOneActivity.this,
+													UConstants.BASE_PREFS_NAME);
+									mEditor.putString(
+											UConstants.SELF_ACCESS_TOKEN,
+											mResultModel.access_token);
+									mEditor.commit();
+
+									// 跳转到step two
+									Intent intent = new Intent(
+											RegisterStepOneActivity.this,
+											RegisterStepTwoActivity.class);
+									RegisterStepOneActivity.this
+											.startActivity(intent);
+									UTools.activityhelper.clearAllBut(RegisterStepOneActivity.this);
+									RegisterStepOneActivity.this.finish();
+								} else {
+									UToast.showShortToast(
+											RegisterStepOneActivity.this,
+											mResultModel.msg);
+								}
+							} else {
+								UToast.showOnFail(RegisterStepOneActivity.this);
+							}
+						} catch (JsonSyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							UToast.showDataParsingError(RegisterStepOneActivity.this);
+						}
+
 						mNextBtn.setEnabled(true);
 					}
 
@@ -276,6 +331,10 @@ public class RegisterStepOneActivity extends BaseActivity implements
 						mNextBtn.setEnabled(true);
 					}
 				});
+	}
+
+	class TempModel extends BaseInfo {
+		public String access_token;
 	}
 
 }

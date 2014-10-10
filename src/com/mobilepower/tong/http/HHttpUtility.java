@@ -369,7 +369,7 @@ public class HHttpUtility {
 		params.put("lang", UTools.OS.getLanguage());
 		params.put("countrycode", UTools.OS.getCountryCode());
 		params.put("appName", UTools.OS.getAppName());
-		params.put("accessToken", UTools.OS.getAccessToken(context));
+		params.put("access_token", UTools.OS.getAccessToken(context));
 		params.put("deviceName", "");
 		// params.put("time", String.valueOf(System.currentTimeMillis()));
 		params.put("network_type",

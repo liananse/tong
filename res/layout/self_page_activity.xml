@@ -121,7 +121,8 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="@dimen/activity_default_padding" >
+                android:padding="@dimen/activity_default_padding"
+                android:visibility="gone" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -146,7 +147,8 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="@dimen/activity_default_padding" >
+                android:padding="@dimen/activity_default_padding"
+                android:visibility="gone" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -169,7 +171,8 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="@dimen/activity_default_padding" >
+                android:padding="@dimen/activity_default_padding"
+                android:visibility="gone" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -203,7 +206,8 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="@dimen/activity_default_padding" >
+                android:padding="@dimen/activity_default_padding"
+                android:visibility="gone" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -238,7 +242,8 @@
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="@dimen/activity_default_padding" >
+                android:padding="@dimen/activity_default_padding"
+                android:visibility="gone" >
 
                 <ImageView
                     android:layout_width="wrap_content"

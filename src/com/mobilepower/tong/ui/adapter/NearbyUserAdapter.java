@@ -86,9 +86,9 @@ public class NearbyUserAdapter extends BaseAdapter {
 		
 		UserInfo mModel = mNearbyUserList.get(position);
 		
-		holder.mUserAvatar.setImageUrl(mModel.avatar);
+//		holder.mUserAvatar.setImageUrl(mModel.avatar);
 		holder.mUserNickname.setText(mModel.nickName);
-		holder.mUserDistance.setText(mModel.distance);
+//		holder.mUserDistance.setText(mModel.distance);
 		holder.mUserResume.setText(mModel.resume);
 
 		return convertView;

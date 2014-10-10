@@ -34,4 +34,29 @@
             android:textSize="@dimen/activity_bar_title_size" />
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/about_page_content_margin"
+        android:layout_marginRight="@dimen/about_page_content_margin"
+        android:layout_marginTop="@dimen/about_page_divide_margin"
+        android:gravity="center"
+        android:text="@string/about_content"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/about_page_divide_margin"
+        android:gravity="center"
+        android:text="@string/about_copyright" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/about_page_company_margin_top"
+        android:gravity="center"
+        android:text="@string/about_company"
+        android:textColor="@color/black" />
+
 </LinearLayout>

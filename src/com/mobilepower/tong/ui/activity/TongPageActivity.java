@@ -26,7 +26,6 @@ import android.view.View.OnClickListener;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.dimencode.ScanActivity;
-import com.mobilepower.tong.model.ShopInfo;
 import com.mobilepower.tong.model.TongInfo;
 import com.mobilepower.tong.ui.adapter.TongListAdapter;
 import com.mobilepower.tong.ui.view.XListView;
