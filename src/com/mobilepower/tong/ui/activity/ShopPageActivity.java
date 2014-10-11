@@ -15,7 +15,6 @@
  */
 package com.mobilepower.tong.ui.activity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,10 +23,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.baidu.location.LocationClient;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
+import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.ShopInfo;
 import com.mobilepower.tong.ui.adapter.NearbyShopAdapter;
 import com.mobilepower.tong.ui.view.XListView;
@@ -53,8 +55,7 @@ public class ShopPageActivity extends BaseActivity implements IXListViewListener
 		initView();
 
 		initLocation();
-		getShopListData();
-		initData();
+		getShopListData(true);
 	}
 
 	private XListView mListView;
@@ -73,7 +74,13 @@ public class ShopPageActivity extends BaseActivity implements IXListViewListener
 	
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
 	
-	private void getShopListData() {
+	private boolean isRefresh = true;
+	private boolean isLoading = false;
+	private void getShopListData(boolean isRefresh) {
+		
+		this.isRefresh = isRefresh;
+		this.isLoading = true;
+		
 		SharedPreferences sp = UTools.Storage.getSharedPreferences(this,
 				UConstants.BASE_PREFS_NAME);
 		
@@ -81,51 +88,57 @@ public class ShopPageActivity extends BaseActivity implements IXListViewListener
 		String lng = sp.getString(UConstants.LOCATION_LONGITUDE, "113.943617");
 		
 		Map<String, String> params = new HashMap<String, String>();
-//		params.put("lat", lat);
-//		params.put("lng", lng);
+		params.put("lat", lat);
+		params.put("lng", lng);
 		params.put("sortTime", "0");
-		mDataLoader.getData(UConfig.CHECK_HISTORY_LIST_URL, params, this, new HDataListener() {
+		mDataLoader.getData(UConfig.SHOP_GET_URL, params, this, new HDataListener() {
 			
 			@Override
 			public void onSocketTimeoutException(String msg) {
 				// TODO Auto-generated method stub
-				
+				onStopLoad();
 			}
 			
 			@Override
 			public void onFinish(String source) {
 				// TODO Auto-generated method stub
+				onStopLoad();
+				Gson gson = new Gson();
 				
+				try {
+					TempModel mResultModel = gson.fromJson(source, TempModel.class);
+					
+					if (mResultModel != null) {
+						if (mResultModel.result == UConstants.SUCCESS) {
+							if (mResultModel.data != null && mResultModel.data.size() > 0) {
+								if (ShopPageActivity.this.isRefresh) {
+									mAdapter.refreshData(mResultModel.data);
+								} else {
+									mAdapter.addData(mResultModel.data);
+								}
+							}
+						} else {
+							
+						}
+					}
+				} catch (JsonSyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 			@Override
 			public void onFail(String msg) {
 				// TODO Auto-generated method stub
-				
+				onStopLoad();
 			}
 			
 			@Override
 			public void onConnectTimeoutException(String msg) {
 				// TODO Auto-generated method stub
-				
+				onStopLoad();
 			}
 		});
-	}
-
-	private void initData() {
-		List<ShopInfo> mNearbyList = new ArrayList<ShopInfo>();
-
-		for (int i = 0; i < 10; i++) {
-			ShopInfo mModel = new ShopInfo();
-			mModel.shopAvatar = "http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg";
-			mModel.name = "星巴克咖啡";
-			mModel.shopDistance = "1km";
-			mModel.address = "同方信息港A座3楼";
-
-			mNearbyList.add(mModel);
-		}
-
-		mAdapter.refreshData(mNearbyList);
 	}
 
 	private void initLocation() {
@@ -162,19 +175,30 @@ public class ShopPageActivity extends BaseActivity implements IXListViewListener
 	@Override
 	public void onRefresh() {
 		// TODO Auto-generated method stub
-		
+		if (!this.isLoading) {
+			getShopListData(true);
+		}
 	}
 
 	@Override
 	public void onLoadMore() {
 		// TODO Auto-generated method stub
-		
+		if (!this.isLoading) {
+			getShopListData(false);
+		}
 	}
 	
 	private void onStopLoad()
 	{
 		mListView.stopLoadMore();
 		mListView.stopRefresh();
+		
+		this.isLoading = false;
+	}
+	
+	class TempModel extends BaseInfo{
+		public String sortTime;
+		public List<ShopInfo> data;
 	}
 
 }

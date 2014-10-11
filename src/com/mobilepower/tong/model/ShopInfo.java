@@ -4,15 +4,19 @@ import java.io.Serializable;
 
 public class ShopInfo implements Serializable{
 
-	public int id;
-	public String name;
+	// 目前已有的数据
+	public String addTime;
 	public String address;
-	public String tel;
+	public int cityId;
 	public String contact;
+	public int id;
 	public double lat;
 	public double lng;
-	public int cityId;
+	public String name;
+	public String tel;
+	public String updateTime;
 	
+	// 暂时没有的数据
 	public String shopAvatar;
 	public String shopDistance;
 }
