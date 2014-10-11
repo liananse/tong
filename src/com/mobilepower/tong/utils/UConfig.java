@@ -70,4 +70,17 @@ public class UConfig {
 	 * lng 经度
 	 */
 	public static final String SHOP_GET_URL = SERVER_HOST + "/shopGet";
+	
+	/**
+	 * 扫描
+	 * type 1
+	 * terminal 扫描到的数字串
+	 */
+	public static final String SCAN_TASK_ADD_URL = SERVER_HOST + "/taskAdd";
+	
+	/**
+	 * 检查扫描任务是否成功
+	 * taskId 返回的taskId
+	 */
+	public static final String SCAN_TASK_GET_URL = SERVER_HOST + "/taskGet";
 }
