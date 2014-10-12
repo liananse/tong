@@ -1,5 +1,6 @@
 package com.mobilepower.tong.ui.adapter;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.model.TongInfo;
+import com.mobilepower.tong.utils.UTimeUtils;
 
 public class TongListAdapter extends BaseAdapter {
 
@@ -86,6 +88,16 @@ public class TongListAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
+		
+		final TongInfo mModel = mTongList.get(position);
+		
+		try {
+			holder.mTongDay.setText(UTimeUtils.computeHowLongAgo(mContext,mModel.addTime));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		holder.mTongLocation.setText(mModel.shopModel.address);
 
 		return convertView;
 	}

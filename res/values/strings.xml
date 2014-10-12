@@ -91,7 +91,8 @@
     <string name="scan_title">二维码扫描</string>
 
     <!-- borrow tips activity -->
-    <string name="borrow_tips_title">借入(归还)</string>
+    <!-- <string name="borrow_tips_title">借入(归还)</string> -->
+    <string name="borrow_tips_title">结果</string>
 
     <!-- about page activity -->
     <string name="about_title">关于我们</string>

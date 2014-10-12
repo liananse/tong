@@ -58,6 +58,7 @@ public class ShopPageActivity extends BaseActivity implements
 
 		initLocation();
 		getShopListData(true);
+		mListView.setRefreshState();
 	}
 
 	private XListView mListView;

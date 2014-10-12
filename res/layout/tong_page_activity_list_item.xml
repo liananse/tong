@@ -35,7 +35,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="三天前"
                     android:textColor="@color/textcolor"
                     android:textSize="@dimen/self_page_nickname_size" />
 
@@ -46,6 +45,7 @@
                     android:gravity="center_vertical"
                     android:text="23：01：01"
                     android:textColor="@color/gray"
+                    android:visibility="gone"
                     android:textSize="@dimen/self_page_score_size" />
             </LinearLayout>
 
@@ -61,7 +61,6 @@
                 android:id="@+id/tong_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="深圳市南山区学府路"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/self_page_score_size" />
         </LinearLayout>
@@ -76,6 +75,7 @@
         android:gravity="center"
         android:padding="@dimen/login_and_register_padding"
         android:text="延时"
+        android:visibility="gone"
         android:textColor="@color/white"
         android:textSize="18sp" />
 

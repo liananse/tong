@@ -15,7 +15,6 @@
  */
 package com.mobilepower.tong.ui.activity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,115 +28,154 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.dimencode.ScanActivity;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
+import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.TongInfo;
 import com.mobilepower.tong.ui.adapter.TongListAdapter;
 import com.mobilepower.tong.ui.view.XListView;
 import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
 import com.mobilepower.tong.utils.UConfig;
+import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.UToast;
 import com.squareup.otto.Bus;
 
-public class TongPageActivity extends BaseActivity implements OnClickListener, IXListViewListener{
+public class TongPageActivity extends BaseActivity implements OnClickListener,
+		IXListViewListener {
 
 	private Bus bus;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.tong_page_activity);
 		bus = TongApplication.getBus();
-		
+
 		initView();
-		initData();
 		getHistoryList(true);
+		mListView.setRefreshState();
 	}
-	
+
 	private View mBorrowBtn;
 	private View mReturnBtn;
 	private View mLentBtn;
 	private View mWantBorrowBtn;
-	
+
 	private XListView mListView;
 	private TongListAdapter mAdapter;
+
 	private void initView() {
 		mBorrowBtn = findViewById(R.id.borrow_btn);
 		mReturnBtn = findViewById(R.id.return_btn);
 		mLentBtn = findViewById(R.id.lent_btn);
 		mWantBorrowBtn = findViewById(R.id.want_borrow_btn);
-		
+
 		mBorrowBtn.setOnClickListener(this);
 		mReturnBtn.setOnClickListener(this);
 		mLentBtn.setOnClickListener(this);
 		mWantBorrowBtn.setOnClickListener(this);
-		
+
 		mListView = (XListView) findViewById(R.id.tong_list);
-		
+
 		mListView.setPullRefreshEnable(true);
 		mListView.setPullLoadEnable(true);
 		mListView.setXListViewListener(this);
-		
+
 		mAdapter = new TongListAdapter(this);
 		mListView.setAdapter(mAdapter);
 	}
-	
-	private void initData() {
-		List<TongInfo> mTongList = new ArrayList<TongInfo>();
 
-		for (int i = 0; i < 10; i++) {
-			TongInfo mModel = new TongInfo();
-
-			mTongList.add(mModel);
-		}
-
-		mAdapter.refreshData(mTongList);
-	}
-	
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
-	
+
 	private boolean isRefresh = true;
 	private boolean isLoading = false;
-	
+
+	private String sortTime = "0";
+
 	private void getHistoryList(boolean isRefresh) {
 		this.isRefresh = isRefresh;
 		this.isLoading = true;
-		
+
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("sortTime", "0");
-		
-		mDataLoader.getData(UConfig.CHECK_HISTORY_LIST_URL, params, this, new HDataListener() {
-			
-			@Override
-			public void onSocketTimeoutException(String msg) {
-				// TODO Auto-generated method stub
-				onStopLoad();
-			}
-			
-			@Override
-			public void onFinish(String source) {
-				// TODO Auto-generated method stub
-				onStopLoad();
-			}
-			
-			@Override
-			public void onFail(String msg) {
-				// TODO Auto-generated method stub
-				onStopLoad();
-			}
-			
-			@Override
-			public void onConnectTimeoutException(String msg) {
-				// TODO Auto-generated method stub
-				onStopLoad();
-			}
-		});
+
+		if (isRefresh) {
+			sortTime = "0";
+		}
+
+		params.put("sortTime", sortTime);
+
+		mDataLoader.getData(UConfig.CHECK_HISTORY_LIST_URL, params, this,
+				new HDataListener() {
+
+					@Override
+					public void onSocketTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						onStopLoad();
+					}
+
+					@Override
+					public void onFinish(String source) {
+						// TODO Auto-generated method stub
+						onStopLoad();
+
+						Gson gson = new Gson();
+						try {
+							TempModel mResultModel = gson.fromJson(source,
+									TempModel.class);
+							if (mResultModel != null) {
+								if (mResultModel.result == UConstants.SUCCESS) {
+									// 本次返回的sortTime
+									TongPageActivity.this.sortTime = mResultModel.sortTime;
+
+									if (mResultModel.data != null
+											&& mResultModel.data.size() > 0) {
+										if (TongPageActivity.this.isRefresh) {
+											mAdapter.refreshData(mResultModel.data);
+										} else {
+											mAdapter.addData(mResultModel.data);
+										}
+									} else {
+										UToast.showShortToast(
+												TongPageActivity.this,
+												getResources()
+														.getString(
+																R.string.shop_page_no_more_data));
+									}
+								} else {
+									UToast.showShortToast(
+											TongPageActivity.this,
+											mResultModel.msg);
+								}
+
+							}
+
+						} catch (JsonSyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void onFail(String msg) {
+						// TODO Auto-generated method stub
+						onStopLoad();
+					}
+
+					@Override
+					public void onConnectTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						onStopLoad();
+					}
+				});
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -166,30 +204,29 @@ public class TongPageActivity extends BaseActivity implements OnClickListener, I
 		} else if (v == mReturnBtn) {
 			returnBtnMethod();
 		} else if (v == mLentBtn) {
-//			lentBtnMethod();
+			// lentBtnMethod();
 			borrowBtnMethod();
 		} else if (v == mWantBorrowBtn) {
 			wantBorrowBtnMethod();
 		}
 	}
-	
+
 	private void borrowBtnMethod() {
 		Intent intent = new Intent();
 		intent.setClass(this, ScanActivity.class);
 		startActivity(intent);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void returnBtnMethod() {
-//		Intent intent = new Intent();
-//		intent.setClass(this, ScanActivity.class);
-//		startActivity(intent);
-		
+		// Intent intent = new Intent();
+		// intent.setClass(this, ScanActivity.class);
+		// startActivity(intent);
+
 		// 弹框刷新页面
 		showDialog(DIALOG_YES_NO_LONG_MESSAGE);
 	}
-	
-	
+
 	private static final int DIALOG_YES_NO_LONG_MESSAGE = 1;
 
 	@SuppressLint("InlinedApi")
@@ -208,6 +245,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener, I
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
 									// 刷新历史列表
+									getHistoryList(true);
 								}
 							})
 					.setNegativeButton(
@@ -230,11 +268,10 @@ public class TongPageActivity extends BaseActivity implements OnClickListener, I
 		intent.setClass(this, LentActivity.class);
 		startActivity(intent);
 	}
-	
-	private void wantBorrowBtnMethod() {
-		
-	}
 
+	private void wantBorrowBtnMethod() {
+
+	}
 
 	@Override
 	public void onRefresh() {
@@ -244,7 +281,6 @@ public class TongPageActivity extends BaseActivity implements OnClickListener, I
 		}
 	}
 
-
 	@Override
 	public void onLoadMore() {
 		// TODO Auto-generated method stub
@@ -252,13 +288,16 @@ public class TongPageActivity extends BaseActivity implements OnClickListener, I
 			getHistoryList(false);
 		}
 	}
-	
-	private void onStopLoad()
-	{
+
+	private void onStopLoad() {
 		mListView.stopLoadMore();
 		mListView.stopRefresh();
-		
 		this.isLoading = false;
+	}
+
+	class TempModel extends BaseInfo {
+		public String sortTime;
+		public List<TongInfo> data;
 	}
 
 }

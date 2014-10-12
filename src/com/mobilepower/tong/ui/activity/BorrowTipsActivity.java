@@ -19,6 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -26,81 +30,88 @@ import com.mobilepower.tong.R;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
+import com.mobilepower.tong.model.TaskInfo;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UIntentKeys;
 
-public class BorrowTipsActivity extends BaseActivity{
+public class BorrowTipsActivity extends BaseActivity {
 
 	private String mScanTaskId;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.borrow_tips_activity);
-		
+
 		mScanTaskId = getIntent().getStringExtra(UIntentKeys.SCAN_TASK_ID);
 		if (mScanTaskId == null) {
 			mScanTaskId = "";
 		}
-		
+
+		initWorkHandler();
+
 	}
-	
+
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
-	
+
 	private boolean isSuccess = false;
-	
+
 	private void repeatGetTaskResult() {
-		if (isSuccess) {
-			return;
-		}
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("taskId", mScanTaskId);
-		
-		mDataLoader.postData(UConfig.SCAN_TASK_GET_URL, params, this, new HDataListener() {
-			
-			@Override
-			public void onSocketTimeoutException(String msg) {
-				// TODO Auto-generated method stub
-				repeatGetTaskResult();
-			}
-			
-			@Override
-			public void onFinish(String source) {
-				// TODO Auto-generated method stub
-				Gson gson = new Gson();
-				
-				try {
-					TempModel mResult = gson.fromJson(source, TempModel.class);
-					
-					if (mResult != null) {
-						if (mResult.result == UConstants.SUCCESS) {
-							isSuccess = true;
-							return;
-						}
+
+		mDataLoader.postData(UConfig.SCAN_TASK_GET_URL, params, this,
+				new HDataListener() {
+
+					@Override
+					public void onSocketTimeoutException(String msg) {
+						// TODO Auto-generated method stub
 					}
-					
-				} catch (JsonSyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				repeatGetTaskResult();
-			}
-			
-			@Override
-			public void onFail(String msg) {
-				// TODO Auto-generated method stub
-				repeatGetTaskResult();
-			}
-			
-			@Override
-			public void onConnectTimeoutException(String msg) {
-				// TODO Auto-generated method stub
-				repeatGetTaskResult();
-			}
-		});
+
+					@Override
+					public void onFinish(String source) {
+						// TODO Auto-generated method stub
+						Gson gson = new Gson();
+
+						try {
+							TempModel mResult = gson.fromJson(source,
+									TempModel.class);
+
+							if (mResult != null) {
+								if (mResult.result == UConstants.SUCCESS) {
+									
+									// 根据status界面提示成功失败
+									
+									// 遇到停止任务的状态即停止任务
+									if (mResult.taskModel.status == 1
+											|| mResult.taskModel.status == 0
+											|| mResult.taskModel.status == -1) {
+										isSuccess = true;
+										workHandler.removeMessages(START_QUERY);
+										return;
+									}
+								}
+							}
+
+						} catch (JsonSyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+
+					@Override
+					public void onFail(String msg) {
+						// TODO Auto-generated method stub
+					}
+
+					@Override
+					public void onConnectTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+					}
+				});
 	}
 
 	@Override
@@ -119,10 +130,42 @@ public class BorrowTipsActivity extends BaseActivity{
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		isSuccess = true;
+		workHandler.removeMessages(START_QUERY);
 	}
 
 	class TempModel extends BaseInfo {
-		
+		public TaskInfo taskModel;
 	}
-	
+
+	private WorkHandler workHandler;
+	private static final int START_QUERY = 0x7707;
+	private static final long QUERY_INTERAL_TIME = 5000;// 每10秒
+
+	/**
+	 * 计时器初始化
+	 */
+	private void initWorkHandler() {
+		HandlerThread thread = new HandlerThread("ParserHandler");
+		thread.setPriority(Thread.MAX_PRIORITY);
+		thread.start();
+		workHandler = new WorkHandler(thread.getLooper());
+		workHandler.sendEmptyMessage(START_QUERY);
+	}
+
+	class WorkHandler extends Handler {
+		public WorkHandler(Looper looper) {
+			super(looper);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+			if (!BorrowTipsActivity.this.isSuccess) {
+				repeatGetTaskResult();
+				this.sendEmptyMessageDelayed(START_QUERY, QUERY_INTERAL_TIME);
+			}
+		}
+	}
 }

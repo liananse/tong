@@ -35,18 +35,26 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.dimencode.camera.CameraManager;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
+import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.ui.activity.BaseActivity;
+import com.mobilepower.tong.ui.activity.BorrowTipsActivity;
 import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 import com.mobilepower.tong.utils.UConfig;
+import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.UIntentKeys;
+import com.mobilepower.tong.utils.UToast;
 
-public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback, OnClickListener {
+public class ScanActivity extends BaseActivity implements
+		SurfaceHolder.Callback, OnClickListener {
 
+	private static final long BULK_MODE_SCAN_DELAY_MS = 1000L;
 	private static final String TAG = ScanActivity.class.getSimpleName();
 
 	public static final int HISTORY_REQUEST_CODE = 0x0000bacc;
@@ -54,7 +62,7 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
 	private CameraManager cameraManager;
 	private CaptureActivityHandler handler;
 	private Result savedResultToShow;
-	
+
 	private boolean hasSurface;
 	private Collection<BarcodeFormat> decodeFormats;
 	private String characterSet;
@@ -78,16 +86,16 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
 
 		Window window = getWindow();
 		window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		
+
 		setContentView(R.layout.scan_activity);
 
 		initActionBar();
 		initView();
-		
+
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
 	}
-	
+
 	private View mBackBtn;
 
 	/**
@@ -98,15 +106,15 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
 
 		mBackBtn.setOnClickListener(this);
 	}
-	
+
 	private ViewfinderView viewfinderView;
 	private SurfaceHolder surfaceHolder;
+
 	private void initView() {
 		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
-		surfaceHolder = ((SurfaceView) findViewById(R.id.preview_view)).getHolder();
+		surfaceHolder = ((SurfaceView) findViewById(R.id.preview_view))
+				.getHolder();
 	}
-	
-	
 
 	@Override
 	protected void onResume() {
@@ -114,14 +122,12 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
 
 		cameraManager = new CameraManager(getApplication());
 
-		
 		viewfinderView.setCameraManager(cameraManager);
 
 		handler = null;
 
 		resetStatusView();
 
-		
 		if (hasSurface) {
 			// The activity was paused but not stopped, so the surface still
 			// exists. Therefore
@@ -220,7 +226,7 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
 	}
 
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
-	
+
 	/**
 	 * A valid barcode has been found, so give an indication of success and show
 	 * the results.
@@ -232,65 +238,78 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
 	 */
 	public void handleDecode(Result rawResult, Bitmap barcode) {
 		inactivityTimer.onActivity();
-//		Toast.makeText(this, rawResult.getText(), Toast.LENGTH_SHORT).show();
-		System.out.println("text " + rawResult.getText());
-		
+		// Toast.makeText(this, rawResult.getText(), Toast.LENGTH_SHORT).show();
 		String[] result = rawResult.getText().split("_");
-		
+
 		if (result == null || result.length <= 0) {
 			return;
 		}
 		final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mLoadingProgressBarFragment.show(ft, "dialog");
-		
+
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("type", "1");
 		params.put("terminal", result[0]);
-		
-		mDataLoader.postData(UConfig.SCAN_TASK_ADD_URL, params, this, new HDataListener() {
-			
-			@Override
-			public void onSocketTimeoutException(String msg) {
-				// TODO Auto-generated method stub
-				mLoadingProgressBarFragment.dismiss();
-			}
-			
-			@Override
-			public void onFinish(String source) {
-				// TODO Auto-generated method stub
-				mLoadingProgressBarFragment.dismiss();
-			}
-			
-			@Override
-			public void onFail(String msg) {
-				// TODO Auto-generated method stub
-				mLoadingProgressBarFragment.dismiss();
-			}
-			
-			@Override
-			public void onConnectTimeoutException(String msg) {
-				// TODO Auto-generated method stub
-				mLoadingProgressBarFragment.dismiss();
-			}
-		});
-		
-		
-		
-//		new Handler().postDelayed(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				// TODO Auto-generated method stub
-//				mLoadingProgressBarFragment.dismiss();
-//				
-//				Intent intent = new Intent();
-//				intent.setClass(ScanActivity.this, BorrowTipsActivity.class);
-//				ScanActivity.this.startActivity(intent);
-//				ScanActivity.this.finish();
-//			}
-//		}, 1000);
-		
+
+		mDataLoader.postData(UConfig.SCAN_TASK_ADD_URL, params, this,
+				new HDataListener() {
+
+					@Override
+					public void onSocketTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+						restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
+					}
+
+					@Override
+					public void onFinish(String source) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+
+						Gson gson = new Gson();
+
+						try {
+							TempModel mResultModel = gson.fromJson(source,
+									TempModel.class);
+
+							if (mResultModel != null) {
+								if (mResultModel.result == UConstants.SUCCESS) {
+									Intent intent = new Intent();
+									intent.setClass(ScanActivity.this,
+											BorrowTipsActivity.class);
+									intent.putExtra(UIntentKeys.SCAN_TASK_ID,
+											mResultModel.taskId);
+									ScanActivity.this.startActivity(intent);
+									ScanActivity.this.finish();
+								} else {
+									UToast.showShortToast(ScanActivity.this, mResultModel.msg);
+								}
+							} else {
+								restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
+						}
+
+					}
+
+					@Override
+					public void onFail(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+						restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
+					}
+
+					@Override
+					public void onConnectTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+						restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
+					}
+				});
 	}
 
 	private void initCamera(SurfaceHolder surfaceHolder) {
@@ -341,5 +360,9 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
 		if (v == mBackBtn) {
 			this.finish();
 		}
+	}
+
+	class TempModel extends BaseInfo {
+		public String taskId;
 	}
 }
