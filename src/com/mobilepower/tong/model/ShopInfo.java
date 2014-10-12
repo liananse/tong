@@ -13,6 +13,7 @@ public class ShopInfo implements Serializable{
 	public double lat;
 	public double lng;
 	public String name;
+	public String sortTime;
 	public String tel;
 	public String updateTime;
 	

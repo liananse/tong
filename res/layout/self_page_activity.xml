@@ -73,6 +73,7 @@
                             android:textSize="@dimen/self_page_nickname_size" />
 
                         <TextView
+                            android:id="@+id/self_page_recharge_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/login_and_register_btn_bg"
@@ -80,7 +81,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:paddingTop="2dp"
-                            android:text="充值"
+                            android:text="@string/self_page_recharge"
                             android:textColor="@color/white"
                             android:textSize="@dimen/self_page_pay_size" />
                     </LinearLayout>

@@ -15,12 +15,15 @@
  */
 package com.mobilepower.tong.ui.activity;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
-
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.ui.view.CustomAvatarView;
@@ -44,11 +47,13 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 
 	private CustomAvatarView mAvatarView;
 
+	private View mRechargeBtn;
 	// 按钮 选项
 	private View mChatBtn;
 	private View mFriendBtn;
 	private View mScoreDesBtn;
 	private View mAboutBtn;
+	private View mExitBtn;
 	private CheckBox mWantPush;
 	private CheckBox mNearbyUser;
 
@@ -56,18 +61,21 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mAvatarView = (CustomAvatarView) findViewById(R.id.self_pate_avatar);
 		mAvatarView.setOnClickListener(this);
 
+		mRechargeBtn = findViewById(R.id.self_page_recharge_btn);
 		mChatBtn = findViewById(R.id.self_page_chat_btn);
 		mFriendBtn = findViewById(R.id.self_page_friend_btn);
 		mScoreDesBtn = findViewById(R.id.self_page_score_des_btn);
 		mAboutBtn = findViewById(R.id.self_page_about_btn);
-
+		mExitBtn = findViewById(R.id.self_page_exit_btn);
 		mWantPush = (CheckBox) findViewById(R.id.setting_want_info_push);
 		mNearbyUser = (CheckBox) findViewById(R.id.setting_nearby_user);
 
+		mRechargeBtn.setOnClickListener(this);
 		mChatBtn.setOnClickListener(this);
 		mFriendBtn.setOnClickListener(this);
 		mScoreDesBtn.setOnClickListener(this);
 		mAboutBtn.setOnClickListener(this);
+		mExitBtn.setOnClickListener(this);
 	}
 
 	private void initData() {
@@ -118,7 +126,53 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			Intent intent = new Intent();
 			intent.setClass(this, AboutActivity.class);
 			this.startActivity(intent);
+		} else if (v == mExitBtn) {
+			showDialog(DIALOG_YES_NO_LONG_MESSAGE);
+		} else if (v == mRechargeBtn) {
+			Intent intent = new Intent();
+			intent.setClass(this, RechargeActivity.class);
+			this.startActivity(intent);
 		}
+	}
+	
+	
+	private static final int DIALOG_YES_NO_LONG_MESSAGE = 1;
+
+	@SuppressLint("InlinedApi")
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		// TODO Auto-generated method stub
+		switch (id) {
+		case DIALOG_YES_NO_LONG_MESSAGE:
+			return new AlertDialog.Builder(SelfPageActivity.this,
+					AlertDialog.THEME_HOLO_LIGHT)
+					.setTitle(getString(R.string.logout_dialog_title))
+					.setMessage(getString(R.string.logout_dialog_content))
+					.setPositiveButton(
+							getString(R.string.logout_dialog_comfirm),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									logOut();
+								}
+							})
+					.setNegativeButton(
+							getString(R.string.logout_dialog_cancel),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+
+									/* User clicked Cancel so do some stuff */
+									dialog.cancel();
+								}
+							}).create();
+		}
+
+		return null;
+	}
+
+	private void logOut() {
+		TongApplication.relogin(this);
 	}
 
 }

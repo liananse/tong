@@ -16,6 +16,7 @@ import com.mobilepower.tong.R;
 import com.mobilepower.tong.model.ShopInfo;
 import com.mobilepower.tong.ui.activity.ShopPageMapActivity;
 import com.mobilepower.tong.ui.view.CustomAvatarView;
+import com.mobilepower.tong.utils.UIntentKeys;
 
 public class NearbyShopAdapter extends BaseAdapter {
 
@@ -73,6 +74,7 @@ public class NearbyShopAdapter extends BaseAdapter {
 					R.layout.shop_page_activity_list_item, null);
 
 			holder = new ViewHolder();
+			holder.mShopItem = convertView.findViewById(R.id.shop_item);
 			holder.mShopAvatar = (CustomAvatarView) convertView
 					.findViewById(R.id.shop_avatar);
 			holder.mShopName = (TextView) convertView
@@ -87,20 +89,21 @@ public class NearbyShopAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		ShopInfo mModel = mNearbyShopList.get(position);
+		final ShopInfo mModel = mNearbyShopList.get(position);
 
 		holder.mShopAvatar.setImageUrl(mModel.shopAvatar);
 		holder.mShopName.setText(mModel.name);
 		holder.mShopDistance.setText(mModel.shopDistance);
 		holder.mShopAddress.setText(mModel.address);
 
-		holder.mShopAvatar.setOnClickListener(new OnClickListener() {
+		holder.mShopItem.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.setClass(mContext, ShopPageMapActivity.class);
+				intent.putExtra(UIntentKeys.SHOP_INTO, mModel);
 				mContext.startActivity(intent);
 			}
 		});
@@ -112,6 +115,7 @@ public class NearbyShopAdapter extends BaseAdapter {
 		TextView mShopName;
 		TextView mShopDistance;
 		TextView mShopAddress;
+		View mShopItem;
 	}
 
 	public void refreshData(List<ShopInfo> list) {

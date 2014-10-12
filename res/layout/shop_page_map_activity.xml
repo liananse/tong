@@ -30,9 +30,55 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:text="@string/shop_page_title"
+            android:text="@string/shop_page_detail"
             android:textColor="@color/activity_bar_title_color"
             android:textSize="@dimen/activity_bar_title_size" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/activity_default_padding" >
+
+        <com.mobilepower.tong.ui.view.CustomAvatarView
+            android:id="@+id/shop_avatar"
+            android:layout_width="@dimen/self_page_avatar_size"
+            android:layout_height="@dimen/self_page_avatar_size"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_default_padding" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/shop_avatar"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/shop_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textcolor"
+                android:textSize="@dimen/self_page_nickname_size" />
+
+            <TextView
+                android:id="@+id/shop_tel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textcolor"
+                android:textSize="@dimen/self_page_nickname_size" />
+
+            <TextView
+                android:id="@+id/shop_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textcolor"
+                android:textSize="@dimen/self_page_nickname_size" />
+        </LinearLayout>
     </RelativeLayout>
 
 </LinearLayout>

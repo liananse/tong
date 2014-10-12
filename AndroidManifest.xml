@@ -177,6 +177,10 @@
             android:name=".ui.activity.FriendsActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".ui.activity.RechargeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <!-- push service client -->
         <receiver android:name="com.mobilepower.tong.push.TongPushMessageReceiver" >

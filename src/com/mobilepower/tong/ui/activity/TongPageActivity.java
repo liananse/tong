@@ -16,8 +16,14 @@
 package com.mobilepower.tong.ui.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,10 +32,13 @@ import android.view.View.OnClickListener;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.dimencode.ScanActivity;
+import com.mobilepower.tong.http.HHttpDataLoader;
+import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.TongInfo;
 import com.mobilepower.tong.ui.adapter.TongListAdapter;
 import com.mobilepower.tong.ui.view.XListView;
 import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
+import com.mobilepower.tong.utils.UConfig;
 import com.squareup.otto.Bus;
 
 public class TongPageActivity extends BaseActivity implements OnClickListener, IXListViewListener{
@@ -46,6 +55,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener, I
 		
 		initView();
 		initData();
+		getHistoryList(true);
 	}
 	
 	private View mBorrowBtn;
@@ -88,6 +98,45 @@ public class TongPageActivity extends BaseActivity implements OnClickListener, I
 		mAdapter.refreshData(mTongList);
 	}
 	
+	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
+	
+	private boolean isRefresh = true;
+	private boolean isLoading = false;
+	
+	private void getHistoryList(boolean isRefresh) {
+		this.isRefresh = isRefresh;
+		this.isLoading = true;
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("sortTime", "0");
+		
+		mDataLoader.getData(UConfig.CHECK_HISTORY_LIST_URL, params, this, new HDataListener() {
+			
+			@Override
+			public void onSocketTimeoutException(String msg) {
+				// TODO Auto-generated method stub
+				onStopLoad();
+			}
+			
+			@Override
+			public void onFinish(String source) {
+				// TODO Auto-generated method stub
+				onStopLoad();
+			}
+			
+			@Override
+			public void onFail(String msg) {
+				// TODO Auto-generated method stub
+				onStopLoad();
+			}
+			
+			@Override
+			public void onConnectTimeoutException(String msg) {
+				// TODO Auto-generated method stub
+				onStopLoad();
+			}
+		});
+	}
 	
 	@Override
 	protected void onResume() {
@@ -117,7 +166,8 @@ public class TongPageActivity extends BaseActivity implements OnClickListener, I
 		} else if (v == mReturnBtn) {
 			returnBtnMethod();
 		} else if (v == mLentBtn) {
-			lentBtnMethod();
+//			lentBtnMethod();
+			borrowBtnMethod();
 		} else if (v == mWantBorrowBtn) {
 			wantBorrowBtnMethod();
 		}
@@ -129,12 +179,52 @@ public class TongPageActivity extends BaseActivity implements OnClickListener, I
 		startActivity(intent);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void returnBtnMethod() {
-		Intent intent = new Intent();
-		intent.setClass(this, ScanActivity.class);
-		startActivity(intent);
+//		Intent intent = new Intent();
+//		intent.setClass(this, ScanActivity.class);
+//		startActivity(intent);
+		
+		// 弹框刷新页面
+		showDialog(DIALOG_YES_NO_LONG_MESSAGE);
 	}
 	
+	
+	private static final int DIALOG_YES_NO_LONG_MESSAGE = 1;
+
+	@SuppressLint("InlinedApi")
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		// TODO Auto-generated method stub
+		switch (id) {
+		case DIALOG_YES_NO_LONG_MESSAGE:
+			return new AlertDialog.Builder(TongPageActivity.this,
+					AlertDialog.THEME_HOLO_LIGHT)
+					.setTitle(getString(R.string.tong_page_dialog_title))
+					.setMessage(getString(R.string.tong_page_dialog_message))
+					.setPositiveButton(
+							getString(R.string.tong_page_dialog_confirm),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// 刷新历史列表
+								}
+							})
+					.setNegativeButton(
+							getString(R.string.tong_page_dialog_cancel),
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+
+									/* User clicked Cancel so do some stuff */
+									dialog.cancel();
+								}
+							}).create();
+		}
+
+		return null;
+	}
+
 	private void lentBtnMethod() {
 		Intent intent = new Intent();
 		intent.setClass(this, LentActivity.class);
@@ -149,14 +239,26 @@ public class TongPageActivity extends BaseActivity implements OnClickListener, I
 	@Override
 	public void onRefresh() {
 		// TODO Auto-generated method stub
-		
+		if (!this.isLoading) {
+			getHistoryList(true);
+		}
 	}
 
 
 	@Override
 	public void onLoadMore() {
 		// TODO Auto-generated method stub
+		if (!this.isLoading) {
+			getHistoryList(false);
+		}
+	}
+	
+	private void onStopLoad()
+	{
+		mListView.stopLoadMore();
+		mListView.stopRefresh();
 		
+		this.isLoading = false;
 	}
 
 }

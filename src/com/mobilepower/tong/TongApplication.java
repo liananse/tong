@@ -22,6 +22,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.baidu.frontia.FrontiaApplication;
@@ -33,7 +34,9 @@ import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.mapapi.SDKInitializer;
 import com.mobilepower.tong.db.DDBOpenHelper;
 import com.mobilepower.tong.model.UserInfo;
+import com.mobilepower.tong.ui.activity.SplashActivity;
 import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.UDataCleanManager;
 import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 
@@ -116,25 +119,25 @@ public class TongApplication extends FrontiaApplication {
 	}
 
 	public static void relogin(Activity act) {
-		// SharedPreferences sp = UTools.Storage.getSharedPreferences(act,
-		// UConstants.BASE_PREFS_NAME);
-		// String xiaomiRegId = sp.getString(UConstants.XIAOMI_REGID, "");
-		//
-		// // 清空数据
-		// clearMineInfo();
-		// UDataCleanManager.cleanApplicationData(act);
-		//
-		// SharedPreferences.Editor mEditor = UTools.Storage.getSharedPreEditor(
-		// act, UConstants.BASE_PREFS_NAME);
-		// mEditor.putString(UConstants.XIAOMI_REGID, xiaomiRegId);
-		// mEditor.commit();
-		//
-		// // 跳转
-		// UTools.activityhelper.clearAllBut(act);
-		// Intent intent = new Intent();
-		// intent.setClass(act, LoginAndRegisterActivity.class);
-		// act.startActivity(intent);
-		// act.finish();
+//		SharedPreferences sp = UTools.Storage.getSharedPreferences(act,
+//				UConstants.BASE_PREFS_NAME);
+//		String xiaomiRegId = sp.getString(UConstants.XIAOMI_REGID, "");
+
+		// 清空数据
+		clearMineInfo();
+		UDataCleanManager.cleanApplicationData(act);
+
+//		SharedPreferences.Editor mEditor = UTools.Storage.getSharedPreEditor(
+//				act, UConstants.BASE_PREFS_NAME);
+//		mEditor.putString(UConstants.XIAOMI_REGID, xiaomiRegId);
+//		mEditor.commit();
+
+		// 跳转
+		UTools.activityhelper.clearAllBut(act);
+		Intent intent = new Intent();
+		intent.setClass(act, SplashActivity.class);
+		act.startActivity(intent);
+		act.finish();
 	}
 
 	/**

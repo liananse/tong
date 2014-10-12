@@ -36,10 +36,12 @@ import com.mobilepower.tong.ui.view.XListView;
 import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.UToast;
 import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 
-public class ShopPageActivity extends BaseActivity implements IXListViewListener{
+public class ShopPageActivity extends BaseActivity implements
+		IXListViewListener {
 
 	private Bus bus;
 	LocationClient mLocClient;
@@ -67,78 +69,99 @@ public class ShopPageActivity extends BaseActivity implements IXListViewListener
 		mListView.setPullRefreshEnable(true);
 		mListView.setPullLoadEnable(true);
 		mListView.setXListViewListener(this);
-		
+
 		mAdapter = new NearbyShopAdapter(this);
 		mListView.setAdapter(mAdapter);
 	}
-	
+
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
-	
+
 	private boolean isRefresh = true;
 	private boolean isLoading = false;
+	private String sortTime = "0";
 	private void getShopListData(boolean isRefresh) {
-		
+
 		this.isRefresh = isRefresh;
 		this.isLoading = true;
-		
+
 		SharedPreferences sp = UTools.Storage.getSharedPreferences(this,
 				UConstants.BASE_PREFS_NAME);
-		
+
 		String lat = sp.getString(UConstants.LOCATION_LATITUDE, "22.537976");
 		String lng = sp.getString(UConstants.LOCATION_LONGITUDE, "113.943617");
-		
+
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("lat", lat);
 		params.put("lng", lng);
-		params.put("sortTime", "0");
-		mDataLoader.getData(UConfig.SHOP_GET_URL, params, this, new HDataListener() {
-			
-			@Override
-			public void onSocketTimeoutException(String msg) {
-				// TODO Auto-generated method stub
-				onStopLoad();
-			}
-			
-			@Override
-			public void onFinish(String source) {
-				// TODO Auto-generated method stub
-				onStopLoad();
-				Gson gson = new Gson();
-				
-				try {
-					TempModel mResultModel = gson.fromJson(source, TempModel.class);
-					
-					if (mResultModel != null) {
-						if (mResultModel.result == UConstants.SUCCESS) {
-							if (mResultModel.data != null && mResultModel.data.size() > 0) {
-								if (ShopPageActivity.this.isRefresh) {
-									mAdapter.refreshData(mResultModel.data);
+		
+		if (this.isRefresh) {
+			sortTime = "0";
+		}
+		
+		params.put("sortTime", sortTime);
+		mDataLoader.getData(UConfig.SHOP_GET_URL, params, this,
+				new HDataListener() {
+
+					@Override
+					public void onSocketTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						onStopLoad();
+					}
+
+					@Override
+					public void onFinish(String source) {
+						// TODO Auto-generated method stub
+						onStopLoad();
+						Gson gson = new Gson();
+
+						try {
+							TempModel mResultModel = gson.fromJson(source,
+									TempModel.class);
+
+							if (mResultModel != null) {
+								if (mResultModel.result == UConstants.SUCCESS) {
+									// 本次返回的sortTime
+									ShopPageActivity.this.sortTime = mResultModel.sortTime;
+									
+									if (mResultModel.data != null
+											&& mResultModel.data.size() > 0) {
+										
+										if (ShopPageActivity.this.isRefresh) {
+											mAdapter.refreshData(mResultModel.data);
+										} else {
+											mAdapter.addData(mResultModel.data);
+										}
+									} else {
+										UToast.showShortToast(
+												ShopPageActivity.this,
+												getResources()
+														.getString(
+																R.string.shop_page_no_more_data));
+									}
 								} else {
-									mAdapter.addData(mResultModel.data);
+									UToast.showShortToast(
+											ShopPageActivity.this,
+											mResultModel.msg);
 								}
 							}
-						} else {
-							
+						} catch (JsonSyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}
-				} catch (JsonSyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-			@Override
-			public void onFail(String msg) {
-				// TODO Auto-generated method stub
-				onStopLoad();
-			}
-			
-			@Override
-			public void onConnectTimeoutException(String msg) {
-				// TODO Auto-generated method stub
-				onStopLoad();
-			}
-		});
+
+					@Override
+					public void onFail(String msg) {
+						// TODO Auto-generated method stub
+						onStopLoad();
+					}
+
+					@Override
+					public void onConnectTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						onStopLoad();
+					}
+				});
 	}
 
 	private void initLocation() {
@@ -187,16 +210,15 @@ public class ShopPageActivity extends BaseActivity implements IXListViewListener
 			getShopListData(false);
 		}
 	}
-	
-	private void onStopLoad()
-	{
+
+	private void onStopLoad() {
 		mListView.stopLoadMore();
 		mListView.stopRefresh();
-		
+
 		this.isLoading = false;
 	}
-	
-	class TempModel extends BaseInfo{
+
+	class TempModel extends BaseInfo {
 		public String sortTime;
 		public List<ShopInfo> data;
 	}

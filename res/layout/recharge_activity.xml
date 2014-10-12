@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_bar_default_height"
+        android:background="@color/activity_bar_bg" >
+
+        <LinearLayout
+            android:id="@+id/back_btn"
+            android:layout_width="@dimen/activity_bar_btn_width"
+            android:layout_height="@dimen/activity_bar_default_height"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/action_bar_back" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="@string/recharge_title"
+            android:textColor="@color/activity_bar_title_color"
+            android:textSize="@dimen/activity_bar_title_size" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/about_page_content_margin"
+        android:layout_marginRight="@dimen/about_page_content_margin"
+        android:layout_marginTop="@dimen/about_page_content_margin"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recharge_count"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/recharge_count"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/login_and_register_margin_top"
+            android:layout_marginLeft="@dimen/login_and_register_padding"
+            android:background="@drawable/username_and_password_et_bg"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/login_and_register_padding"
+            android:text="@string/recharge_yuan"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/about_page_content_margin"
+        android:layout_marginRight="@dimen/about_page_content_margin"
+        android:layout_marginTop="@dimen/about_page_divide_margin"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recharge_way"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/about_page_content_margin"
+        android:layout_marginRight="@dimen/about_page_content_margin"
+        android:layout_marginTop="@dimen/about_page_content_margin"
+        android:text="@string/recharge_tips" />
+
+    <TextView
+        android:id="@+id/recharge_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/about_page_content_margin"
+        android:layout_marginRight="@dimen/about_page_content_margin"
+        android:layout_marginTop="@dimen/about_page_content_margin"
+        android:background="@drawable/login_and_register_btn_bg"
+        android:gravity="center"
+        android:padding="@dimen/login_and_register_padding"
+        android:text="@string/recharge_recharge"
+        android:textColor="@color/white" />
+
+</LinearLayout>

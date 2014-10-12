@@ -40,10 +40,20 @@
     <string name="tong_page_return">归还</string>
     <string name="tong_page_lent">借线</string>
     <string name="tong_page_want_borrow">想借</string>
+    
+    <string name="tong_page_dialog_title">提示</string>
+    <string name="tong_page_dialog_confirm">确认</string>
+    <string name="tong_page_dialog_cancel">取消</string>
+    <string name="tong_page_dialog_message">刷新历史列表确认是否归还成功</string>
 
     <!-- shop page activity -->
     <string name="shop_page_tab_str">店铺</string>
     <string name="shop_page_title">附近的店铺</string>
+    <string name="shop_page_detail">店铺详情</string>
+    <string name="shop_page_no_more_data">暂时没有更多数据</string>
+    <string name="shop_page_name">名称: %s</string>
+    <string name="shop_page_tel">电话: %s</string>
+    <string name="shop_page_address">地址: %s</string>
 
     <!-- history page activity -->
     <string name="history_page_tab_str">历史</string>
@@ -63,6 +73,11 @@
     <string name="self_page_score_des">积分系统说明</string>
     <string name="self_page_about">关于</string>
     <string name="self_page_exit">退出登录</string>
+    <string name="logout_dialog_title">提示</string>
+    <string name="logout_dialog_content">确定退出来电吧吗？</string>
+    <string name="logout_dialog_comfirm">确定</string>
+    <string name="logout_dialog_cancel">取消</string>
+    <string name="self_page_recharge">充值</string>
 
     <!-- lent activity -->
     <string name="lent_title">转借</string>
@@ -91,5 +106,16 @@
 
     <!-- friends activity -->
     <string name="friends_title">好友</string>
+    
+    <!-- recharge activity -->
+    <string name="recharge_title">充值来电币</string>
+    <string name="recharge_count">充值金额:</string>
+    <string name="recharge_yuan">元</string>
+    <string name="recharge_way">支付方式:</string>
+    <string name="recharge_weixin">微信</string>
+    <string name="recharge_alipay">支付宝</string>
+    <string name="recharge_recharge">充值</string>
+    <string name="recharge_tips">温馨提示：本充值成功后不能退款，充值人民币1元等于10个来电币，来电币可用于在指定终端上租借充电宝</string>
+    <string name="recharge_empty_tips">请输入充值金额</string>
 
 </resources>
