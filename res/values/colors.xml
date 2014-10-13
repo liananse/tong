@@ -12,7 +12,7 @@
     <color name="textcolor">@color/black</color>
     
     <!-- activity bar -->
-    <color name="activity_bar_bg">#29292A</color>
+    <color name="activity_bar_bg">#54d9e7</color>
     <color name="activity_bar_title_color">#ffffff</color>
     <color name="header_line_up">#f0f0f0</color>
     <color name="header_line_down">#b8b8b8</color>
@@ -23,6 +23,9 @@
     
     <!-- tong page -->
     <color name="tong_page_btn_text_color">@color/black</color>
+    
+    <color name="main_activity_tab_color_selected">#66cdde</color>  
+    <color name="main_activity_tab_color_unselected">#5a5a5a</color> 
     
     <color name="contents_text">#ff000000</color>
   <color name="encode_view">#ffffffff</color>

@@ -973,7 +973,7 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f070002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f08001d;
+        public static final int abc_search_url_text_holo=0x7f08001f;
         public static final int abc_search_url_text_normal=0x7f080000;
         public static final int abc_search_url_text_pressed=0x7f080002;
         public static final int abc_search_url_text_selected=0x7f080001;
@@ -984,8 +984,8 @@ containing a value of this type.
         public static final int activity_bg=0x7f08000a;
         public static final int black=0x7f080004;
         public static final int blue=0x7f080005;
-        public static final int contents_text=0x7f080013;
-        public static final int encode_view=0x7f080014;
+        public static final int contents_text=0x7f080015;
+        public static final int encode_view=0x7f080016;
         public static final int gray=0x7f080006;
         public static final int header_line_down=0x7f08000f;
         public static final int header_line_up=0x7f08000e;
@@ -993,26 +993,28 @@ containing a value of this type.
          */
         public static final int login_and_register_btn_color=0x7f080010;
         public static final int login_and_register_btn_color_unavailable=0x7f080011;
-        public static final int possible_result_points=0x7f080015;
+        public static final int main_activity_tab_color_selected=0x7f080013;
+        public static final int main_activity_tab_color_unselected=0x7f080014;
+        public static final int possible_result_points=0x7f080017;
         public static final int red=0x7f080007;
         /**  Android standard ICS color 
          */
-        public static final int result_minor_text=0x7f080016;
-        public static final int result_points=0x7f080017;
+        public static final int result_minor_text=0x7f080018;
+        public static final int result_points=0x7f080019;
         /**  Android standard ICS color 
          */
-        public static final int result_text=0x7f080018;
-        public static final int result_view=0x7f080019;
-        public static final int status_text=0x7f08001a;
+        public static final int result_text=0x7f08001a;
+        public static final int result_view=0x7f08001b;
+        public static final int status_text=0x7f08001c;
         public static final int textcolor=0x7f08000b;
         /**  tong page 
          */
         public static final int tong_page_btn_text_color=0x7f080012;
         public static final int transparent=0x7f080008;
-        public static final int viewfinder_laser=0x7f08001b;
+        public static final int viewfinder_laser=0x7f08001d;
         /**  Android standard ICS color 
          */
-        public static final int viewfinder_mask=0x7f08001c;
+        public static final int viewfinder_mask=0x7f08001e;
         public static final int white=0x7f080003;
         public static final int white_alpha=0x7f080009;
     }
@@ -1243,41 +1245,55 @@ containing a value of this type.
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
         public static final int action_bar_back=0x7f020057;
         public static final int blue_btn_bg=0x7f020058;
-        public static final int default_btn=0x7f020059;
-        public static final int flag_gender_female=0x7f02005a;
-        public static final int flag_gender_male=0x7f02005b;
-        public static final int ic_head_holder=0x7f02005c;
-        public static final int ic_launcher=0x7f02005d;
-        public static final int icon_gcoding=0x7f02005e;
-        public static final int loading_bar=0x7f02005f;
-        public static final int loading_icon_down=0x7f020060;
-        public static final int loading_icon_round=0x7f020061;
-        public static final int login_and_register_btn_bg=0x7f020062;
-        public static final int login_and_register_btn_bg_available=0x7f020063;
-        public static final int login_and_register_btn_bg_unavailable=0x7f020064;
-        public static final int main_tab_chat_bg=0x7f020065;
-        public static final int main_tab_chat_normal=0x7f020066;
-        public static final int main_tab_chat_press=0x7f020067;
-        public static final int main_tab_create_event_bg=0x7f020068;
-        public static final int main_tab_create_event_normal=0x7f020069;
-        public static final int main_tab_create_event_press=0x7f02006a;
-        public static final int main_tab_friends_bg=0x7f02006b;
-        public static final int main_tab_friends_normal=0x7f02006c;
-        public static final int main_tab_friends_press=0x7f02006d;
-        public static final int main_tab_index_bg=0x7f02006e;
-        public static final int main_tab_index_normal=0x7f02006f;
-        public static final int main_tab_index_press=0x7f020070;
-        public static final int main_tab_item_text_color=0x7f020071;
-        public static final int main_tab_more_bg=0x7f020072;
-        public static final int main_tab_more_normal=0x7f020073;
-        public static final int main_tab_more_press=0x7f020074;
-        public static final int main_tab_notify=0x7f020075;
-        public static final int progressbar_bg=0x7f020076;
-        public static final int radio_bg=0x7f020077;
-        public static final int red_btn_bg=0x7f020078;
-        public static final int settings_close_icon=0x7f020079;
-        public static final int settings_open_icon=0x7f02007a;
-        public static final int username_and_password_et_bg=0x7f02007b;
+        public static final int borrow_bg=0x7f020059;
+        public static final int buy_bg=0x7f02005a;
+        public static final int default_btn=0x7f02005b;
+        public static final int female=0x7f02005c;
+        public static final int flag_gender_female=0x7f02005d;
+        public static final int flag_gender_male=0x7f02005e;
+        public static final int ic_head_holder=0x7f02005f;
+        public static final int ic_launcher=0x7f020060;
+        public static final int icon_about=0x7f020061;
+        public static final int icon_borrow_normal=0x7f020062;
+        public static final int icon_borrow_press=0x7f020063;
+        public static final int icon_buy_normal=0x7f020064;
+        public static final int icon_buy_press=0x7f020065;
+        public static final int icon_charge=0x7f020066;
+        public static final int icon_gcoding=0x7f020067;
+        public static final int icon_home_normal=0x7f020068;
+        public static final int icon_home_press=0x7f020069;
+        public static final int icon_lent_normal=0x7f02006a;
+        public static final int icon_lent_press=0x7f02006b;
+        public static final int icon_me_normal=0x7f02006c;
+        public static final int icon_me_press=0x7f02006d;
+        public static final int icon_shop_normal=0x7f02006e;
+        public static final int icon_shop_press=0x7f02006f;
+        public static final int lent_bg=0x7f020070;
+        public static final int loading_bar=0x7f020071;
+        public static final int loading_icon_down=0x7f020072;
+        public static final int loading_icon_round=0x7f020073;
+        public static final int login_and_register_btn_bg=0x7f020074;
+        public static final int login_and_register_btn_bg_available=0x7f020075;
+        public static final int login_and_register_btn_bg_unavailable=0x7f020076;
+        public static final int main_tab_chat_bg=0x7f020077;
+        public static final int main_tab_create_event_bg=0x7f020078;
+        public static final int main_tab_create_event_normal=0x7f020079;
+        public static final int main_tab_create_event_press=0x7f02007a;
+        public static final int main_tab_friends_bg=0x7f02007b;
+        public static final int main_tab_friends_normal=0x7f02007c;
+        public static final int main_tab_friends_press=0x7f02007d;
+        public static final int main_tab_index_bg=0x7f02007e;
+        public static final int main_tab_item_text_color=0x7f02007f;
+        public static final int main_tab_more_bg=0x7f020080;
+        public static final int main_tab_notify=0x7f020081;
+        public static final int male=0x7f020082;
+        public static final int progressbar_bg=0x7f020083;
+        public static final int radio_bg=0x7f020084;
+        public static final int red_btn_bg=0x7f020085;
+        public static final int settings_close_icon=0x7f020086;
+        public static final int settings_open_icon=0x7f020087;
+        public static final int tab_color_selector=0x7f020088;
+        public static final int username_and_password_et_bg=0x7f020089;
     }
     public static final class id {
         public static final int action_bar=0x7f060023;
