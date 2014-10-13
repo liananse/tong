@@ -117,6 +117,14 @@ public class TongApplication extends FrontiaApplication {
 		}
 		return mine;
 	}
+	
+	public static void updateMineInfo(String nickname, int age, String resume) {
+		if (mine != null) {
+			mine.nickName = nickname;
+			mine.age = age;
+			mine.resume = resume;
+		}
+	}
 
 	public static void relogin(Activity act) {
 //		SharedPreferences sp = UTools.Storage.getSharedPreferences(act,

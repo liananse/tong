@@ -182,6 +182,14 @@ public class UTools {
 				return false;
 			}
 		}
+		
+		public static boolean isAge(String age) {
+			if (!age.equals("") && Integer.parseInt(age) > 0 && Integer.parseInt(age) < 111)  {
+				return true;
+			} else {
+				return false;
+			}
+		}
 
 		/**
 		 * get application name

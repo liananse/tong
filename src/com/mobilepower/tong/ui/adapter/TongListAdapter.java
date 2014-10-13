@@ -88,16 +88,25 @@ public class TongListAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
+
 		final TongInfo mModel = mTongList.get(position);
-		
+
 		try {
-			holder.mTongDay.setText(UTimeUtils.computeHowLongAgo(mContext,mModel.addTime));
+			holder.mTongDay.setText(UTimeUtils.computeHowLongAgo(mContext,
+					mModel.addTime));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		holder.mTongLocation.setText(mModel.shopModel.address);
+
+		if (mModel.type == 1) {
+			holder.mTongFrom.setText("从 " + mModel.shopModel.name + " 借入");
+		} else if (mModel.type == 2) {
+			holder.mTongFrom.setText("在 " + mModel.shopModel.name + " 归还");
+		} else if (mModel.type == 3) {
+
+		}
 
 		return convertView;
 	}

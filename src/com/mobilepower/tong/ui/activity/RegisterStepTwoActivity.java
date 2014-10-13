@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
@@ -30,15 +31,20 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.db.DDBOpenHelper;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
-import com.mobilepower.tong.ui.fragment.DatePickerFragment;
+import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 import com.mobilepower.tong.utils.UConfig;
+import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UTimeUtils;
 import com.mobilepower.tong.utils.UToast;
+import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 
 public class RegisterStepTwoActivity extends BaseActivity implements
@@ -56,7 +62,7 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 	}
 
 	private EditText mNickNameEt;
-	private TextView mAgeEt;
+	private EditText mAgeEt;
 	private EditText mResumeEt;
 
 	private TextView mNextBtn;
@@ -90,7 +96,8 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 					return;
 				}
 
-				if (mAgeEt.getText().toString().trim().equals("")) {
+				if (mAgeEt.getText().toString().trim().equals("")
+						|| !UTools.OS.isAge(mAgeEt.getText().toString().trim())) {
 					mNextBtn.setEnabled(false);
 					return;
 				}
@@ -100,9 +107,8 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 		});
 
 		mSelectedDate = Calendar.getInstance();
-		
-		mAgeEt = (TextView) findViewById(R.id.register_age_et);
-		mAgeEt.setOnClickListener(this);
+
+		mAgeEt = (EditText) findViewById(R.id.register_age_et);
 		mAgeEt.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -127,7 +133,8 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 					return;
 				}
 
-				if (mAgeEt.getText().toString().trim().equals("")) {
+				if (mAgeEt.getText().toString().trim().equals("")
+						|| !UTools.OS.isAge(mAgeEt.getText().toString().trim())) {
 					mNextBtn.setEnabled(false);
 					return;
 				}
@@ -170,15 +177,16 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 		if (v == mNextBtn) {
 			updateMethod();
 		} else if (v == mAgeEt) {
-			DatePickerFragment mDatePickerFragment = new DatePickerFragment();
-			mDatePickerFragment.setOnDateSetListener(mOnDateChangedListener);
-			mDatePickerFragment.show(getSupportFragmentManager(),
-					"DatePickerFragment");
+			// DatePickerFragment mDatePickerFragment = new
+			// DatePickerFragment();
+			// mDatePickerFragment.setOnDateSetListener(mOnDateChangedListener);
+			// mDatePickerFragment.show(getSupportFragmentManager(),
+			// "DatePickerFragment");
 		}
 	}
 
 	private Calendar mSelectedDate;
-	
+
 	private DatePickerDialog.OnDateSetListener mOnDateChangedListener = new DatePickerDialog.OnDateSetListener() {
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -202,8 +210,12 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("nickName", mNickNameEt.getText().toString());
-		params.put("age", String.valueOf(mSelectedDate.getTimeInMillis()));
+		params.put("age", mAgeEt.getText().toString());
 		params.put("resume", mResumeEt.getText().toString());
+
+		final String tempNickName = mNickNameEt.getText().toString();
+		final int tempAge = Integer.parseInt(mAgeEt.getText().toString());
+		final String tempResume = mResumeEt.getText().toString();
 		mDataLoader.postData(UConfig.USER_UPDATE_URL, params,
 				RegisterStepTwoActivity.this, new HDataListener() {
 
@@ -218,6 +230,34 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 					@Override
 					public void onFinish(String source) {
 						// TODO Auto-generated method stub
+						Gson gson = new Gson();
+
+						try {
+							BaseInfo mResult = gson.fromJson(source,
+									BaseInfo.class);
+
+							if (mResult != null) {
+								if (mResult.result == UConstants.SUCCESS) {
+									DDBOpenHelper mDdbOpenHelper = DDBOpenHelper
+											.getInstance(RegisterStepTwoActivity.this);
+
+									mDdbOpenHelper.updateUserInfo(tempNickName,
+											tempAge, tempResume);
+
+									TongApplication.updateMineInfo(
+											tempNickName, tempAge, tempResume);
+									Intent intent = new Intent(
+											RegisterStepTwoActivity.this,
+											MainTabActivity.class);
+									RegisterStepTwoActivity.this
+											.startActivity(intent);
+									RegisterStepTwoActivity.this.finish();
+								}
+							}
+						} catch (JsonSyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
 						mLoadingProgressBarFragment.dismiss();
 						mNextBtn.setEnabled(true);

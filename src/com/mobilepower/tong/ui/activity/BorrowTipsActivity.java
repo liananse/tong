@@ -23,6 +23,9 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -38,12 +41,17 @@ import com.mobilepower.tong.utils.UIntentKeys;
 public class BorrowTipsActivity extends BaseActivity {
 
 	private String mScanTaskId;
+	private ProgressBar mPro;
+	private TextView mTips;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.borrow_tips_activity);
+
+		mPro = (ProgressBar) findViewById(R.id.result_pro);
+		mTips = (TextView) findViewById(R.id.result_tips);
 
 		mScanTaskId = getIntent().getStringExtra(UIntentKeys.SCAN_TASK_ID);
 		if (mScanTaskId == null) {
@@ -52,6 +60,7 @@ public class BorrowTipsActivity extends BaseActivity {
 
 		initWorkHandler();
 
+		mTips.setText("正在查询扫描结果");
 	}
 
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
@@ -81,15 +90,26 @@ public class BorrowTipsActivity extends BaseActivity {
 
 							if (mResult != null) {
 								if (mResult.result == UConstants.SUCCESS) {
-									
+
 									// 根据status界面提示成功失败
-									
+
 									// 遇到停止任务的状态即停止任务
 									if (mResult.taskModel.status == 1
 											|| mResult.taskModel.status == 0
 											|| mResult.taskModel.status == -1) {
 										isSuccess = true;
 										workHandler.removeMessages(START_QUERY);
+
+										if (mResult.taskModel.status == 1) {
+											mTips.setText("借充电宝成功");
+											mPro.setVisibility(View.GONE);
+										} else if (mResult.taskModel.status == 0) {
+											mTips.setText("借充电宝失败");
+											mPro.setVisibility(View.GONE);
+										} else if (mResult.taskModel.status == -1) {
+											mTips.setText("终端暂无充电宝");
+											mPro.setVisibility(View.GONE);
+										}
 										return;
 									}
 								}

@@ -123,8 +123,6 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 					@Override
 					public void onFinish(String source) {
 						// TODO Auto-generated method stub
-						onStopLoad();
-
 						Gson gson = new Gson();
 						try {
 							TempModel mResultModel = gson.fromJson(source,
@@ -160,6 +158,8 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						
+						onStopLoad();
 					}
 
 					@Override

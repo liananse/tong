@@ -3,7 +3,7 @@ package com.mobilepower.tong.model;
 public class UserInfo {
 	public String nickName = "";
 	public String resume = "";
-	public long age = 0;
+	public int age = 0;
 	public String access_token;
 
 	public String getNickName() {
@@ -22,11 +22,11 @@ public class UserInfo {
 		this.resume = resume;
 	}
 
-	public long getAge() {
+	public int getAge() {
 		return age;
 	}
 
-	public void setAge(long age) {
+	public void setAge(int age) {
 		this.age = age;
 	}
 

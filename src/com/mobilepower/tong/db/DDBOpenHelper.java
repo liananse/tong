@@ -57,7 +57,8 @@ public class DDBOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		db.execSQL(getCreateTable(UserInfo.class, USER_TABLE_NAME, "access_token", false));
+		db.execSQL(getCreateTable(UserInfo.class, USER_TABLE_NAME,
+				"access_token", false));
 	}
 
 	@Override
@@ -355,6 +356,25 @@ public class DDBOpenHelper extends SQLiteOpenHelper {
 		}
 		return null;
 
+	}
+
+	public void updateUserInfo(String nickname, int age, String resume) {
+
+		// Gets the data repository in write mode
+		SQLiteDatabase db = getWritableDatabase();
+		db.beginTransaction();
+
+		ContentValues values = new ContentValues();
+
+		values.put("nickName", nickname);
+		values.put("age", age);
+		values.put("resume", resume);
+
+		db.update(USER_TABLE_NAME, values, null, null);
+
+		db.setTransactionSuccessful();
+		db.endTransaction();
+		db.close();
 	}
 
 }

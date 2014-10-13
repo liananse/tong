@@ -36,12 +36,14 @@
             android:inputType="text"
             android:singleLine="true" />
 
-        <TextView
+        <EditText
             android:id="@+id/register_age_et"
             style="@style/UserNameAndPasswordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/register_age" />
+            android:hint="@string/register_age"
+            android:inputType="number"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/register_resume_et"
