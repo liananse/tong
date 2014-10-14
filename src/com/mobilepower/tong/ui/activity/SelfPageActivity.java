@@ -30,12 +30,18 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
+import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.utils.UConfig;
+import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 
 public class SelfPageActivity extends BaseActivity implements OnClickListener {
@@ -58,6 +64,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private ImageView mAvatarView;
 	private TextView mNickName;
 	private View mRechargeBtn;
+	private TextView mSelfYue;
 	// 按钮 选项
 	private View mChatBtn;
 	private View mFriendBtn;
@@ -71,7 +78,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mAvatarView = (ImageView) findViewById(R.id.self_pate_avatar);
 		mAvatarView.setOnClickListener(this);
 		mNickName = (TextView) findViewById(R.id.self_info_nickname);
-
+		mSelfYue = (TextView) findViewById(R.id.self_info_score);
 		mRechargeBtn = findViewById(R.id.self_page_charge_btn);
 		mChatBtn = findViewById(R.id.self_page_chat_btn);
 		mFriendBtn = findViewById(R.id.self_page_friend_btn);
@@ -90,46 +97,79 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initData() {
-//		mAvatarView
-//				.setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
-		
+		// mAvatarView
+		// .setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
+
 		UserInfo mInfo = TongApplication.getMineInfo(this);
-		
+
 		if (mInfo != null) {
 			mNickName.setText(mInfo.nickName);
+			mSelfYue.setText(getResources().getString(R.string.self_page_yue,
+					mInfo.money));
 		}
 	}
-	
+
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
+
 	private void getUserInfo() {
 		Map<String, String> params = new HashMap<String, String>();
-		
-		mDataLoader.getData(UConfig.USER_GET_URL, params, this, new HDataListener() {
-			
-			@Override
-			public void onSocketTimeoutException(String msg) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onFinish(String source) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onFail(String msg) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onConnectTimeoutException(String msg) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+
+		mDataLoader.getData(UConfig.USER_GET_URL, params, this,
+				new HDataListener() {
+
+					@Override
+					public void onSocketTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onFinish(String source) {
+						// TODO Auto-generated method stub
+						Gson gson = new Gson();
+						try {
+							TempModel mResultModel = gson.fromJson(source,
+									new TypeToken<TempModel>() {
+									}.getType());
+
+							if (mResultModel != null) {
+								if (mResultModel.result == UConstants.SUCCESS) {
+									UserInfo mSelf = mResultModel.user;
+									
+									mNickName.setText(mSelf.nickName);
+									mSelfYue.setText(getResources().getString(R.string.self_page_yue,
+											mSelf.money));
+									
+									mSelf.access_token = UTools.OS
+											.getAccessToken(SelfPageActivity.this);
+									// 将用户个人信息存数据库
+									TongApplication.initMineInfo(
+											SelfPageActivity.this, mSelf);
+								}
+							}
+
+						} catch (JsonSyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					@Override
+					public void onFail(String msg) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onConnectTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+	}
+
+	class TempModel extends BaseInfo {
+		public UserInfo user;
 	}
 
 	@Override
@@ -180,11 +220,20 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		} else if (v == mRechargeBtn) {
 			Intent intent = new Intent();
 			intent.setClass(this, RechargeActivity.class);
-			this.startActivity(intent);
+//			this.startActivity(intent);
+			this.startActivityForResult(intent, 1);
 		}
 	}
 	
-	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			getUserInfo();
+		}
+	}
+
 	private static final int DIALOG_YES_NO_LONG_MESSAGE = 1;
 
 	@SuppressLint("InlinedApi")

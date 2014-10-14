@@ -111,7 +111,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="积分: 90"
                             android:textColor="@color/textcolor"
                             android:textSize="@dimen/self_page_score_size" />
 

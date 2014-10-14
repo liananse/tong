@@ -1577,24 +1577,24 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0b000b;
-        public static final int about_company=0x7f0b0051;
-        public static final int about_content=0x7f0b004f;
-        public static final int about_copyright=0x7f0b0050;
+        public static final int about_company=0x7f0b0052;
+        public static final int about_content=0x7f0b0050;
+        public static final int about_copyright=0x7f0b0051;
         /**  about page activity 
          */
-        public static final int about_title=0x7f0b004e;
+        public static final int about_title=0x7f0b004f;
         public static final int action_settings=0x7f0b000f;
         public static final int app_name=0x7f0b000d;
         /**  borrow tips activity 
  <string name="borrow_tips_title">借入(归还)</string> 
          */
-        public static final int borrow_tips_title=0x7f0b004d;
+        public static final int borrow_tips_title=0x7f0b004e;
         /**  chat activity 
          */
-        public static final int chat_title=0x7f0b0053;
+        public static final int chat_title=0x7f0b0054;
         /**  friends activity 
          */
-        public static final int friends_title=0x7f0b0054;
+        public static final int friends_title=0x7f0b0055;
         public static final int hello_world=0x7f0b000e;
         /**  history page activity 
          */
@@ -1602,7 +1602,7 @@ containing a value of this type.
         public static final int history_page_title=0x7f0b0037;
         /**  lent activity 
          */
-        public static final int lent_title=0x7f0b0048;
+        public static final int lent_title=0x7f0b0049;
         public static final int login_and_register_login_code=0x7f0b001f;
         public static final int login_and_register_register_code=0x7f0b001e;
         public static final int login_mobile_tips=0x7f0b0019;
@@ -1618,17 +1618,17 @@ containing a value of this type.
          */
         public static final int nearby_page_tab_str=0x7f0b0038;
         public static final int nearby_page_title=0x7f0b0039;
-        public static final int recharge_alipay=0x7f0b005a;
-        public static final int recharge_count=0x7f0b0056;
-        public static final int recharge_empty_tips=0x7f0b005d;
-        public static final int recharge_recharge=0x7f0b005b;
-        public static final int recharge_tips=0x7f0b005c;
+        public static final int recharge_alipay=0x7f0b005b;
+        public static final int recharge_count=0x7f0b0057;
+        public static final int recharge_empty_tips=0x7f0b005e;
+        public static final int recharge_recharge=0x7f0b005c;
+        public static final int recharge_tips=0x7f0b005d;
         /**  recharge activity 
          */
-        public static final int recharge_title=0x7f0b0055;
-        public static final int recharge_way=0x7f0b0058;
-        public static final int recharge_weixin=0x7f0b0059;
-        public static final int recharge_yuan=0x7f0b0057;
+        public static final int recharge_title=0x7f0b0056;
+        public static final int recharge_way=0x7f0b0059;
+        public static final int recharge_weixin=0x7f0b005a;
+        public static final int recharge_yuan=0x7f0b0058;
         public static final int register_age=0x7f0b0022;
         public static final int register_code=0x7f0b001d;
         public static final int register_fill_self_info=0x7f0b001c;
@@ -1641,10 +1641,10 @@ containing a value of this type.
         public static final int register_title=0x7f0b001b;
         /**  scan activity 
          */
-        public static final int scan_title=0x7f0b004c;
+        public static final int scan_title=0x7f0b004d;
         /**  score page activity 
          */
-        public static final int score_page_title=0x7f0b0052;
+        public static final int score_page_title=0x7f0b0053;
         public static final int self_page_about=0x7f0b0041;
         public static final int self_page_chat=0x7f0b003c;
         public static final int self_page_exit=0x7f0b0042;
@@ -1657,6 +1657,7 @@ containing a value of this type.
         public static final int self_page_tab_str=0x7f0b003a;
         public static final int self_page_title=0x7f0b003b;
         public static final int self_page_want_info_push=0x7f0b003e;
+        public static final int self_page_yue=0x7f0b0048;
         public static final int shop_page_address=0x7f0b0035;
         public static final int shop_page_detail=0x7f0b0031;
         public static final int shop_page_name=0x7f0b0033;
@@ -1682,11 +1683,11 @@ containing a value of this type.
         public static final int tong_page_tab_str=0x7f0b0025;
         public static final int tong_page_title=0x7f0b0026;
         public static final int tong_page_want_borrow=0x7f0b002a;
-        public static final int user_info_put_in_blacklist=0x7f0b004b;
-        public static final int user_info_send_msg=0x7f0b004a;
+        public static final int user_info_put_in_blacklist=0x7f0b004c;
+        public static final int user_info_send_msg=0x7f0b004b;
         /**  userinfo activity 
          */
-        public static final int user_info_title=0x7f0b0049;
+        public static final int user_info_title=0x7f0b004a;
         public static final int xlistview_footer_hint_normal=0x7f0b0014;
         public static final int xlistview_footer_hint_ready=0x7f0b0015;
         public static final int xlistview_header_hint_loading=0x7f0b0012;

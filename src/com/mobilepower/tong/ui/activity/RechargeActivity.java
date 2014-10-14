@@ -19,8 +19,20 @@ public class RechargeActivity extends BaseActivity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.recharge_activity);
 		initView();
+		initActionBar();
 	}
 
+	private View mBackBtn;
+
+	/**
+	 * 初始化actionBar
+	 */
+	private void initActionBar() {
+		mBackBtn = findViewById(R.id.back_btn);
+
+		mBackBtn.setOnClickListener(this);
+	}
+	
 	private EditText mCount;
 	private View mChargeBtn;
 	
@@ -62,7 +74,22 @@ public class RechargeActivity extends BaseActivity implements OnClickListener{
 			Intent intent = new Intent(this, RechargeWebViewActivity.class);
 			intent.putExtra(UIntentKeys.MONEY, mCount.getText().toString().trim());
 			this.startActivityForResult(intent, 0);
+		} else if (v == mBackBtn) {
+			back();
 		}
+	}
+	
+	public void back() {
+		Intent intent = new Intent();
+		this.setResult(RESULT_OK, intent);
+		this.finish();
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		back();
+		super.onBackPressed();
 	}
 
 	@Override

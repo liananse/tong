@@ -1,66 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/shop_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/activity_bg"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="@dimen/list_default_padding" >
+    android:orientation="vertical" >
 
-    <!-- <com.mobilepower.tong.ui.view.CustomAvatarView
-        android:id="@+id/shop_avatar"
-        android:layout_width="@dimen/user_avatar_size"
-        android:layout_height="@dimen/user_avatar_size"
-        android:layout_marginRight="@dimen/activity_default_padding" /> -->
-        
-    <ImageView
+    <LinearLayout
+        android:id="@+id/shop_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/list_default_padding" >
+
+        <!--
+         <com.mobilepower.tong.ui.view.CustomAvatarView
         android:id="@+id/shop_avatar"
         android:layout_width="@dimen/user_avatar_size"
         android:layout_height="@dimen/user_avatar_size"
         android:layout_marginRight="@dimen/activity_default_padding" />
+        -->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="vertical" >
+        <ImageView
+            android:id="@+id/shop_avatar"
+            android:layout_width="@dimen/user_avatar_size"
+            android:layout_height="@dimen/user_avatar_size"
+            android:layout_marginRight="@dimen/activity_default_padding" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/shop_name"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="星巴克"
-                android:textColor="@color/textcolor"
-                android:textSize="@dimen/self_page_nickname_size" />
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/shop_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/textcolor"
+                    android:textSize="@dimen/self_page_nickname_size" />
+
+                <TextView
+                    android:id="@+id/shop_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/self_page_score_size" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/shop_distance"
+                android:id="@+id/shop_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="0.8Km"
+                android:layout_marginTop="3dp"
+                android:singleLine="true"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/self_page_score_size" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/shop_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:singleLine="true"
-            android:text="南山区深南中路"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/self_page_score_size" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#e4e4e4" />
 </LinearLayout>

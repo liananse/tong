@@ -78,6 +78,7 @@
     <string name="logout_dialog_comfirm">确定</string>
     <string name="logout_dialog_cancel">取消</string>
     <string name="self_page_recharge">充值中心</string>
+    <string name="self_page_yue">余额: %s</string>
 
     <!-- lent activity -->
     <string name="lent_title">转借</string>
@@ -112,7 +113,7 @@
     <string name="recharge_title">充值来电币</string>
     <string name="recharge_count">充值金额:</string>
     <string name="recharge_yuan">元</string>
-    <string name="recharge_way">支付方式:</string>
+    <string name="recharge_way">支付方式: 支付宝</string>
     <string name="recharge_weixin">微信</string>
     <string name="recharge_alipay">支付宝</string>
     <string name="recharge_recharge">充值</string>
