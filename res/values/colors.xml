@@ -9,7 +9,7 @@
     <color name="transparent">#00000000</color>
     <color name="white_alpha">#e6ffffff</color>
     <color name="activity_bg">#f7f7f7</color>
-    <color name="textcolor">@color/black</color>
+    <color name="textcolor">#a3a3a3</color>
     
     <!-- activity bar -->
     <color name="activity_bar_bg">#54d9e7</color>

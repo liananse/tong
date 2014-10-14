@@ -7,53 +7,29 @@
     android:padding="@dimen/list_default_padding" >
 
     <LinearLayout
+        android:id="@+id/tong_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="horizontal" >
 
         <ImageView
             android:id="@+id/tong_image_view"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginRight="@dimen/activity_default_padding"
-            android:background="@color/gray" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/activity_default_padding" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/tong_day"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/textcolor"
-                    android:textSize="@dimen/self_page_nickname_size" />
-
-                <TextView
-                    android:id="@+id/tong_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="23：01：01"
-                    android:textColor="@color/gray"
-                    android:visibility="gone"
-                    android:textSize="@dimen/self_page_score_size" />
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/tong_from"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="从星巴克借入"
                 android:textColor="@color/textcolor"
                 android:textSize="@dimen/self_page_nickname_size" />
 
@@ -64,6 +40,14 @@
                 android:textColor="@color/gray"
                 android:textSize="@dimen/self_page_score_size" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tong_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/self_page_score_size" />
     </LinearLayout>
 
     <TextView
@@ -74,9 +58,8 @@
         android:background="@drawable/login_and_register_btn_bg"
         android:gravity="center"
         android:padding="@dimen/login_and_register_padding"
-        android:text="延时"
-        android:visibility="gone"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone" />
 
 </LinearLayout>

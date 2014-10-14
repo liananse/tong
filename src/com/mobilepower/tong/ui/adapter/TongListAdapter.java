@@ -73,8 +73,7 @@ public class TongListAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.mTongImage = (ImageView) convertView
 					.findViewById(R.id.tong_image_view);
-			holder.mTongDay = (TextView) convertView
-					.findViewById(R.id.tong_day);
+			holder.mTongItem = convertView.findViewById(R.id.tong_item);
 			holder.mTongTime = (TextView) convertView
 					.findViewById(R.id.tong_time);
 			holder.mTongFrom = (TextView) convertView
@@ -92,7 +91,7 @@ public class TongListAdapter extends BaseAdapter {
 		final TongInfo mModel = mTongList.get(position);
 
 		try {
-			holder.mTongDay.setText(UTimeUtils.computeHowLongAgo(mContext,
+			holder.mTongTime.setText(UTimeUtils.computeHowLongAgo(mContext,
 					mModel.addTime));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -100,20 +99,25 @@ public class TongListAdapter extends BaseAdapter {
 		}
 		holder.mTongLocation.setText(mModel.shopModel.address);
 
+		holder.mTongItem.setVisibility(View.VISIBLE);
 		if (mModel.type == 1) {
 			holder.mTongFrom.setText("从 " + mModel.shopModel.name + " 借入");
+			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
 		} else if (mModel.type == 2) {
 			holder.mTongFrom.setText("在 " + mModel.shopModel.name + " 归还");
-		} else if (mModel.type == 3) {
-
+			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
+		} else {
+			holder.mTongItem.setVisibility(View.GONE);
 		}
+		
+		holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
 
 		return convertView;
 	}
 
 	static class ViewHolder {
 		ImageView mTongImage;
-		TextView mTongDay;
+		View mTongItem;
 		TextView mTongTime;
 		TextView mTongFrom;
 		TextView mTongLocation;

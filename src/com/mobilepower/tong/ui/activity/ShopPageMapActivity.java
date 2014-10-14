@@ -3,6 +3,7 @@ package com.mobilepower.tong.ui.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,7 +54,8 @@ public class ShopPageMapActivity extends BaseActivity implements
 		mBackBtn.setOnClickListener(this);
 	}
 
-	private CustomAvatarView mShopAvatar;
+//	private CustomAvatarView mShopAvatar;
+	private ImageView mShopAvatar;
 	private TextView mShopName;
 	private TextView mShopTel;
 	private TextView mShopAddress;
@@ -64,7 +66,7 @@ public class ShopPageMapActivity extends BaseActivity implements
 
 	private void initView() {
 
-		mShopAvatar = (CustomAvatarView) findViewById(R.id.shop_avatar);
+		mShopAvatar = (ImageView) findViewById(R.id.shop_avatar);
 		mShopName = (TextView) findViewById(R.id.shop_name);
 		mShopTel = (TextView) findViewById(R.id.shop_tel);
 		mShopAddress = (TextView) findViewById(R.id.shop_address);
@@ -94,12 +96,10 @@ public class ShopPageMapActivity extends BaseActivity implements
 
 	private void initData() {
 		if (mInfo != null) {
-			mShopName.setText(getResources().getString(R.string.shop_page_name,
-					mInfo.name));
-			mShopTel.setText(getResources().getString(R.string.shop_page_tel,
-					mInfo.tel));
-			mShopAddress.setText(getResources().getString(
-					R.string.shop_page_address, mInfo.address));
+			mShopAvatar.setImageResource(getRandomRes());
+			mShopName.setText(mInfo.name);
+			mShopTel.setText(mInfo.tel);
+			mShopAddress.setText(mInfo.address);
 			
 //			new Handler().postDelayed(new Runnable() {
 //				
@@ -179,4 +179,20 @@ public class ShopPageMapActivity extends BaseActivity implements
 		}
 	}
 
+	public int getRandomRes() {
+		int randomRes = (int) (Math.random() * 4);
+		
+		int res = R.drawable.icon_bar;
+		if (randomRes == 0) {
+			res = R.drawable.icon_cinema;
+		} else if (randomRes == 1) {
+			res = R.drawable.icon_bar;
+		} else if (randomRes == 2) {
+			res = R.drawable.icon_shop;
+		} else if (randomRes == 3) {
+			res = R.drawable.icon_coffe;
+		}
+		
+		return res;
+	}
 }

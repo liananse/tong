@@ -24,12 +24,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.model.UserInfo;
-import com.mobilepower.tong.ui.view.CustomAvatarView;
 import com.squareup.otto.Bus;
 
 public class SelfPageActivity extends BaseActivity implements OnClickListener {
@@ -48,7 +48,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		initData();
 	}
 
-	private CustomAvatarView mAvatarView;
+	private ImageView mAvatarView;
 	private TextView mNickName;
 	private View mRechargeBtn;
 	// 按钮 选项
@@ -61,11 +61,11 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private CheckBox mNearbyUser;
 
 	private void initView() {
-		mAvatarView = (CustomAvatarView) findViewById(R.id.self_pate_avatar);
+		mAvatarView = (ImageView) findViewById(R.id.self_pate_avatar);
 		mAvatarView.setOnClickListener(this);
 		mNickName = (TextView) findViewById(R.id.self_info_nickname);
 
-		mRechargeBtn = findViewById(R.id.self_page_recharge_btn);
+		mRechargeBtn = findViewById(R.id.self_page_charge_btn);
 		mChatBtn = findViewById(R.id.self_page_chat_btn);
 		mFriendBtn = findViewById(R.id.self_page_friend_btn);
 		mScoreDesBtn = findViewById(R.id.self_page_score_des_btn);
@@ -83,8 +83,8 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initData() {
-		mAvatarView
-				.setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
+//		mAvatarView
+//				.setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
 		
 		UserInfo mInfo = TongApplication.getMineInfo(this);
 		

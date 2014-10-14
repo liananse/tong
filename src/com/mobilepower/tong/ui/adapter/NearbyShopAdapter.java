@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobilepower.tong.R;
@@ -75,7 +76,7 @@ public class NearbyShopAdapter extends BaseAdapter {
 
 			holder = new ViewHolder();
 			holder.mShopItem = convertView.findViewById(R.id.shop_item);
-			holder.mShopAvatar = (CustomAvatarView) convertView
+			holder.mShopAvatar = (ImageView) convertView
 					.findViewById(R.id.shop_avatar);
 			holder.mShopName = (TextView) convertView
 					.findViewById(R.id.shop_name);
@@ -91,7 +92,8 @@ public class NearbyShopAdapter extends BaseAdapter {
 
 		final ShopInfo mModel = mNearbyShopList.get(position);
 
-		holder.mShopAvatar.setImageUrl(mModel.shopAvatar);
+//		holder.mShopAvatar.setImageUrl(mModel.shopAvatar);
+		holder.mShopAvatar.setImageResource(getRandomRes());
 		holder.mShopName.setText(mModel.name);
 		holder.mShopDistance.setText(mModel.shopDistance);
 		holder.mShopAddress.setText(mModel.address);
@@ -111,7 +113,8 @@ public class NearbyShopAdapter extends BaseAdapter {
 	}
 
 	static class ViewHolder {
-		CustomAvatarView mShopAvatar;
+//		CustomAvatarView mShopAvatar;
+		ImageView mShopAvatar;
 		TextView mShopName;
 		TextView mShopDistance;
 		TextView mShopAddress;
@@ -129,4 +132,21 @@ public class NearbyShopAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	public int getRandomRes() {
+		int randomRes = (int) (Math.random() * 4);
+		
+		int res = R.drawable.icon_bar;
+		if (randomRes == 0) {
+			res = R.drawable.icon_cinema;
+		} else if (randomRes == 1) {
+			res = R.drawable.icon_bar;
+		} else if (randomRes == 2) {
+			res = R.drawable.icon_shop;
+		} else if (randomRes == 3) {
+			res = R.drawable.icon_coffe;
+		}
+		
+		return res;
+	}
+	
 }

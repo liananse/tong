@@ -8,7 +8,13 @@
     android:orientation="horizontal"
     android:padding="@dimen/list_default_padding" >
 
-    <com.mobilepower.tong.ui.view.CustomAvatarView
+    <!-- <com.mobilepower.tong.ui.view.CustomAvatarView
+        android:id="@+id/shop_avatar"
+        android:layout_width="@dimen/user_avatar_size"
+        android:layout_height="@dimen/user_avatar_size"
+        android:layout_marginRight="@dimen/activity_default_padding" /> -->
+        
+    <ImageView
         android:id="@+id/shop_avatar"
         android:layout_width="@dimen/user_avatar_size"
         android:layout_height="@dimen/user_avatar_size"

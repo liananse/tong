@@ -36,15 +36,26 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@drawable/question_card_des_bg"
                 android:padding="@dimen/activity_default_padding" >
 
-                <com.mobilepower.tong.ui.view.CustomAvatarView
+                <!--
+                     <com.mobilepower.tong.ui.view.CustomAvatarView
                     android:id="@+id/self_pate_avatar"
                     android:layout_width="@dimen/self_page_avatar_size"
                     android:layout_height="@dimen/self_page_avatar_size"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/activity_default_padding" />
+                -->
+
+                <ImageView
+                    android:id="@+id/self_pate_avatar"
+                    android:layout_width="@dimen/self_page_avatar_size"
+                    android:layout_height="@dimen/self_page_avatar_size"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/male"
                     android:layout_marginRight="@dimen/activity_default_padding" />
 
                 <LinearLayout
@@ -68,11 +79,11 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="KIN"
                             android:textColor="@color/textcolor"
                             android:textSize="@dimen/self_page_nickname_size" />
 
-                        <TextView
+                        <!--
+                             <TextView
                             android:id="@+id/self_page_recharge_btn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -84,6 +95,7 @@
                             android:text="@string/self_page_recharge"
                             android:textColor="@color/white"
                             android:textSize="@dimen/self_page_pay_size" />
+                        -->
                     </LinearLayout>
 
                     <LinearLayout
@@ -91,6 +103,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal" >
 
                         <TextView
@@ -102,12 +115,15 @@
                             android:textColor="@color/textcolor"
                             android:textSize="@dimen/self_page_score_size" />
 
-                        <TextView
+                        <!--
+                             <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="现金: 90"
                             android:textColor="@color/textcolor"
                             android:textSize="@dimen/self_page_score_size" />
+                        -->
+
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -261,11 +277,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/self_page_about_btn"
+                android:id="@+id/self_page_charge_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_default_padding"
-                android:background="@color/white"
+                android:background="@drawable/question_card_des_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/activity_default_padding" >
@@ -273,7 +289,31 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/main_tab_chat_bg" />
+                    android:src="@drawable/icon_charge" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_default_padding"
+                    android:text="@string/self_page_recharge"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/self_page_pay_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/self_page_about_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_default_padding"
+                android:background="@drawable/question_card_des_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/activity_default_padding" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_about" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -289,7 +329,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_default_padding"
-                android:background="@color/red"
+                android:background="@drawable/question_card_des_bg"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="@dimen/activity_default_padding" >
@@ -299,7 +339,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_default_padding"
                     android:text="@string/self_page_exit"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/self_page_pay_size" />
             </LinearLayout>
         </LinearLayout>
