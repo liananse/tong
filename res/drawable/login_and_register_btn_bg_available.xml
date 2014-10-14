@@ -4,7 +4,7 @@
     <corners android:radius="4.5dip" />
 
     <gradient
-        android:endColor="@color/login_and_register_btn_color"
-        android:startColor="@color/login_and_register_btn_color" />
+        android:endColor="@color/activity_bar_bg"
+        android:startColor="@color/activity_bar_bg" />
 
 </shape>

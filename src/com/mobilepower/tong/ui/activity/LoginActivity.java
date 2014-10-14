@@ -18,6 +18,8 @@ package com.mobilepower.tong.ui.activity;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
@@ -27,12 +29,18 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
+import com.mobilepower.tong.model.BaseInfo;
+import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 import com.mobilepower.tong.utils.UConfig;
+import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UToast;
 import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
@@ -217,8 +225,55 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 					@Override
 					public void onFinish(String source) {
 						// TODO Auto-generated method stub
-
 						mLoadingProgressBarFragment.dismiss();
+						
+						Gson gson = new Gson();
+						try {
+							TempModel mResultModel = gson.fromJson(source,
+									new TypeToken<TempModel>() {
+									}.getType());
+							
+							if (mResultModel != null) {
+								if (mResultModel.result == UConstants.SUCCESS) {
+									UserInfo mSelf = mResultModel.user;
+									mSelf.access_token = mResultModel.access_token;
+									// 将用户个人信息存数据库
+									TongApplication
+											.initMineInfo(
+													LoginActivity.this,
+													mSelf);
+									// 将accesstoken同时放到sharedpreferences中
+									SharedPreferences.Editor mEditor = UTools.Storage
+											.getSharedPreEditor(
+													LoginActivity.this,
+													UConstants.BASE_PREFS_NAME);
+									mEditor.putString(
+											UConstants.SELF_ACCESS_TOKEN,
+											mResultModel.access_token);
+									mEditor.commit();
+
+									// 跳转到step two
+									Intent intent = new Intent(
+											LoginActivity.this,
+											MainTabActivity.class);
+									LoginActivity.this
+											.startActivity(intent);
+									UTools.activityhelper.clearAllBut(LoginActivity.this);
+									LoginActivity.this.finish();
+								} else {
+									UToast.showShortToast(
+											LoginActivity.this,
+											mResultModel.msg);
+								}
+							} else {
+								UToast.showOnFail(LoginActivity.this);
+							}
+							
+						} catch (JsonSyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							UToast.showDataParsingError(LoginActivity.this);
+						}
 						mLoginBtn.setEnabled(true);
 					}
 
@@ -238,6 +293,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 						mLoginBtn.setEnabled(true);
 					}
 				});
+	}
+	
+	class TempModel extends BaseInfo {
+		public UserInfo user;
+		public String access_token;
 	}
 
 }

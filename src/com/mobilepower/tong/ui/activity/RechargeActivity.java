@@ -1,11 +1,14 @@
 package com.mobilepower.tong.ui.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
 import com.mobilepower.tong.R;
+import com.mobilepower.tong.utils.UIntentKeys;
 import com.mobilepower.tong.utils.UToast;
 
 public class RechargeActivity extends BaseActivity implements OnClickListener{
@@ -53,9 +56,21 @@ public class RechargeActivity extends BaseActivity implements OnClickListener{
 			if (mCount.getText().toString().equals("")) {
 				UToast.showShortToast(this, getResources().getString(R.string.recharge_empty_tips));
 				return;
-			} else {
-				// 支付宝充值
-			}
+			} 
+			
+			// 支付宝充值
+			Intent intent = new Intent(this, RechargeWebViewActivity.class);
+			intent.putExtra(UIntentKeys.MONEY, mCount.getText().toString().trim());
+			this.startActivityForResult(intent, 0);
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_OK) {
+			
 		}
 	}
 

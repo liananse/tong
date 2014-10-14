@@ -83,4 +83,8 @@ public class UConfig {
 	 * taskId 返回的taskId
 	 */
 	public static final String SCAN_TASK_GET_URL = SERVER_HOST + "/taskGet";
+	
+	public static final String RECHARGE_URL = SERVER_HOST + "/alipayAPI";
+	
+	public static final String USER_GET_URL = SERVER_HOST + "/UserGet";
 }

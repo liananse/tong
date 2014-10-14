@@ -5,6 +5,20 @@ public class UserInfo {
 	public String resume = "";
 	public int age = 0;
 	public String access_token;
+	
+	public String lastLoginTime;
+	public String lat;
+	public String lng;
+	public String mobile;
+	public int money;
+	public String phonecode;
+	public String pushToken;
+	public String registerTime;
+	public int sex;
+	public int source;
+	public int tokenType;
+	public String updateTime;
+	public int userType;
 
 	public String getNickName() {
 		return nickName;

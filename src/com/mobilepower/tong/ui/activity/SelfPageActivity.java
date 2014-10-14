@@ -15,6 +15,9 @@
  */
 package com.mobilepower.tong.ui.activity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -29,7 +32,10 @@ import android.widget.TextView;
 
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.http.HHttpDataLoader;
+import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.UserInfo;
+import com.mobilepower.tong.utils.UConfig;
 import com.squareup.otto.Bus;
 
 public class SelfPageActivity extends BaseActivity implements OnClickListener {
@@ -46,6 +52,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 
 		initView();
 		initData();
+		getUserInfo();
 	}
 
 	private ImageView mAvatarView;
@@ -91,6 +98,38 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		if (mInfo != null) {
 			mNickName.setText(mInfo.nickName);
 		}
+	}
+	
+	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
+	private void getUserInfo() {
+		Map<String, String> params = new HashMap<String, String>();
+		
+		mDataLoader.getData(UConfig.USER_GET_URL, params, this, new HDataListener() {
+			
+			@Override
+			public void onSocketTimeoutException(String msg) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onFinish(String source) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onFail(String msg) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onConnectTimeoutException(String msg) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	@Override

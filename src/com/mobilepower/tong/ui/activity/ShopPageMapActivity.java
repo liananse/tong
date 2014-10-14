@@ -166,16 +166,7 @@ public class ShopPageMapActivity extends BaseActivity implements
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v == mBackBtn) {
-//			this.finish();
-
-			mBaiduMap.clear();
-
-			LatLng llInfo = new LatLng(mInfo.lat, mInfo.lng);
-
-
-			MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(llInfo);
-			mBaiduMap.animateMapStatus(u);
-
+			this.finish();
 		}
 	}
 
