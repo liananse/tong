@@ -55,7 +55,7 @@
             android:paddingLeft="@dimen/login_and_register_margin_top"
             android:layout_marginLeft="@dimen/login_and_register_padding"
             android:background="@drawable/username_and_password_et_bg"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:singleLine="true"
             android:textColor="@color/black" />
 
