@@ -65,6 +65,37 @@ public class UTimeUtils {
 
 		return timeAgo;
 	}
+	
+	/**
+	 * 
+	 * @param ctx
+	 * @param t
+	 * @return
+	 */
+	public static String computeHowLongLeft(Context ctx, long t) {
+		long now = System.currentTimeMillis();
+		long diff = t - now;
+		String timeLeft = "";
+		
+		if (diff > ONE_DAY) {
+			int days = (int) (diff / ONE_DAY);
+			timeLeft = "需要" + days + "天后归还";
+		} else if (diff > ONE_HOURS) {
+			int hours = (int) (diff / ONE_HOURS);
+			// timeAgo = ctx.getString(R.string.hours_ago, hours);
+			timeLeft = "需要" + hours + "小时后归还";
+
+		} else if (diff > ONE_MINUTES) {
+			int minutes = (int) (diff / ONE_MINUTES);
+			// timeAgo = ctx.getString(R.string.minutes_ago, minutes);
+			timeLeft = "需要" + minutes + "分钟后归还";
+		} else {
+			// timeAgo = ctx.getString(R.string.just_now);
+			timeLeft = "需要马上归还";
+		}
+		
+		return timeLeft;
+	}
 
 	/**
 	 * 如果是一天内的，显示为"XX小时/分钟 前"，超过一天的，直接显示日期

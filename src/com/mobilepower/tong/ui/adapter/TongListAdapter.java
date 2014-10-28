@@ -98,6 +98,8 @@ public class TongListAdapter extends BaseAdapter {
 			e.printStackTrace();
 		}
 		holder.mTongLocation.setText(mModel.shopModel.address);
+		
+//		holder.mTongLocation.setText(UTimeUtils.computeHowLongLeft(mContext, Long.parseLong(mModel.expires)));
 
 		holder.mTongItem.setVisibility(View.VISIBLE);
 		if (mModel.type == 1) {
@@ -105,6 +107,18 @@ public class TongListAdapter extends BaseAdapter {
 			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
 		} else if (mModel.type == 2) {
 			holder.mTongFrom.setText("在 " + mModel.shopModel.name + " 归还");
+			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
+		} else if (mModel.type == 3) {
+			// 转借他人
+			holder.mTongFrom.setText("转借他人");
+			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
+		} else if (mModel.type == -1) {
+			// 借入失败
+			holder.mTongFrom.setText("借入失败");
+			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
+		} else if (mModel.type == -2) {
+			// 未知状态
+			holder.mTongFrom.setText("未知状态");
 			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
 		} else {
 			holder.mTongItem.setVisibility(View.GONE);
