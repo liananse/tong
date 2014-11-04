@@ -10,7 +10,7 @@ public class UserInfo {
 	public String lat;
 	public String lng;
 	public String mobile;
-	public int money = 0;
+	public double money = 0;
 	public String phonecode;
 	public String pushToken;
 	public String registerTime;
@@ -84,11 +84,11 @@ public class UserInfo {
 		this.mobile = mobile;
 	}
 
-	public int getMoney() {
+	public double getMoney() {
 		return money;
 	}
 
-	public void setMoney(int money) {
+	public void setMoney(double money) {
 		this.money = money;
 	}
 
