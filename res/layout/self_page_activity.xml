@@ -55,8 +55,8 @@
                     android:layout_height="@dimen/self_page_avatar_size"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/male"
-                    android:layout_marginRight="@dimen/activity_default_padding" />
+                    android:layout_marginRight="@dimen/activity_default_padding"
+                    android:src="@drawable/male" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -102,8 +102,8 @@
                         android:id="@+id/self_info_bottom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
                         android:layout_marginTop="5dp"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal" >
 
                         <TextView
@@ -276,11 +276,32 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/self_page_charge_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_default_padding"
-                android:background="@drawable/question_card_des_bg"
+                android:orientation="vertical" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_up" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_middle" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_down" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/self_page_charge_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/activity_default_padding" >
@@ -291,19 +312,46 @@
                     android:src="@drawable/icon_charge" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_default_padding"
+                    android:layout_weight="1"
                     android:text="@string/self_page_recharge"
                     android:textColor="@color/black"
                     android:textSize="@dimen/self_page_pay_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_list_arrow" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_up" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_middle" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_down" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/self_page_about_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/question_card_des_bg"
+                android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/activity_default_padding" >
@@ -314,10 +362,55 @@
                     android:src="@drawable/icon_about" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_default_padding"
+                    android:layout_weight="1"
                     android:text="@string/self_page_about"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/self_page_pay_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_list_arrow" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_up" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_middle" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@color/line_down" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/self_page_edit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_default_padding"
+                android:background="@drawable/question_card_des_bg"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/activity_default_padding" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/self_page_edit_info"
                     android:textColor="@color/black"
                     android:textSize="@dimen/self_page_pay_size" />
             </LinearLayout>
@@ -335,7 +428,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_default_padding"
                     android:text="@string/self_page_exit"
                     android:textColor="@color/black"
                     android:textSize="@dimen/self_page_pay_size" />

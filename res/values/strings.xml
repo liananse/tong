@@ -79,6 +79,7 @@
     <string name="logout_dialog_cancel">取消</string>
     <string name="self_page_recharge">充值中心</string>
     <string name="self_page_yue">余额: %s</string>
+    <string name="self_page_edit_info">编辑个人信息</string>
 
     <!-- lent activity -->
     <string name="lent_title">转借</string>
