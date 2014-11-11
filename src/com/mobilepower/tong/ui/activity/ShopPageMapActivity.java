@@ -12,15 +12,12 @@ import com.baidu.mapapi.map.BaiduMapOptions;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.model.ShopInfo;
-import com.mobilepower.tong.ui.view.CustomAvatarView;
 import com.mobilepower.tong.utils.UIntentKeys;
 
 public class ShopPageMapActivity extends BaseActivity implements

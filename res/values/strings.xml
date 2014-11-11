@@ -90,6 +90,7 @@
 
     <!-- scan activity -->
     <string name="scan_title">二维码扫描</string>
+    <string name="scan_result_title">扫描结果</string>
 
     <!-- borrow tips activity -->
     <!-- <string name="borrow_tips_title">借入(归还)</string> -->

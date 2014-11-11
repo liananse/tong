@@ -45,6 +45,7 @@ import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.ui.activity.BaseActivity;
 import com.mobilepower.tong.ui.activity.BorrowTipsActivity;
+import com.mobilepower.tong.ui.activity.ScanResultActivity;
 import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
@@ -242,6 +243,13 @@ public class ScanActivity extends BaseActivity implements
 		String[] result = rawResult.getText().split("_");
 
 		if (result == null || result.length <= 0) {
+			return;
+		}
+		
+		if (result.length != 3) {
+			Intent intent = new Intent(ScanActivity.this, ScanResultActivity.class);
+			intent.putExtra("result", rawResult.getText());
+			ScanActivity.this.startActivity(intent);
 			return;
 		}
 		final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
