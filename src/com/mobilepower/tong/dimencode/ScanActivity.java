@@ -108,10 +108,12 @@ public class ScanActivity extends BaseActivity implements
 		mBackBtn.setOnClickListener(this);
 	}
 
+	private SurfaceView surfaceView;
 	private ViewfinderView viewfinderView;
 	private SurfaceHolder surfaceHolder;
 
 	private void initView() {
+		surfaceView = (SurfaceView) findViewById(R.id.preview_view);
 		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
 		surfaceHolder = ((SurfaceView) findViewById(R.id.preview_view))
 				.getHolder();
@@ -120,28 +122,36 @@ public class ScanActivity extends BaseActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		
 		cameraManager = new CameraManager(getApplication());
 
 		viewfinderView.setCameraManager(cameraManager);
 
 		handler = null;
 
-		resetStatusView();
+		new Handler().postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				surfaceView.setVisibility(View.VISIBLE);
+				resetStatusView();
 
-		if (hasSurface) {
-			// The activity was paused but not stopped, so the surface still
-			// exists. Therefore
-			// surfaceCreated() won't be called, so init the camera here.
-			initCamera(surfaceHolder);
-		} else {
-			// Install the callback and wait for surfaceCreated() to init the
-			// camera.
-			surfaceHolder.addCallback(this);
-			surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-		}
+				if (hasSurface) {
+					// The activity was paused but not stopped, so the surface still
+					// exists. Therefore
+					// surfaceCreated() won't be called, so init the camera here.
+					initCamera(surfaceHolder);
+				} else {
+					// Install the callback and wait for surfaceCreated() to init the
+					// camera.
+					surfaceHolder.addCallback(ScanActivity.this);
+					surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+				}
 
-		inactivityTimer.onResume();
+				inactivityTimer.onResume();
+			}
+		}, 300);
 	}
 
 	@Override
@@ -292,6 +302,7 @@ public class ScanActivity extends BaseActivity implements
 									ScanActivity.this.finish();
 								} else {
 									UToast.showShortToast(ScanActivity.this, mResultModel.msg);
+									restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
 								}
 							} else {
 								restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);

@@ -16,6 +16,17 @@
     <color name="activity_bar_title_color">#ffffff</color>
     <color name="header_line_up">#f0f0f0</color>
     <color name="header_line_down">#b8b8b8</color>
+    <color name="header_line_bg">#f8f8f8</color>
+    
+    <color name="header_line_up_up">#f5f6f6</color>
+    <color name="header_line_up_down">#eaeaeb</color>
+    
+    <color name="header_line_down_up">#e7e7e7</color>
+    <color name="header_line_down_down">#eeeeee</color>
+    
+    <color name="line_up">#f8f8f8</color>
+    <color name="line_middle">#e2e3e2</color>
+    <color name="line_down">#fbfbfb</color>
     
     <!-- login -->
     <color name="login_and_register_btn_color">#39d4f5</color>

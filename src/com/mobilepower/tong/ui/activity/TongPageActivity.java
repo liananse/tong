@@ -158,7 +158,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
+
 						onStopLoad();
 					}
 
@@ -205,7 +205,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 			returnBtnMethod();
 		} else if (v == mLentBtn) {
 			// lentBtnMethod();
-			borrowBtnMethod();
+			// borrowBtnMethod();
 		} else if (v == mWantBorrowBtn) {
 			wantBorrowBtnMethod();
 		}

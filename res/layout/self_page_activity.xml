@@ -303,7 +303,6 @@
                 android:id="@+id/self_page_about_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_default_padding"
                 android:background="@drawable/question_card_des_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"

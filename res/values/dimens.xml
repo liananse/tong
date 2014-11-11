@@ -11,7 +11,8 @@
     <dimen name="activity_bar_btn_width">65dp</dimen>
     <!-- add by zenghui 2013.09.06 header view line px -->
     <dimen name="header_line_up_height">1px</dimen>
-    <dimen name="header_line_down_height">2px</dimen>
+    <dimen name="header_line_down_height">1px</dimen>
+    <dimen name="line_height">1px</dimen>
     
     <!-- splash activity -->
     <dimen name="splash_btn_padding">10dp</dimen>
