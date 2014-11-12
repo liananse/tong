@@ -63,10 +63,7 @@ public class SplashActivity extends BaseActivity {
 				this.startActivity(intent);
 				this.finish();
 			} else {
-//				Intent intent = new Intent(this, RegisterStepTwoActivity.class);
-//				this.startActivity(intent);
-//				this.finish();
-				Intent intent = new Intent(this, MainTabActivity.class);
+				Intent intent = new Intent(this, RegisterStepTwoActivity.class);
 				this.startActivity(intent);
 				this.finish();
 			}
