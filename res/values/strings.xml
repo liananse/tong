@@ -121,5 +121,9 @@
     <string name="recharge_recharge">充值</string>
     <string name="recharge_tips">温馨提示：本充值成功后不能退款，充值人民币1元等于10个来电币，来电币可用于在指定终端上租借充电宝</string>
     <string name="recharge_empty_tips">请输入充值金额</string>
+    
+    <!-- edit info activity -->
+    <string name="edit_info_title">修改个人信息</string>
+    <string name="edit_info_done">保存</string>
 
 </resources>

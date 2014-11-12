@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_bar_default_height"
+        android:background="@color/activity_bar_bg" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="@string/edit_info_title"
+            android:textColor="@color/activity_bar_title_color"
+            android:textSize="@dimen/activity_bar_title_size" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/register_step1_opt_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/nickname_et"
+            style="@style/UserNameAndPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/register_nickname"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/age_et"
+            style="@style/UserNameAndPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/register_age"
+            android:inputType="number"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/resume_et"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="@dimen/login_and_register_margin_top"
+            android:layout_marginLeft="@dimen/login_and_register_margin_left"
+            android:layout_marginRight="@dimen/login_and_register_margin_left"
+            android:layout_marginTop="@dimen/login_and_register_margin_top"
+            android:background="@drawable/username_and_password_et_bg"
+            android:gravity="top|left"
+            android:hint="@string/register_resume"
+            android:inputType="textMultiLine"
+            android:padding="@dimen/login_and_register_padding"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/save_btn"
+            style="@style/LoginAndRegisterBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_info_done" />
+    </LinearLayout>
+
+</LinearLayout>

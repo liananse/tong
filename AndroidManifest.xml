@@ -189,6 +189,10 @@
             android:name=".ui.activity.ScanResultActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".ui.activity.EditInfoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <!-- push service client -->
         <receiver android:name="com.mobilepower.tong.push.TongPushMessageReceiver" >
