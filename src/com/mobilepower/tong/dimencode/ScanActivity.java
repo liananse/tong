@@ -17,15 +17,12 @@ package com.mobilepower.tong.dimencode;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
@@ -35,22 +32,15 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.dimencode.camera.CameraManager;
-import com.mobilepower.tong.http.HHttpDataLoader;
-import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.ui.activity.BaseActivity;
 import com.mobilepower.tong.ui.activity.BorrowTipsActivity;
 import com.mobilepower.tong.ui.activity.ScanResultActivity;
-import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
-import com.mobilepower.tong.utils.UConfig;
-import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UIntentKeys;
-import com.mobilepower.tong.utils.UToast;
 
 public class ScanActivity extends BaseActivity implements
 		SurfaceHolder.Callback, OnClickListener {
@@ -122,7 +112,6 @@ public class ScanActivity extends BaseActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
 		cameraManager = new CameraManager(getApplication());
 
 		viewfinderView.setCameraManager(cameraManager);
@@ -130,7 +119,7 @@ public class ScanActivity extends BaseActivity implements
 		handler = null;
 
 		new Handler().postDelayed(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
@@ -138,15 +127,19 @@ public class ScanActivity extends BaseActivity implements
 				resetStatusView();
 
 				if (hasSurface) {
-					// The activity was paused but not stopped, so the surface still
+					// The activity was paused but not stopped, so the surface
+					// still
 					// exists. Therefore
-					// surfaceCreated() won't be called, so init the camera here.
+					// surfaceCreated() won't be called, so init the camera
+					// here.
 					initCamera(surfaceHolder);
 				} else {
-					// Install the callback and wait for surfaceCreated() to init the
+					// Install the callback and wait for surfaceCreated() to
+					// init the
 					// camera.
 					surfaceHolder.addCallback(ScanActivity.this);
-					surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+					surfaceHolder
+							.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 				}
 
 				inactivityTimer.onResume();
@@ -236,8 +229,6 @@ public class ScanActivity extends BaseActivity implements
 
 	}
 
-	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
-
 	/**
 	 * A valid barcode has been found, so give an indication of success and show
 	 * the results.
@@ -249,86 +240,26 @@ public class ScanActivity extends BaseActivity implements
 	 */
 	public void handleDecode(Result rawResult, Bitmap barcode) {
 		inactivityTimer.onActivity();
-		// Toast.makeText(this, rawResult.getText(), Toast.LENGTH_SHORT).show();
 		String[] result = rawResult.getText().split("_");
 
 		if (result == null || result.length <= 0) {
 			return;
 		}
-		
+
 		if (result.length != 3) {
-			Intent intent = new Intent(ScanActivity.this, ScanResultActivity.class);
+			Intent intent = new Intent(ScanActivity.this,
+					ScanResultActivity.class);
 			intent.putExtra("result", rawResult.getText());
 			ScanActivity.this.startActivity(intent);
+			ScanActivity.this.finish();
 			return;
 		}
-		final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		mLoadingProgressBarFragment.show(ft, "dialog");
 
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("type", "1");
-		params.put("terminal", result[0]);
-
-		mDataLoader.postData(UConfig.SCAN_TASK_ADD_URL, params, this,
-				new HDataListener() {
-
-					@Override
-					public void onSocketTimeoutException(String msg) {
-						// TODO Auto-generated method stub
-						mLoadingProgressBarFragment.dismiss();
-						restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
-					}
-
-					@Override
-					public void onFinish(String source) {
-						// TODO Auto-generated method stub
-						mLoadingProgressBarFragment.dismiss();
-
-						Gson gson = new Gson();
-
-						try {
-							TempModel mResultModel = gson.fromJson(source,
-									TempModel.class);
-
-							if (mResultModel != null) {
-								if (mResultModel.result == UConstants.SUCCESS) {
-									Intent intent = new Intent();
-									intent.setClass(ScanActivity.this,
-											BorrowTipsActivity.class);
-									intent.putExtra(UIntentKeys.SCAN_TASK_ID,
-											mResultModel.taskId);
-									ScanActivity.this.startActivity(intent);
-									ScanActivity.this.finish();
-								} else {
-									UToast.showShortToast(ScanActivity.this, mResultModel.msg);
-									restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
-								}
-							} else {
-								restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
-							}
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
-						}
-
-					}
-
-					@Override
-					public void onFail(String msg) {
-						// TODO Auto-generated method stub
-						mLoadingProgressBarFragment.dismiss();
-						restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
-					}
-
-					@Override
-					public void onConnectTimeoutException(String msg) {
-						// TODO Auto-generated method stub
-						mLoadingProgressBarFragment.dismiss();
-						restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
-					}
-				});
+		Intent intent = new Intent();
+		intent.setClass(ScanActivity.this, BorrowTipsActivity.class);
+		intent.putExtra(UIntentKeys.TERMINAL, result[0]);
+		ScanActivity.this.startActivity(intent);
+		ScanActivity.this.finish();
 	}
 
 	private void initCamera(SurfaceHolder surfaceHolder) {

@@ -70,6 +70,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private View mFriendBtn;
 	private View mScoreDesBtn;
 	private View mAboutBtn;
+	private View mSelfEditBtn;
 	private View mExitBtn;
 	private CheckBox mWantPush;
 	private CheckBox mNearbyUser;
@@ -84,6 +85,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mFriendBtn = findViewById(R.id.self_page_friend_btn);
 		mScoreDesBtn = findViewById(R.id.self_page_score_des_btn);
 		mAboutBtn = findViewById(R.id.self_page_about_btn);
+		mSelfEditBtn = findViewById(R.id.self_page_edit_btn);
 		mExitBtn = findViewById(R.id.self_page_exit_btn);
 		mWantPush = (CheckBox) findViewById(R.id.setting_want_info_push);
 		mNearbyUser = (CheckBox) findViewById(R.id.setting_nearby_user);
@@ -93,6 +95,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mFriendBtn.setOnClickListener(this);
 		mScoreDesBtn.setOnClickListener(this);
 		mAboutBtn.setOnClickListener(this);
+		mSelfEditBtn.setOnClickListener(this);
 		mExitBtn.setOnClickListener(this);
 	}
 
@@ -222,6 +225,8 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			intent.setClass(this, RechargeActivity.class);
 //			this.startActivity(intent);
 			this.startActivityForResult(intent, 1);
+		} else if (v == mSelfEditBtn) {
+			
 		}
 	}
 	
