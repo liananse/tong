@@ -41,6 +41,7 @@ import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.URequestCodes;
 import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 
@@ -138,11 +139,12 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 							if (mResultModel != null) {
 								if (mResultModel.result == UConstants.SUCCESS) {
 									UserInfo mSelf = mResultModel.user;
-									
+
 									mNickName.setText(mSelf.nickName);
-									mSelfYue.setText(getResources().getString(R.string.self_page_yue,
-											mSelf.money));
-									
+									mSelfYue.setText(getResources()
+											.getString(R.string.self_page_yue,
+													mSelf.money));
+
 									mSelf.access_token = UTools.OS
 											.getAccessToken(SelfPageActivity.this);
 									// 将用户个人信息存数据库
@@ -223,20 +225,33 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		} else if (v == mRechargeBtn) {
 			Intent intent = new Intent();
 			intent.setClass(this, RechargeActivity.class);
-//			this.startActivity(intent);
-			this.startActivityForResult(intent, 1);
+			this.startActivityForResult(intent, URequestCodes.RECHARGE);
 		} else if (v == mSelfEditBtn) {
-			
+			Intent intent = new Intent();
+			intent.setClass(this, EditInfoActivity.class);
+			this.startActivityForResult(intent, URequestCodes.EDIT_INFO);
 		}
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-			getUserInfo();
+		switch (requestCode) {
+		case URequestCodes.RECHARGE:
+			if (resultCode == RESULT_OK) {
+				getUserInfo();
+			}
+			break;
+		case URequestCodes.EDIT_INFO:
+			if (resultCode == RESULT_OK) {
+				initData();
+			}
+			break;
+		default:
+			break;
 		}
+
 	}
 
 	private static final int DIALOG_YES_NO_LONG_MESSAGE = 1;
