@@ -62,6 +62,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		getUserInfo();
 	}
 
+	private View mSelfInfo;
 	private ImageView mAvatarView;
 	private TextView mNickName;
 	private View mRechargeBtn;
@@ -77,7 +78,9 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private CheckBox mNearbyUser;
 
 	private void initView() {
-		mAvatarView = (ImageView) findViewById(R.id.self_pate_avatar);
+		mSelfInfo = findViewById(R.id.self_page_info);
+		mSelfInfo.setOnClickListener(this);
+		mAvatarView = (ImageView) findViewById(R.id.self_page_avatar);
 		mAvatarView.setOnClickListener(this);
 		mNickName = (TextView) findViewById(R.id.self_info_nickname);
 		mSelfYue = (TextView) findViewById(R.id.self_info_score);
@@ -201,9 +204,9 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v == mAvatarView) {
-			Intent intent = new Intent();
-			intent.setClass(this, UserInfoActivity.class);
-			this.startActivity(intent);
+//			Intent intent = new Intent();
+//			intent.setClass(this, UserInfoActivity.class);
+//			this.startActivity(intent);
 		} else if (v == mChatBtn) {
 			Intent intent = new Intent();
 			intent.setClass(this, ChatActivity.class);
@@ -227,6 +230,10 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			intent.setClass(this, RechargeActivity.class);
 			this.startActivityForResult(intent, URequestCodes.RECHARGE);
 		} else if (v == mSelfEditBtn) {
+//			Intent intent = new Intent();
+//			intent.setClass(this, EditInfoActivity.class);
+//			this.startActivityForResult(intent, URequestCodes.EDIT_INFO);
+		} else if (v == mSelfInfo) {
 			Intent intent = new Intent();
 			intent.setClass(this, EditInfoActivity.class);
 			this.startActivityForResult(intent, URequestCodes.EDIT_INFO);

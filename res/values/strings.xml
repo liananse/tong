@@ -125,5 +125,8 @@
     <!-- edit info activity -->
     <string name="edit_info_title">修改个人信息</string>
     <string name="edit_info_done">保存</string>
+    <string name="edit_info_name">昵称:</string>
+    <string name="edit_info_age">年龄:</string>
+    <string name="edit_info_resume">个人简介:</string>
 
 </resources>

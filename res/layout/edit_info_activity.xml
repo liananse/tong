@@ -38,14 +38,15 @@
         android:id="@+id/register_step1_opt_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="60dp"
         android:orientation="vertical" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/login_and_register_margin_left"
-            android:text="@string/register_nickname"
+            android:layout_marginTop="5dp"
+            android:text="@string/edit_info_name"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -62,7 +63,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/login_and_register_margin_left"
-            android:text="@string/register_age"
+            android:layout_marginTop="5dp"
+            android:text="@string/edit_info_age"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -74,6 +76,15 @@
             android:hint="@string/register_age"
             android:inputType="number"
             android:singleLine="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/login_and_register_margin_left"
+            android:layout_marginTop="5dp"
+            android:text="@string/edit_info_resume"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/resume_et"

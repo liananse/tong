@@ -34,6 +34,7 @@
             <!-- header info -->
 
             <RelativeLayout
+                android:id="@+id/self_page_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/question_card_des_bg"
@@ -50,7 +51,7 @@
                 -->
 
                 <ImageView
-                    android:id="@+id/self_pate_avatar"
+                    android:id="@+id/self_page_avatar"
                     android:layout_width="@dimen/self_page_avatar_size"
                     android:layout_height="@dimen/self_page_avatar_size"
                     android:layout_alignParentLeft="true"
@@ -58,12 +59,22 @@
                     android:layout_marginRight="@dimen/activity_default_padding"
                     android:src="@drawable/male" />
 
+                <ImageView
+                    android:id="@+id/self_page_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_default_padding"
+                    android:src="@drawable/ic_list_arrow" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/self_pate_avatar"
+                    android:layout_toLeftOf="@id/self_page_arrow"
+                    android:layout_toRightOf="@id/self_page_avatar"
                     android:gravity="center_vertical"
                     android:orientation="vertical" >
 
@@ -405,7 +416,8 @@
                 android:background="@drawable/question_card_des_bg"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="@dimen/activity_default_padding" >
+                android:padding="@dimen/activity_default_padding"
+                android:visibility="gone" >
 
                 <TextView
                     android:layout_width="wrap_content"

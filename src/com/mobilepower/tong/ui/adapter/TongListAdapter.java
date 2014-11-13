@@ -124,8 +124,6 @@ public class TongListAdapter extends BaseAdapter {
 			holder.mTongItem.setVisibility(View.GONE);
 		}
 		
-		holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
-
 		return convertView;
 	}
 
