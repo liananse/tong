@@ -100,7 +100,7 @@
     <!-- about page activity -->
     <string name="about_title">关于我们</string>
     <string name="about_content">来电吧是深圳爱来电科技有限公司研发的一款集智能硬件和软件相结合的产品，其硬件产品由充电柜，充电宝，结合软件APP，实现随时随地免费借还充电宝，打开APP可搜索附近的充电柜，缴纳一定的保证金成为会员即可实现免费借用充电宝</string>
-	<string name="about_copyright">Copyright©2013-2014</string>
+	<string name="about_copyright">版权所有©深圳爱来科技有限公司2013-2014</string>
 	<string name="about_company">深圳爱来电科技有限公司</string>
     <!-- score page activity -->
     <string name="score_page_title">积分系统说明</string>
