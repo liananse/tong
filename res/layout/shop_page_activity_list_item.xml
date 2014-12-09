@@ -28,8 +28,9 @@
             android:layout_marginRight="@dimen/activity_default_padding" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -45,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:textColor="@color/textcolor"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/self_page_nickname_size" />
 
                 <TextView
@@ -66,6 +67,11 @@
                 android:textColor="@color/gray"
                 android:textSize="@dimen/self_page_score_size" />
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_list_arrow" />
     </LinearLayout>
 
     <LinearLayout
@@ -88,4 +94,5 @@
             android:layout_height="@dimen/line_height"
             android:background="@color/line_down" />
     </LinearLayout>
+
 </LinearLayout>

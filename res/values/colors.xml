@@ -10,43 +10,41 @@
     <color name="white_alpha">#e6ffffff</color>
     <color name="activity_bg">#f7f7f7</color>
     <color name="textcolor">#a3a3a3</color>
-    
+
     <!-- activity bar -->
     <color name="activity_bar_bg">#54d9e7</color>
     <color name="activity_bar_title_color">#ffffff</color>
     <color name="header_line_up">#f0f0f0</color>
     <color name="header_line_down">#b8b8b8</color>
     <color name="header_line_bg">#f8f8f8</color>
-    
     <color name="header_line_up_up">#f5f6f6</color>
     <color name="header_line_up_down">#eaeaeb</color>
-    
     <color name="header_line_down_up">#e7e7e7</color>
     <color name="header_line_down_down">#eeeeee</color>
-    
     <color name="line_up">#f8f8f8</color>
     <color name="line_middle">#e2e3e2</color>
     <color name="line_down">#fbfbfb</color>
-    
+
     <!-- login -->
     <color name="login_and_register_btn_color">#39d4f5</color>
     <color name="login_and_register_btn_color_unavailable">#9a9a9a</color>
-    
+
     <!-- tong page -->
     <color name="tong_page_btn_text_color">@color/black</color>
-    
-    <color name="main_activity_tab_color_selected">#66cdde</color>  
-    <color name="main_activity_tab_color_unselected">#5a5a5a</color> 
-    
+    <color name="main_activity_tab_color_selected">#66cdde</color>
+    <color name="main_activity_tab_color_unselected">#5a5a5a</color>
     <color name="contents_text">#ff000000</color>
-  <color name="encode_view">#ffffffff</color>
-  <color name="possible_result_points">#c0ffbd21</color> <!-- Android standard ICS color -->
-  <color name="result_minor_text">#ffc0c0c0</color>
-  <color name="result_points">#c099cc00</color> <!-- Android standard ICS color -->
-  <color name="result_text">#ffffffff</color>
-  <color name="result_view">#b0000000</color>
-  <color name="status_text">#ffffffff</color>
-  <color name="viewfinder_laser">#ffcc0000</color> <!-- Android standard ICS color -->
-  <color name="viewfinder_mask">#60000000</color>
+    <color name="encode_view">#ffffffff</color>
+    <color name="possible_result_points">#c0ffbd21</color>
+    <!-- Android standard ICS color -->
+    <color name="result_minor_text">#ffc0c0c0</color>
+    <color name="result_points">#c099cc00</color>
+    <!-- Android standard ICS color -->
+    <color name="result_text">#ffffffff</color>
+    <color name="result_view">#b0000000</color>
+    <color name="status_text">#ffffffff</color>
+    <color name="viewfinder_laser">#ffcc0000</color>
+    <!-- Android standard ICS color -->
+    <color name="viewfinder_mask">#60000000</color>
 
 </resources>

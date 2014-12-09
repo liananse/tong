@@ -47,8 +47,8 @@
     <string name="tong_page_dialog_message">刷新历史列表确认是否归还成功</string>
 
     <!-- shop page activity -->
-    <string name="shop_page_tab_str">店铺</string>
-    <string name="shop_page_title">附近的店铺</string>
+    <string name="shop_page_tab_str">体验店</string>
+    <string name="shop_page_title">体验店</string>
     <string name="shop_page_detail">店铺详情</string>
     <string name="shop_page_no_more_data">暂时没有更多数据</string>
     <string name="shop_page_name">名称: %s</string>
@@ -78,6 +78,8 @@
     <string name="logout_dialog_comfirm">确定</string>
     <string name="logout_dialog_cancel">取消</string>
     <string name="self_page_recharge">充值中心</string>
+    <string name="self_page_mobile_history">移动电源历史</string>
+    <string name="self_page_cash">提现</string>
     <string name="self_page_yue">余额: %s</string>
     <string name="self_page_edit_info">编辑个人信息</string>
 
