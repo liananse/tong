@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.model.ShopInfo;
 import com.mobilepower.tong.ui.activity.ShopPageMapActivity;
-import com.mobilepower.tong.ui.view.CustomAvatarView;
 import com.mobilepower.tong.utils.UIntentKeys;
 
 public class NearbyShopAdapter extends BaseAdapter {

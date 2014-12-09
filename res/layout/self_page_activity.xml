@@ -125,9 +125,9 @@
                             android:textSize="@dimen/self_page_score_size" />
 
                         <TextView
+                            android:id="@+id/self_info_ya"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="现金: 90"
                             android:textColor="@color/textcolor"
                             android:textSize="@dimen/self_page_score_size" />
                     </LinearLayout>

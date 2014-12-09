@@ -67,6 +67,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private TextView mNickName;
 	private View mRechargeBtn;
 	private TextView mSelfYue;
+	private TextView mSelfYa;
 	// 按钮 选项
 	private View mChatBtn;
 	private View mFriendBtn;
@@ -84,6 +85,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mAvatarView.setOnClickListener(this);
 		mNickName = (TextView) findViewById(R.id.self_info_nickname);
 		mSelfYue = (TextView) findViewById(R.id.self_info_score);
+		mSelfYa = (TextView) findViewById(R.id.self_info_ya);
 		mRechargeBtn = findViewById(R.id.self_page_charge_btn);
 		mChatBtn = findViewById(R.id.self_page_chat_btn);
 		mFriendBtn = findViewById(R.id.self_page_friend_btn);
@@ -112,6 +114,9 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		if (mInfo != null) {
 			mNickName.setText(mInfo.nickName);
 			mSelfYue.setText(getResources().getString(R.string.self_page_yue,
+					mInfo.money));
+			
+			mSelfYa.setText(getResources().getString(R.string.self_page_ya,
 					mInfo.money));
 		}
 	}

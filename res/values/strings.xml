@@ -82,6 +82,7 @@
     <string name="self_page_cash">提现</string>
     <string name="self_page_yue">余额: %s</string>
     <string name="self_page_edit_info">编辑个人信息</string>
+    <string name="self_page_ya">押金: %s</string>
 
     <!-- lent activity -->
     <string name="lent_title">转借</string>

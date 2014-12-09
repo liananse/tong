@@ -1,5 +1,8 @@
 package com.mobilepower.tong.ui.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +21,9 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.model.ShopInfo;
+import com.mobilepower.tong.model.UserInfo;
+import com.mobilepower.tong.ui.adapter.ShopPageMapUserAdapter;
+import com.mobilepower.tong.ui.view.XListView;
 import com.mobilepower.tong.utils.UIntentKeys;
 
 public class ShopPageMapActivity extends BaseActivity implements
@@ -27,6 +33,9 @@ public class ShopPageMapActivity extends BaseActivity implements
 	BitmapDescriptor mapTag = BitmapDescriptorFactory
 			.fromResource(R.drawable.icon_gcoding);
 
+	private ShopPageMapUserAdapter mAdapter;
+	
+	private XListView mList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -35,6 +44,7 @@ public class ShopPageMapActivity extends BaseActivity implements
 		mInfo = (ShopInfo) getIntent().getSerializableExtra(
 				UIntentKeys.SHOP_INTO);
 
+		mAdapter = new ShopPageMapUserAdapter(this);
 		initActionBar();
 		initView();
 		initData();
@@ -69,26 +79,20 @@ public class ShopPageMapActivity extends BaseActivity implements
 		mShopAddress = (TextView) findViewById(R.id.shop_address);
 
 		mShopLayout = (LinearLayout) findViewById(R.id.shop_page_layout);
-
-//		// 地图初始化
-//		SharedPreferences sp = UTools.Storage.getSharedPreferences(this,
-//				UConstants.BASE_PREFS_NAME);
-//
-//		// LatLng(double latitude, double longitude)
-//		LatLng p = new LatLng(Double.parseDouble(sp.getString(
-//				UConstants.LOCATION_LATITUDE, "22.537976")),
-//				Double.parseDouble(sp.getString(UConstants.LOCATION_LONGITUDE,
-//						"113.943617")));
-//
-//		// 设置默认中心点，及缩放级别
-//		BaiduMapOptions mBaiduMapOptions = new BaiduMapOptions()
-//				.mapStatus(new MapStatus.Builder().zoom(17).target(p).build());
-//		mMapView = new MapView(this, mBaiduMapOptions);
-//
-//		mShopLayout.addView(mMapView);
-//
-//		mBaiduMap = mMapView.getMap();
-//		mBaiduMap.setMaxAndMinZoomLevel(19, 13);
+		mList = (XListView) findViewById(R.id.user_list);
+		
+		mList.setPullLoadEnable(false);
+		mList.setPullRefreshEnable(false);
+		
+		mList.setAdapter(mAdapter);
+		
+		List<UserInfo> mInfos = new ArrayList<UserInfo>();
+		for (int i = 0; i < 10; i++) {
+			UserInfo mInfo = new UserInfo();
+			mInfos.add(mInfo);
+		}
+		
+		mAdapter.refreshData(mInfos);
 	}
 
 	private void initData() {
@@ -98,32 +102,12 @@ public class ShopPageMapActivity extends BaseActivity implements
 			mShopTel.setText(mInfo.tel);
 			mShopAddress.setText(mInfo.address);
 			
-//			new Handler().postDelayed(new Runnable() {
-//				
-//				@Override
-//				public void run() {
-//					// TODO Auto-generated method stub
-//					mBaiduMap.clear();
-//
-//					LatLng llInfo = new LatLng(mInfo.lat, mInfo.lng);
-//
-//
-//					MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(llInfo);
-//					mBaiduMap.animateMapStatus(u);
-//					
-//					OverlayOptions ooTag = new MarkerOptions().position(llInfo)
-//							.icon(mapTag).zIndex(9);
-//					mBaiduMap.addOverlay(ooTag);
-//				}
-//			}, 1000);
-			
-			// 地图初始化
-			// LatLng(double latitude, double longitude)
 			LatLng p = new LatLng(mInfo.lat, mInfo.lng);
 
 			// 设置默认中心点，及缩放级别
 			BaiduMapOptions mBaiduMapOptions = new BaiduMapOptions()
 					.mapStatus(new MapStatus.Builder().zoom(17).target(p).build());
+			mBaiduMapOptions.zoomControlsEnabled(false);
 			mMapView = new MapView(this, mBaiduMapOptions);
 
 			mShopLayout.addView(mMapView);
