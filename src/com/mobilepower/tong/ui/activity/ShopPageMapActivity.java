@@ -86,13 +86,13 @@ public class ShopPageMapActivity extends BaseActivity implements
 		
 		mList.setAdapter(mAdapter);
 		
-		List<UserInfo> mInfos = new ArrayList<UserInfo>();
-		for (int i = 0; i < 10; i++) {
-			UserInfo mInfo = new UserInfo();
-			mInfos.add(mInfo);
-		}
-		
-		mAdapter.refreshData(mInfos);
+//		List<UserInfo> mInfos = new ArrayList<UserInfo>();
+//		for (int i = 0; i < 10; i++) {
+//			UserInfo mInfo = new UserInfo();
+//			mInfos.add(mInfo);
+//		}
+//		
+//		mAdapter.refreshData(mInfos);
 	}
 
 	private void initData() {
