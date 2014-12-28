@@ -87,4 +87,10 @@ public class UConfig {
 	public static final String RECHARGE_URL = SERVER_HOST + "/alipayAPI";
 	
 	public static final String USER_GET_URL = SERVER_HOST + "/UserGet";
+	
+	/**
+	 * shopId
+	 * 
+	 */
+	public static final String CHECK_HISTORY_GET_BY_SHOP = SERVER_HOST + "/checkHistoryGetByShop";
 }

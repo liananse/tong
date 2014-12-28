@@ -12,8 +12,13 @@ public class TongInfo implements Serializable{
 	 * 用户留言
 	 */
 	public String message;
+	public String name;
+	public double overtimeMoney;
+	public double preMoney;
+	public String returnTime;
 	public int shopId;
 	public String sortTime;
+	public String sourceUserId;
 	/**
 	 * 0 表示借入者没有留言 1表示有留言
 	 */
@@ -29,4 +34,5 @@ public class TongInfo implements Serializable{
 	public String serverDate;
 	
 	public ShopInfo shopModel;
+	public UserInfo user;
 }

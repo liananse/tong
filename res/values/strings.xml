@@ -47,8 +47,8 @@
     <string name="tong_page_dialog_message">刷新历史列表确认是否归还成功</string>
 
     <!-- shop page activity -->
-    <string name="shop_page_tab_str">体验店</string>
-    <string name="shop_page_title">体验店</string>
+    <string name="shop_page_tab_str">店铺</string>
+    <string name="shop_page_title">店铺</string>
     <string name="shop_page_detail">店铺详情</string>
     <string name="shop_page_no_more_data">暂时没有更多数据</string>
     <string name="shop_page_name">名称: %s</string>
@@ -101,8 +101,8 @@
     <string name="borrow_tips_title">结果</string>
 
     <!-- about page activity -->
-    <string name="about_title">关于我们</string>
-    <string name="about_content">来电吧是深圳爱来电科技有限公司研发的一款集智能硬件和软件相结合的产品，其硬件产品由充电柜，充电宝，结合软件APP，实现随时随地免费借还充电宝，打开APP可搜索附近的充电柜，缴纳一定的保证金成为会员即可实现免费借用充电宝</string>
+    <string name="about_title">关于</string>
+    <string name="about_content">深圳来电科技有限公司，研发的一款集智能硬件和软件相结合的产品，其硬件产品由充电柜，充电宝，结合软件APP，实现可随时随地租借归还充电宝，打开APP可搜索附近的充电柜，缴纳一定的保证金成为会员，即可实现免费租借充电宝的服务。实现环保、高效循环利用社会资源的高新科技企业。来电，为爱充电！让手机永不断电，是我们的使命与追求！</string>
 	<string name="about_copyright">版权所有©深圳爱来科技有限公司2013-2014</string>
 	<string name="about_company">深圳爱来电科技有限公司</string>
     <!-- score page activity -->

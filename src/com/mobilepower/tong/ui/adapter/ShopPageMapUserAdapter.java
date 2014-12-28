@@ -1,22 +1,28 @@
 package com.mobilepower.tong.ui.adapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.mobilepower.tong.R;
-import com.mobilepower.tong.model.UserInfo;
+import com.mobilepower.tong.model.TongInfo;
+import com.mobilepower.tong.ui.activity.UserInfoActivity;
 import com.mobilepower.tong.ui.view.CustomAvatarView;
+import com.mobilepower.tong.utils.UIntentKeys;
 
 public class ShopPageMapUserAdapter extends BaseAdapter{
 
-	private List<UserInfo> mNearbyUserList;
+	private List<TongInfo> mDataList;
 
 	private Context mContext;
 	private LayoutInflater mInflater;
@@ -25,13 +31,13 @@ public class ShopPageMapUserAdapter extends BaseAdapter{
 		this(context, null);
 	}
 
-	public ShopPageMapUserAdapter(Context context, List<UserInfo> infos) {
+	public ShopPageMapUserAdapter(Context context, List<TongInfo> infos) {
 		this.mContext = context;
 		this.mInflater = LayoutInflater.from(context);
 		if (infos != null) {
-			this.mNearbyUserList = infos;
+			this.mDataList = infos;
 		} else {
-			this.mNearbyUserList = new ArrayList<UserInfo>();
+			this.mDataList = new ArrayList<TongInfo>();
 		}
 
 	}
@@ -39,8 +45,8 @@ public class ShopPageMapUserAdapter extends BaseAdapter{
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		if (mNearbyUserList != null && mNearbyUserList.size() > 0) {
-			return mNearbyUserList.size();
+		if (mDataList != null && mDataList.size() > 0) {
+			return mDataList.size();
 		}
 		return 0;
 	}
@@ -48,8 +54,8 @@ public class ShopPageMapUserAdapter extends BaseAdapter{
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		if (mNearbyUserList != null && mNearbyUserList.size() > 0) {
-			return mNearbyUserList.get(position);
+		if (mDataList != null && mDataList.size() > 0) {
+			return mDataList.get(position);
 		}
 		return null;
 	}
@@ -70,6 +76,7 @@ public class ShopPageMapUserAdapter extends BaseAdapter{
 					R.layout.shop_page_map_list_item, null);
 
 			holder = new ViewHolder();
+			holder.mUserItem = convertView.findViewById(R.id.user_item);
 			holder.mUserAvatar = (CustomAvatarView) convertView
 					.findViewById(R.id.user_avatar);
 			holder.mUserNickname = (TextView) convertView
@@ -85,33 +92,57 @@ public class ShopPageMapUserAdapter extends BaseAdapter{
 		}
 		
 		
-		UserInfo mModel = mNearbyUserList.get(position);
+		final TongInfo mModel = mDataList.get(position);
 		
 		if (mModel != null) {
-			holder.mUserNickname.setText("kin");
-			holder.mUserAction.setText("借入");
-			holder.mUserTime.setText("12:00");
-			System.out.println("adsfasdfds");
+			if (mModel.user != null) {
+				holder.mUserNickname.setText(mModel.user.nickName);
+				holder.mUserTime.setText(mModel.updateTime);
+			}
+			
+			if (mModel.type == 1) {
+				holder.mUserAction.setText("借入");
+			} else if (mModel.type == 2) {
+				holder.mUserAction.setText("归还");
+			} else if (mModel.type == 3) {
+				holder.mUserAction.setText("转借");
+			} else {
+				holder.mUserAction.setText("");
+			}
 		}
+		
+		holder.mUserItem.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(mContext, UserInfoActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable(UIntentKeys.USER_INFO, (Serializable) mModel.user);
+				intent.putExtras(bundle);
+				mContext.startActivity(intent);
+			}
+		});
 		
 		return convertView;
 	}
 	
 	static class ViewHolder {
+		View mUserItem;
 		CustomAvatarView mUserAvatar;
 		TextView mUserNickname;
 		TextView mUserTime;
 		TextView mUserAction;
 	}
 	
-	public void refreshData(List<UserInfo> list) {
-		mNearbyUserList.clear();
-		mNearbyUserList.addAll(list);
+	public void refreshData(List<TongInfo> list) {
+		mDataList.clear();
+		mDataList.addAll(list);
 		notifyDataSetChanged();
 	}
 
-	public void addData(List<UserInfo> list) {
-		mNearbyUserList.addAll(list);
+	public void addData(List<TongInfo> list) {
+		mDataList.addAll(list);
 		notifyDataSetChanged();
 	}
 

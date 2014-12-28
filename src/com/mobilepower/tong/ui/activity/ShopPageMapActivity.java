@@ -1,7 +1,8 @@
 package com.mobilepower.tong.ui.activity;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.os.Bundle;
 import android.view.View;
@@ -19,12 +20,20 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.R;
+import com.mobilepower.tong.http.HHttpDataLoader;
+import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
+import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.ShopInfo;
-import com.mobilepower.tong.model.UserInfo;
+import com.mobilepower.tong.model.TongInfo;
 import com.mobilepower.tong.ui.adapter.ShopPageMapUserAdapter;
 import com.mobilepower.tong.ui.view.XListView;
+import com.mobilepower.tong.utils.UConfig;
+import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UIntentKeys;
+import com.mobilepower.tong.utils.UToast;
 
 public class ShopPageMapActivity extends BaseActivity implements
 		OnClickListener {
@@ -85,14 +94,6 @@ public class ShopPageMapActivity extends BaseActivity implements
 		mList.setPullRefreshEnable(false);
 		
 		mList.setAdapter(mAdapter);
-		
-//		List<UserInfo> mInfos = new ArrayList<UserInfo>();
-//		for (int i = 0; i < 10; i++) {
-//			UserInfo mInfo = new UserInfo();
-//			mInfos.add(mInfo);
-//		}
-//		
-//		mAdapter.refreshData(mInfos);
 	}
 
 	private void initData() {
@@ -119,8 +120,91 @@ public class ShopPageMapActivity extends BaseActivity implements
 					.icon(mapTag).zIndex(9);
 			mBaiduMap.addOverlay(ooTag);
 		}
+		
+		getHistoryListData(true);
 	}
 
+	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
+
+	private boolean isRefresh = true;
+	private boolean isLoading = false;
+	private String sortTime = "";
+	private void getHistoryListData(boolean isRefresh) {
+
+		if (mInfo == null) {
+			return;
+		}
+		
+		this.isRefresh = isRefresh;
+		this.isLoading = true;
+
+		Map<String, String> params = new HashMap<String, String>();
+		
+		if (this.isRefresh) {
+			sortTime = "";
+		}
+		params.put("shopId", mInfo.id + "");
+		params.put("sortTime", sortTime);
+		mDataLoader.getData(UConfig.CHECK_HISTORY_GET_BY_SHOP, params, this,
+				new HDataListener() {
+
+					@Override
+					public void onSocketTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+					}
+
+					@Override
+					public void onFinish(String source) {
+						// TODO Auto-generated method stub
+						Gson gson = new Gson();
+						try {
+							TempModel mResultModel = gson.fromJson(source,
+									TempModel.class);
+							if (mResultModel != null) {
+								if (mResultModel.result == UConstants.SUCCESS) {
+									// 本次返回的sortTime
+									ShopPageMapActivity.this.sortTime = mResultModel.sortTime;
+
+									if (mResultModel.data != null
+											&& mResultModel.data.size() > 0) {
+										if (ShopPageMapActivity.this.isRefresh) {
+											mAdapter.refreshData(mResultModel.data);
+										} else {
+											mAdapter.addData(mResultModel.data);
+										}
+									} else {
+										UToast.showShortToast(
+												ShopPageMapActivity.this,
+												getResources()
+														.getString(
+																R.string.shop_page_no_more_data));
+									}
+								} else {
+									UToast.showShortToast(
+											ShopPageMapActivity.this,
+											mResultModel.msg);
+								}
+
+							}
+
+						} catch (JsonSyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+
+					@Override
+					public void onFail(String msg) {
+						// TODO Auto-generated method stub
+					}
+
+					@Override
+					public void onConnectTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+					}
+				});
+	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -167,4 +251,10 @@ public class ShopPageMapActivity extends BaseActivity implements
 		
 		return res;
 	}
+	
+	class TempModel extends BaseInfo {
+		public String sortTime;
+		public List<TongInfo> data;
+	}
+
 }

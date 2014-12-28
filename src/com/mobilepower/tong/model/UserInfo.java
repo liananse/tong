@@ -1,9 +1,12 @@
 package com.mobilepower.tong.model;
 
-public class UserInfo {
+import java.io.Serializable;
+
+public class UserInfo implements Serializable{
 	public String nickName = "";
 	public String resume = "";
 	public int age = 0;
+	public String id;
 	public String access_token;
 	
 	public String lastLoginTime;
@@ -19,6 +22,8 @@ public class UserInfo {
 	public int tokenType;
 	public String updateTime;
 	public int userType;
+	public double preMoney;
+	public String pwd;
 
 	public String getNickName() {
 		return nickName;
@@ -154,6 +159,30 @@ public class UserInfo {
 
 	public void setUserType(int userType) {
 		this.userType = userType;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public double getPreMoney() {
+		return preMoney;
+	}
+
+	public void setPreMoney(double preMoney) {
+		this.preMoney = preMoney;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 	
 }

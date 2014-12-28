@@ -97,7 +97,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 	private boolean isRefresh = true;
 	private boolean isLoading = false;
 
-	private String sortTime = "0";
+	private String sortTime = "";
 
 	private void getHistoryList(boolean isRefresh) {
 		this.isRefresh = isRefresh;
@@ -106,7 +106,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 		Map<String, String> params = new HashMap<String, String>();
 
 		if (isRefresh) {
-			sortTime = "0";
+			sortTime = "";
 		}
 
 		params.put("sortTime", sortTime);

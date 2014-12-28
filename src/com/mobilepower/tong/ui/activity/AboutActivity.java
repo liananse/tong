@@ -15,32 +15,36 @@
  */
 package com.mobilepower.tong.ui.activity;
 
-import com.mobilepower.tong.R;
-
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class AboutActivity extends BaseActivity implements OnClickListener{
+import com.mobilepower.tong.R;
+
+public class AboutActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about_activity);
-		
+
 		initActionBar();
 	}
-	
+
 	private View mBackBtn;
+	private View mReportBug;
 
 	/**
 	 * 初始化actionBar
 	 */
 	private void initActionBar() {
 		mBackBtn = findViewById(R.id.back_btn);
-
+		mReportBug = findViewById(R.id.report_bug);
 		mBackBtn.setOnClickListener(this);
+		mReportBug.setOnClickListener(this);
 	}
 
 	@Override
@@ -66,7 +70,10 @@ public class AboutActivity extends BaseActivity implements OnClickListener{
 		// TODO Auto-generated method stub
 		if (v == mBackBtn) {
 			this.finish();
+		} else if (v == mReportBug) {
+			Uri uri = Uri.parse("tel:400889966");
+			Intent it = new Intent(Intent.ACTION_DIAL, uri);
+			startActivity(it);
 		}
 	}
-
 }

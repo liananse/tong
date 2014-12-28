@@ -40,33 +40,101 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/about_page_divide_margin"
         android:src="@drawable/logo" />
-    
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="@dimen/activity_bar_title_size"
-        android:textColor="@android:color/black"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/about_page_content_margin" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/about_page_content_margin"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/activity_bar_title_size" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginLeft="@dimen/about_page_content_margin"
         android:layout_marginRight="@dimen/about_page_content_margin"
         android:layout_marginTop="@dimen/about_page_divide_margin"
-        android:gravity="center_horizontal"
         android:layout_weight="1"
         android:text="@string/about_content"
         android:textColor="#2b2b2b" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/line_up" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/line_middle" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/line_down" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/report_bug"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/about_page_content_margin" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="报障电话"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/about_page_content_margin"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="400-889966"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/line_up" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/line_middle" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@color/line_down" />
+    </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/about_page_content_margin"
-        android:gravity="center"
         android:layout_gravity="bottom"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
         android:text="@string/about_copyright" />
 
     <TextView
@@ -74,8 +142,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/about_page_company_margin_top"
         android:gravity="center"
-        android:visibility="gone"
         android:text="@string/about_company"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:visibility="gone" />
 
 </LinearLayout>

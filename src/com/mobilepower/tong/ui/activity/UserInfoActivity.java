@@ -22,21 +22,26 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.mobilepower.tong.R;
+import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.ui.view.CustomAvatarView;
+import com.mobilepower.tong.utils.UIntentKeys;
 
-public class UserInfoActivity extends BaseActivity implements OnClickListener{
+public class UserInfoActivity extends BaseActivity implements OnClickListener {
+
+	private UserInfo mInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_info_activity);
-		
+		mInfo = (UserInfo) getIntent().getSerializableExtra(
+				UIntentKeys.USER_INFO);
 		initActionBar();
 		initView();
 		initData();
 	}
-	
+
 	private View mBackBtn;
 
 	/**
@@ -47,30 +52,51 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener{
 
 		mBackBtn.setOnClickListener(this);
 	}
-	
+
 	private CustomAvatarView mAvatarView;
 	private TextView mNickName;
-	
+	private View mResumeLL;
+	private TextView mResume;
+
 	private void initView() {
 		mAvatarView = (CustomAvatarView) findViewById(R.id.user_info_avatar);
 		mNickName = (TextView) findViewById(R.id.user_info_nickname);
+		mResumeLL = findViewById(R.id.user_info_resume_ll);
+		mResume = (TextView) findViewById(R.id.user_info_resume);
 	}
-	
+
 	private Drawable maleDrawable;
 	private Drawable femaleDrawable;
-	
+
 	private void initData() {
 		maleDrawable = getResources().getDrawable(R.drawable.flag_gender_male);
 		maleDrawable.setBounds(0, 0, maleDrawable.getMinimumWidth(),
 				maleDrawable.getMinimumHeight());
-		
-		femaleDrawable = getResources().getDrawable(R.drawable.flag_gender_female);
+
+		femaleDrawable = getResources().getDrawable(
+				R.drawable.flag_gender_female);
 		femaleDrawable.setBounds(0, 0, femaleDrawable.getMinimumWidth(),
 				femaleDrawable.getMinimumHeight());
-		
-		mAvatarView.setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
-		
-		mNickName.setCompoundDrawables(null, null, maleDrawable, null);
+
+		mAvatarView
+				.setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
+
+		if (mInfo != null) {
+			mNickName.setText(mInfo.nickName);
+			if (mInfo.sex == 1) {
+				mNickName.setCompoundDrawables(null, null, maleDrawable, null);
+			} else {
+				mNickName
+						.setCompoundDrawables(null, null, femaleDrawable, null);
+			}
+			
+			if (mInfo.resume != null && !mInfo.resume.isEmpty()) {
+				mResumeLL.setVisibility(View.VISIBLE);
+				mResume.setText(mInfo.resume);
+			} else {
+				mResumeLL.setVisibility(View.GONE);
+			}
+		}
 	}
 
 	@Override
@@ -98,5 +124,5 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener{
 			this.finish();
 		}
 	}
-	
+
 }
