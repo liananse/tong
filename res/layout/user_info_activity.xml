@@ -39,7 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_default_padding"
         android:layout_marginTop="@dimen/activity_default_padding"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/activity_default_padding" >
 
@@ -55,7 +54,6 @@
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
-            android:text="KIN"
             android:textColor="@color/textcolor"
             android:textSize="@dimen/self_page_nickname_size" />
     </LinearLayout>
@@ -87,11 +85,16 @@
 
     <TextView
         android:id="@+id/send_msg_btn"
-        style="@style/LoginAndRegisterBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/user_info_send_msg" />
+        android:layout_marginLeft="@dimen/about_page_content_margin"
+        android:layout_marginRight="@dimen/about_page_content_margin"
+        android:layout_marginTop="@dimen/about_page_content_margin"
+        android:background="@drawable/login_and_register_btn_bg"
+        android:gravity="center"
+        android:padding="@dimen/login_and_register_padding"
+        android:text="@string/user_info_send_msg"
+        android:textColor="@color/white" />
     
     <TextView
         android:id="@+id/black_list_btn"

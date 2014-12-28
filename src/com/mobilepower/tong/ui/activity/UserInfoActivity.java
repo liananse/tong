@@ -58,11 +58,15 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener {
 	private View mResumeLL;
 	private TextView mResume;
 
+	private View mSendMsg;
 	private void initView() {
 		mAvatarView = (CustomAvatarView) findViewById(R.id.user_info_avatar);
 		mNickName = (TextView) findViewById(R.id.user_info_nickname);
 		mResumeLL = findViewById(R.id.user_info_resume_ll);
 		mResume = (TextView) findViewById(R.id.user_info_resume);
+		
+		mSendMsg = findViewById(R.id.send_msg_btn);
+		mSendMsg.setOnClickListener(this);
 	}
 
 	private Drawable maleDrawable;
@@ -122,6 +126,8 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		if (v == mBackBtn) {
 			this.finish();
+		} else if (v == mSendMsg) {
+			
 		}
 	}
 

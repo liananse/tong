@@ -23,6 +23,12 @@ public class TongListAdapter extends BaseAdapter {
 	private Context mContext;
 	private LayoutInflater mInflater;
 
+	private String fromWhere = "";
+
+	public void setFromWhere(String fromWhere) {
+		this.fromWhere = fromWhere;
+	}
+
 	public TongListAdapter(Context context) {
 		this(context, null);
 	}
@@ -90,40 +96,42 @@ public class TongListAdapter extends BaseAdapter {
 
 		final TongInfo mModel = mTongList.get(position);
 
-		try {
-			holder.mTongTime.setText(UTimeUtils.computeHowLongAgo(mContext,
-					mModel.addTime));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		holder.mTongLocation.setText(mModel.shopModel.address);
-		
-//		holder.mTongLocation.setText(UTimeUtils.computeHowLongLeft(mContext, Long.parseLong(mModel.expires)));
-
-		holder.mTongItem.setVisibility(View.VISIBLE);
-		if (mModel.type == 1) {
-			holder.mTongFrom.setText("从 " + mModel.shopModel.name + " 借入");
+		if (fromWhere.equals("borrow")) {
 			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
-		} else if (mModel.type == 2) {
-			holder.mTongFrom.setText("在 " + mModel.shopModel.name + " 归还");
+		} else if (fromWhere.equals("lent")) {
 			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
-		} else if (mModel.type == 3) {
-			// 转借他人
-			holder.mTongFrom.setText("转借他人");
-			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
-		} else if (mModel.type == -1) {
-			// 借入失败
-			holder.mTongFrom.setText("借入失败");
-			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
-		} else if (mModel.type == -2) {
-			// 未知状态
-			holder.mTongFrom.setText("未知状态");
-			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
-		} else {
-			holder.mTongItem.setVisibility(View.GONE);
 		}
-		
+		holder.mTongFrom.setText("编号: " + mModel.deviceTerminal);
+		holder.mTongTime.setText("时间: " + mModel.updateTime);
+		holder.mTongLocation.setText("地点: " + mModel.shopModel.address
+				+ mModel.shopModel.address);
+
+		// holder.mTongLocation.setText(UTimeUtils.computeHowLongLeft(mContext,
+		// Long.parseLong(mModel.expires)));
+
+		// holder.mTongItem.setVisibility(View.VISIBLE);
+		// if (mModel.type == 1) {
+		// holder.mTongFrom.setText("从 " + mModel.shopModel.name + " 借入");
+		// holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
+		// } else if (mModel.type == 2) {
+		// holder.mTongFrom.setText("在 " + mModel.shopModel.name + " 归还");
+		// holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
+		// } else if (mModel.type == 3) {
+		// // 转借他人
+		// holder.mTongFrom.setText("转借他人");
+		// holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
+		// } else if (mModel.type == -1) {
+		// // 借入失败
+		// holder.mTongFrom.setText("借入失败");
+		// holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
+		// } else if (mModel.type == -2) {
+		// // 未知状态
+		// holder.mTongFrom.setText("未知状态");
+		// holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
+		// } else {
+		// holder.mTongItem.setVisibility(View.GONE);
+		// }
+
 		return convertView;
 	}
 
