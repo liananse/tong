@@ -58,4 +58,8 @@
         <item name="android:indeterminateDuration">1000</item>
     </style>
 
+    <style name="DataSheetAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/dialog_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_bottom_out</item>
+    </style>
 </resources>

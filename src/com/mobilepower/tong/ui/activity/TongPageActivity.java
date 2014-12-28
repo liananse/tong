@@ -15,6 +15,7 @@
  */
 package com.mobilepower.tong.ui.activity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -37,7 +42,13 @@ import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.TongInfo;
+import com.mobilepower.tong.ui.adapter.FragmentsAdapter;
 import com.mobilepower.tong.ui.adapter.TongListAdapter;
+import com.mobilepower.tong.ui.fragment.BorrowListFragment;
+import com.mobilepower.tong.ui.fragment.BuyDialog;
+import com.mobilepower.tong.ui.fragment.LentListFragment;
+import com.mobilepower.tong.ui.fragment.OnAlertSelectId;
+import com.mobilepower.tong.ui.view.CustomViewPager;
 import com.mobilepower.tong.ui.view.XListView;
 import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
 import com.mobilepower.tong.utils.UConfig;
@@ -59,6 +70,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 		bus = TongApplication.getBus();
 
 		initView();
+		initContentFragment();
 		getHistoryList(true);
 		mListView.setRefreshState();
 	}
@@ -70,6 +82,14 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 
 	private XListView mListView;
 	private TongListAdapter mAdapter;
+
+	private View mBorrowV;
+	private TextView mBorrowTitleV;
+	private View mBorrowLineV;
+
+	private View mLentV;
+	private TextView mLentTitleV;
+	private View mLentLineV;
 
 	private void initView() {
 		mBorrowBtn = findViewById(R.id.borrow_btn);
@@ -90,6 +110,83 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 
 		mAdapter = new TongListAdapter(this);
 		mListView.setAdapter(mAdapter);
+
+		mBorrowV = findViewById(R.id.borrow_list_v);
+		mBorrowTitleV = (TextView) findViewById(R.id.borrow_title_v);
+		mBorrowLineV = findViewById(R.id.borrow_title_line);
+
+		mLentV = findViewById(R.id.lent_list_v);
+		mLentTitleV = (TextView) findViewById(R.id.lent_title_v);
+		mLentLineV = findViewById(R.id.lent_title_line);
+
+		mBorrowTitleV.setTextColor(getResources().getColor(
+				R.color.view_pager_title_press));
+		mLentTitleV.setTextColor(getResources().getColor(
+				R.color.view_pager_title_normal));
+		mBorrowLineV.setVisibility(View.VISIBLE);
+		mLentLineV.setVisibility(View.INVISIBLE);
+
+		mBorrowV.setOnClickListener(this);
+		mLentV.setOnClickListener(this);
+	}
+
+	private CustomViewPager mViewPager;
+	private ArrayList<Fragment> fragmentsList;
+	private Fragment borrowFragment;
+	private Fragment lentFragment;
+
+	private void initContentFragment() {
+		mViewPager = (CustomViewPager) findViewById(R.id.pager);
+
+		fragmentsList = new ArrayList<Fragment>();
+
+		borrowFragment = new BorrowListFragment();
+		lentFragment = new LentListFragment();
+
+		fragmentsList.add(borrowFragment);
+		fragmentsList.add(lentFragment);
+
+		mViewPager.setAdapter(new FragmentsAdapter(getSupportFragmentManager(),
+				fragmentsList));
+		mViewPager.setCurrentItem(0);
+		mViewPager.setOnPageChangeListener(new MyOnPageChangeListener());
+		mViewPager.setOffscreenPageLimit(2);
+	}
+
+	public class MyOnPageChangeListener implements OnPageChangeListener {
+
+		@Override
+		public void onPageScrollStateChanged(int arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onPageScrolled(int arg0, float arg1, int arg2) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onPageSelected(int arg0) {
+			// TODO Auto-generated method stub
+			if (arg0 == 0) {
+				mBorrowLineV.setVisibility(View.VISIBLE);
+				mLentLineV.setVisibility(View.INVISIBLE);
+				mBorrowTitleV.setTextColor(getResources().getColor(
+						R.color.view_pager_title_press));
+				mLentTitleV.setTextColor(getResources().getColor(
+						R.color.view_pager_title_normal));
+			} else if (arg0 == 1) {
+				mBorrowLineV.setVisibility(View.INVISIBLE);
+				mLentLineV.setVisibility(View.VISIBLE);
+				mBorrowTitleV.setTextColor(getResources().getColor(
+						R.color.view_pager_title_normal));
+				mLentTitleV.setTextColor(getResources().getColor(
+						R.color.view_pager_title_press));
+			}
+		}
+
 	}
 
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
@@ -204,10 +301,26 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 		} else if (v == mReturnBtn) {
 			returnBtnMethod();
 		} else if (v == mLentBtn) {
-			// lentBtnMethod();
-			// borrowBtnMethod();
+			BuyDialog.showAlert(this, new OnAlertSelectId() {
+
+				@Override
+				public void onClick(int whichButton) {
+					// TODO Auto-generated method stub
+					if (whichButton == 1 || whichButton == 2
+							|| whichButton == 3) {
+						Intent intent = new Intent();
+						intent.setClass(TongPageActivity.this,
+								ScanActivity.class);
+						startActivity(intent);
+					}
+				}
+			});
 		} else if (v == mWantBorrowBtn) {
 			wantBorrowBtnMethod();
+		} else if (v == mBorrowV) {
+			mViewPager.setCurrentItem(0);
+		} else if (v == mLentV) {
+			mViewPager.setCurrentItem(1);
 		}
 	}
 

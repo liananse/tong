@@ -37,7 +37,7 @@
     <string name="tong_page_tab_str">首页</string>
     <string name="tong_page_title">首页</string>
     <string name="tong_page_borrow">借入</string>
-    <string name="tong_page_return">归还</string>
+    <string name="tong_page_return">转借</string>
     <string name="tong_page_lent">购买</string>
     <string name="tong_page_want_borrow">想借</string>
     

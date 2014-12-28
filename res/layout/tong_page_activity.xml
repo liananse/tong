@@ -23,7 +23,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/activity_bar_bg"
         android:baselineAligned="false"
         android:orientation="horizontal" >
 
@@ -120,6 +120,67 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#fbfbfb"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/borrow_list_v"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/borrow_title_v"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="借入列表"
+                android:textColor="#00e0eb"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/borrow_title_line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#00e0eb" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lent_list_v"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lent_title_v"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="归还列表"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/lent_title_line"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#00e0eb" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <View
@@ -156,6 +217,7 @@
         android:cacheColorHint="#00000000"
         android:divider="@null"
         android:fadingEdge="none"
+        android:visibility="gone"
         android:fastScrollEnabled="false"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
@@ -163,5 +225,11 @@
         android:overScrollMode="never"
         android:scrollingCache="true" >
     </com.mobilepower.tong.ui.view.XListView>
+    
+    <com.mobilepower.tong.ui.view.CustomViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

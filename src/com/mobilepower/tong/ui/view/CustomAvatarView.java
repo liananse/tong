@@ -23,9 +23,10 @@ public class CustomAvatarView extends ViewGroup {
 	public CustomAvatarView(Context context) {
 		super(context);
 		mAvatarView = new RoundedImageView(context);
-		mAvatarView.setOval(true);
+//		mAvatarView.setOval(true);
 		mAvatarView.setScaleType(ScaleType.CENTER_CROP);
-		mAvatarView.setImageResource(R.drawable.ic_head_holder);
+		mAvatarView.setImageResource(R.drawable.mm_trans);
+		mAvatarView.setCornerRadius((float)8);
 
 		mAvatarRim = new ProgressWheel(context);
 		mAvatarRim.setBarWidth(0);
@@ -40,16 +41,17 @@ public class CustomAvatarView extends ViewGroup {
 		mAvatarRim.setPaddingTop(0);
 
 		addView(mAvatarView);
-		addView(mAvatarRim);
+//		addView(mAvatarRim);
 	}
 
 	public CustomAvatarView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 		mAvatarView = new RoundedImageView(context);
-		mAvatarView.setOval(true);
+//		mAvatarView.setOval(true);
 		mAvatarView.setScaleType(ScaleType.CENTER_CROP);
-		mAvatarView.setImageResource(R.drawable.ic_head_holder);
+		mAvatarView.setImageResource(R.drawable.mm_trans);
+		mAvatarView.setCornerRadius((float)8);
 
 		mAvatarRim = new ProgressWheel(context);
 		mAvatarRim.setBarWidth(0);
@@ -64,7 +66,7 @@ public class CustomAvatarView extends ViewGroup {
 		mAvatarRim.setPaddingTop(0);
 
 		addView(mAvatarView);
-		addView(mAvatarRim);
+//		addView(mAvatarRim);
 	}
 
 	@Override
@@ -113,8 +115,8 @@ public class CustomAvatarView extends ViewGroup {
 
 	public void setImageUrl(String url) {
 		Picasso.with(getContext()).load(url)
-				.placeholder(R.drawable.ic_head_holder)
-				.error(R.drawable.ic_head_holder)
+				.placeholder(R.drawable.mm_trans)
+				.error(R.drawable.mm_trans)
 				.into(mAvatarView);
 	}
 
