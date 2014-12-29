@@ -100,4 +100,9 @@ public class UConfig {
 	 */
 	public static final String TASK_ADD_BUY_LINE_URL = SERVER_HOST + "/taskAddBuyLine";
 	
+	/**
+	 * historyId
+	 */
+	public static final String BUY_CHONGDIANBAO_URL = SERVER_HOST + "/buyChongdianbao";
+	
 }

@@ -120,7 +120,7 @@ public class TongListAdapter extends BaseAdapter {
 
 		// holder.mTimeTips.setText(UTimeUtils.computeHowLongLeft(mContext,
 		// Long.parseLong("1419842888964")));
-		holder.mTimeTips.setText(UTimeUtils.computeHowLongAgo(mContext,
+		holder.mTimeTips.setText(UTimeUtils.computeHowLongLeft(mContext,
 				Long.parseLong(mModel.expires)));
 
 		System.out.println("current time " + System.currentTimeMillis());

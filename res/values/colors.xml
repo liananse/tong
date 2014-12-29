@@ -38,6 +38,12 @@
     <color name="contents_text">#ff000000</color>
     <color name="encode_view">#ffffffff</color>
     <color name="possible_result_points">#c0ffbd21</color>
+    
+    <!-- recharge activity -->
+    <color name="recharge_title_text">#a0a0a0</color>
+    <color name="recharge_money_text_normal">#8d8d8d</color>
+    <color name="recharge_money_text_selected">#8ae467</color>
+    
     <!-- Android standard ICS color -->
     <color name="result_minor_text">#ffc0c0c0</color>
     <color name="result_points">#c099cc00</color>
