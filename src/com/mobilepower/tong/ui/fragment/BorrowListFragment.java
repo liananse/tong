@@ -6,6 +6,7 @@ import java.util.Map;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +14,24 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.R;
+import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.TongInfo;
 import com.mobilepower.tong.ui.adapter.TongListAdapter;
+import com.mobilepower.tong.ui.event.BuyTongEvent;
 import com.mobilepower.tong.ui.view.XListView;
 import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UToast;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
-public class BorrowListFragment extends Fragment implements IXListViewListener{
+public class BorrowListFragment extends Fragment implements IXListViewListener {
+
+	Bus bus;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,21 @@ public class BorrowListFragment extends Fragment implements IXListViewListener{
 		super.onCreate(savedInstanceState);
 		mAdapter = new TongListAdapter(getActivity());
 		mAdapter.setFromWhere("borrow");
+		bus = TongApplication.getBus();
+	}
+
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		this.bus.unregister(this);
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		this.bus.register(this);
 	}
 
 	@Override
@@ -46,6 +68,7 @@ public class BorrowListFragment extends Fragment implements IXListViewListener{
 
 	private XListView mListView;
 	private TongListAdapter mAdapter;
+
 	private void initView(View mView) {
 		mListView = (XListView) mView.findViewById(R.id.tong_list);
 
@@ -55,7 +78,25 @@ public class BorrowListFragment extends Fragment implements IXListViewListener{
 
 		mListView.setAdapter(mAdapter);
 	}
-	
+
+	private CancelOkDialog mCancelOkDialog;
+
+	@Subscribe
+	public void BuyClick(BuyTongEvent paramEvent) {
+		if (paramEvent != null) {
+			if (mCancelOkDialog == null) {
+				mCancelOkDialog = new CancelOkDialog();
+			}
+
+			FragmentTransaction ft = getActivity().getSupportFragmentManager()
+					.beginTransaction();
+
+			if (!mCancelOkDialog.isAdded()) {
+				mCancelOkDialog.show(ft, "cancel_ok");
+			}
+		}
+	}
+
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
 
 	private boolean isRefresh = true;
@@ -76,8 +117,8 @@ public class BorrowListFragment extends Fragment implements IXListViewListener{
 		params.put("sortTime", sortTime);
 		params.put("type", "1");
 
-		mDataLoader.getData(UConfig.CHECK_HISTORY_LIST_URL, params, getActivity(),
-				new HDataListener() {
+		mDataLoader.getData(UConfig.CHECK_HISTORY_LIST_URL, params,
+				getActivity(), new HDataListener() {
 
 					@Override
 					public void onSocketTimeoutException(String msg) {
@@ -106,14 +147,13 @@ public class BorrowListFragment extends Fragment implements IXListViewListener{
 										}
 									} else {
 										UToast.showShortToast(
-											    getActivity(),
+												getActivity(),
 												getResources()
 														.getString(
 																R.string.shop_page_no_more_data));
 									}
 								} else {
-									UToast.showShortToast(
-											getActivity(),
+									UToast.showShortToast(getActivity(),
 											mResultModel.msg);
 								}
 
@@ -140,7 +180,6 @@ public class BorrowListFragment extends Fragment implements IXListViewListener{
 					}
 				});
 	}
-
 
 	@Override
 	public void onRefresh() {

@@ -79,16 +79,16 @@ public class UTimeUtils {
 		
 		if (diff > ONE_DAY) {
 			int days = (int) (diff / ONE_DAY);
-			timeLeft = "需要" + days + "天后归还";
+			timeLeft = "还剩" + days + "天免费时间";
 		} else if (diff > ONE_HOURS) {
 			int hours = (int) (diff / ONE_HOURS);
 			// timeAgo = ctx.getString(R.string.hours_ago, hours);
-			timeLeft = "需要" + hours + "小时后归还";
+			timeLeft = "还剩" + hours + "小时免费时间";
 
 		} else if (diff > ONE_MINUTES) {
 			int minutes = (int) (diff / ONE_MINUTES);
 			// timeAgo = ctx.getString(R.string.minutes_ago, minutes);
-			timeLeft = "需要" + minutes + "分钟后归还";
+			timeLeft = "还剩" + minutes + "分钟免费时间";
 		} else {
 			// timeAgo = ctx.getString(R.string.just_now);
 			timeLeft = "需要马上归还";

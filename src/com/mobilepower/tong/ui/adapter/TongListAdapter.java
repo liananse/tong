@@ -1,19 +1,21 @@
 package com.mobilepower.tong.ui.adapter;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobilepower.tong.R;
+import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.model.TongInfo;
+import com.mobilepower.tong.ui.event.BuyTongEvent;
 import com.mobilepower.tong.utils.UTimeUtils;
 
 public class TongListAdapter extends BaseAdapter {
@@ -86,8 +88,13 @@ public class TongListAdapter extends BaseAdapter {
 					.findViewById(R.id.tong_from);
 			holder.mTongLocation = (TextView) convertView
 					.findViewById(R.id.tong_location);
-			holder.mTongDelay = (TextView) convertView
-					.findViewById(R.id.delay_btn);
+
+			holder.mMoneyV = convertView.findViewById(R.id.money_v);
+			holder.mTimeTips = (TextView) convertView
+					.findViewById(R.id.time_tips);
+			holder.mMoneyT = (TextView) convertView.findViewById(R.id.money_t);
+			holder.mBuyV = convertView.findViewById(R.id.buy_btn_v);
+			holder.mBuyT = (TextView) convertView.findViewById(R.id.buy_btn);
 
 			convertView.setTag(holder);
 		} else {
@@ -98,13 +105,25 @@ public class TongListAdapter extends BaseAdapter {
 
 		if (fromWhere.equals("borrow")) {
 			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
+			holder.mMoneyV.setVisibility(View.VISIBLE);
+			holder.mBuyV.setVisibility(View.VISIBLE);
+			holder.mMoneyT.setText("￥" + mModel.overtimeMoney);
 		} else if (fromWhere.equals("lent")) {
 			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
+			holder.mMoneyV.setVisibility(View.GONE);
+			holder.mBuyV.setVisibility(View.GONE);
 		}
 		holder.mTongFrom.setText("编号: " + mModel.deviceTerminal);
 		holder.mTongTime.setText("时间: " + mModel.updateTime);
 		holder.mTongLocation.setText("地点: " + mModel.shopModel.address
 				+ mModel.shopModel.address);
+
+		// holder.mTimeTips.setText(UTimeUtils.computeHowLongLeft(mContext,
+		// Long.parseLong("1419842888964")));
+		holder.mTimeTips.setText(UTimeUtils.computeHowLongAgo(mContext,
+				Long.parseLong(mModel.expires)));
+
+		System.out.println("current time " + System.currentTimeMillis());
 
 		// holder.mTongLocation.setText(UTimeUtils.computeHowLongLeft(mContext,
 		// Long.parseLong(mModel.expires)));
@@ -132,6 +151,14 @@ public class TongListAdapter extends BaseAdapter {
 		// holder.mTongItem.setVisibility(View.GONE);
 		// }
 
+		holder.mBuyT.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				TongApplication.getBus().post(new BuyTongEvent(mModel));
+			}
+		});
 		return convertView;
 	}
 
@@ -141,7 +168,13 @@ public class TongListAdapter extends BaseAdapter {
 		TextView mTongTime;
 		TextView mTongFrom;
 		TextView mTongLocation;
-		TextView mTongDelay;
+
+		View mMoneyV;
+		TextView mTimeTips;
+		TextView mMoneyT;
+
+		View mBuyV;
+		TextView mBuyT;
 	}
 
 	public void refreshData(List<TongInfo> list) {

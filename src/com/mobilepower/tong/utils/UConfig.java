@@ -93,4 +93,11 @@ public class UConfig {
 	 * 
 	 */
 	public static final String CHECK_HISTORY_GET_BY_SHOP = SERVER_HOST + "/checkHistoryGetByShop";
+	
+	/**
+	 * terminal
+	 * lineType 1 iPhone5 2 iPhone4 3 android
+	 */
+	public static final String TASK_ADD_BUY_LINE_URL = SERVER_HOST + "/taskAddBuyLine";
+	
 }

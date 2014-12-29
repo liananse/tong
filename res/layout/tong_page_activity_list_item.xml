@@ -52,115 +52,120 @@
                     android:textSize="@dimen/self_page_score_size" />
             </LinearLayout>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/delay_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/login_and_register_margin_top"
-            android:background="@drawable/login_and_register_btn_bg"
-            android:gravity="center"
-            android:padding="@dimen/login_and_register_padding"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/money_v"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/list_default_padding"
-        android:paddingRight="@dimen/list_default_padding" >
+        android:orientation="vertical" >
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_height"
-            android:background="@color/line_up" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/list_default_padding"
+            android:paddingRight="@dimen/list_default_padding" >
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/line_height"
-            android:background="@color/line_middle" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/line_up" />
 
-        <View
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/line_middle" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/line_down" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line_height"
-            android:background="@color/line_down" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/list_default_padding" >
+
+            <TextView
+                android:id="@+id/time_tips"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="还剩6小时免费时间"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="费用: "
+                android:textColor="@color/gray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/money_t"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥123"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/buy_btn_v"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/list_default_padding" >
+        android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/list_default_padding"
+            android:paddingRight="@dimen/list_default_padding" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/line_up" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/line_middle" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/line_down" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="right"
-            android:text="还剩6小时免费时间"
-            android:textColor="#000000"
-            android:textSize="16sp" />
+            android:orientation="horizontal"
+            android:padding="@dimen/list_default_padding" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="费用: "
-            android:textColor="@color/gray"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="￥123"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/list_default_padding"
-        android:paddingRight="@dimen/list_default_padding" >
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/line_height"
-            android:background="@color/line_up" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/line_height"
-            android:background="@color/line_middle" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/line_height"
-            android:background="@color/line_down" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:orientation="horizontal"
-        android:padding="@dimen/list_default_padding" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/buy_btn_bg"
-            android:paddingBottom="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="5dp"
-            android:text="购买"
-            android:textColor="#ff7d25"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/buy_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/buy_btn_bg"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp"
+                android:text="购买"
+                android:textColor="#ff7d25"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

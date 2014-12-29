@@ -311,8 +311,4 @@ public class ScanActivity extends BaseActivity implements
 			this.finish();
 		}
 	}
-
-	class TempModel extends BaseInfo {
-		public String taskId;
-	}
 }

@@ -311,6 +311,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 						Intent intent = new Intent();
 						intent.setClass(TongPageActivity.this,
 								ScanActivity.class);
+						intent.putExtra("frowWhere", "line");
 						startActivity(intent);
 					}
 				}
@@ -327,6 +328,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 	private void borrowBtnMethod() {
 		Intent intent = new Intent();
 		intent.setClass(this, ScanActivity.class);
+		intent.putExtra("fromWhere", "borrow");
 		startActivity(intent);
 	}
 
