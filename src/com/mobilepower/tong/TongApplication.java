@@ -117,28 +117,40 @@ public class TongApplication extends FrontiaApplication {
 		}
 		return mine;
 	}
-	
+
 	public static void updateMineInfo(String nickname, int age, String resume) {
 		if (mine != null) {
-			mine.nickName = nickname;
-			mine.age = age;
-			mine.resume = resume;
+			if (nickname != null && !nickname.isEmpty()) {
+				mine.nickName = nickname;
+			}
+			if (age >= 0) {
+				mine.age = age;
+			}
+			if (resume != null && !resume.isEmpty()) {
+				mine.resume = resume;
+			}
+		}
+	}
+
+	public static void updateMineMoney(double money) {
+		if (mine != null) {
+			mine.money = money;
 		}
 	}
 
 	public static void relogin(Activity act) {
-//		SharedPreferences sp = UTools.Storage.getSharedPreferences(act,
-//				UConstants.BASE_PREFS_NAME);
-//		String xiaomiRegId = sp.getString(UConstants.XIAOMI_REGID, "");
+		// SharedPreferences sp = UTools.Storage.getSharedPreferences(act,
+		// UConstants.BASE_PREFS_NAME);
+		// String xiaomiRegId = sp.getString(UConstants.XIAOMI_REGID, "");
 
 		// 清空数据
 		clearMineInfo();
 		UDataCleanManager.cleanApplicationData(act);
 
-//		SharedPreferences.Editor mEditor = UTools.Storage.getSharedPreEditor(
-//				act, UConstants.BASE_PREFS_NAME);
-//		mEditor.putString(UConstants.XIAOMI_REGID, xiaomiRegId);
-//		mEditor.commit();
+		// SharedPreferences.Editor mEditor = UTools.Storage.getSharedPreEditor(
+		// act, UConstants.BASE_PREFS_NAME);
+		// mEditor.putString(UConstants.XIAOMI_REGID, xiaomiRegId);
+		// mEditor.commit();
 
 		// 跳转
 		UTools.activityhelper.clearAllBut(act);

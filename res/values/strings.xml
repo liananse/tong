@@ -115,7 +115,7 @@
     <string name="friends_title">好友</string>
     
     <!-- recharge activity -->
-    <string name="recharge_title">充值来电币</string>
+    <string name="recharge_title">充值</string>
     <string name="recharge_count">充值金额:</string>
     <string name="recharge_yuan">元</string>
     <string name="recharge_way">支付方式: 支付宝</string>

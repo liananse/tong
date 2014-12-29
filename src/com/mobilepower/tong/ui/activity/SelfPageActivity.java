@@ -190,6 +190,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onResume();
 		this.bus.register(this);
+		initData();
 	}
 
 	@Override

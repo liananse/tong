@@ -11,4 +11,6 @@ public class UIntentKeys {
 	public static final String MONEY = "money";
 	
 	public static final String USER_INFO = "user_info";
+	
+	public static final String TONG_INOF = "tong_info";
 }

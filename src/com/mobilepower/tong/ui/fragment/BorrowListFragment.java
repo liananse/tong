@@ -1,5 +1,6 @@
 package com.mobilepower.tong.ui.fragment;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,16 +16,20 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.db.DDBOpenHelper;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
+import com.mobilepower.tong.model.BuyModel;
 import com.mobilepower.tong.model.TongInfo;
 import com.mobilepower.tong.ui.adapter.TongListAdapter;
+import com.mobilepower.tong.ui.event.BuySureTongEvent;
 import com.mobilepower.tong.ui.event.BuyTongEvent;
 import com.mobilepower.tong.ui.view.XListView;
 import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.UIntentKeys;
 import com.mobilepower.tong.utils.UToast;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -88,12 +93,82 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 				mCancelOkDialog = new CancelOkDialog();
 			}
 
+			Bundle bundle = new Bundle();
+			bundle.putSerializable(UIntentKeys.TONG_INOF,
+					(Serializable) paramEvent.mInfo);
+
 			FragmentTransaction ft = getActivity().getSupportFragmentManager()
 					.beginTransaction();
 
 			if (!mCancelOkDialog.isAdded()) {
+				mCancelOkDialog.setArguments(bundle);
 				mCancelOkDialog.show(ft, "cancel_ok");
 			}
+		}
+	}
+
+	@Subscribe
+	public void BuySureClick(BuySureTongEvent paramEvent) {
+		if (paramEvent != null && paramEvent.mInfo != null) {
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("historyId", paramEvent.mInfo.id);
+
+			mDataLoader.postData(UConfig.BUY_CHONGDIANBAO_URL, params,
+					getActivity(), new HDataListener() {
+
+						@Override
+						public void onSocketTimeoutException(String msg) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void onFinish(String source) {
+							// TODO Auto-generated method stub
+							Gson gson = new Gson();
+							try {
+								TempBuyModel mResultModel = gson.fromJson(
+										source, TempBuyModel.class);
+								if (mResultModel != null) {
+									if (mResultModel.result == UConstants.SUCCESS) {
+										DDBOpenHelper mDdbOpenHelper = DDBOpenHelper
+												.getInstance(getActivity());
+
+										double money = TongApplication
+												.getMineInfo(getActivity()).money
+												- mResultModel.buyModel.cost;
+										mDdbOpenHelper.updateMoney(money);
+
+										TongApplication.updateMineMoney(money);
+										UToast.showShortToast(getActivity(),
+												mResultModel.msg);
+									} else {
+										UToast.showShortToast(getActivity(),
+												mResultModel.msg);
+									}
+
+								}
+
+							} catch (JsonSyntaxException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+
+						}
+
+						@Override
+						public void onFail(String msg) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void onConnectTimeoutException(String msg) {
+							// TODO Auto-generated method stub
+
+						}
+					});
+
 		}
 	}
 
@@ -206,5 +281,9 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 	class TempModel extends BaseInfo {
 		public String sortTime;
 		public List<TongInfo> data;
+	}
+
+	class TempBuyModel extends BaseInfo {
+		public BuyModel buyModel;
 	}
 }

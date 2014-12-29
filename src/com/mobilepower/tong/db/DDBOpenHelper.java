@@ -366,9 +366,30 @@ public class DDBOpenHelper extends SQLiteOpenHelper {
 
 		ContentValues values = new ContentValues();
 
-		values.put("nickName", nickname);
-		values.put("age", age);
-		values.put("resume", resume);
+		if (nickname != null && !nickname.isEmpty()) {
+			values.put("nickName", nickname);
+		}
+		if (age >= 0) {
+			values.put("age", age);
+		}
+		if (resume != null && !resume.isEmpty()) {
+			values.put("resume", resume);
+		}
+
+		db.update(USER_TABLE_NAME, values, null, null);
+
+		db.setTransactionSuccessful();
+		db.endTransaction();
+		db.close();
+	}
+
+	public void updateMoney(double money) {
+		SQLiteDatabase db = getWritableDatabase();
+		db.beginTransaction();
+
+		ContentValues values = new ContentValues();
+
+		values.put("money", money);
 
 		db.update(USER_TABLE_NAME, values, null, null);
 

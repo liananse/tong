@@ -11,14 +11,22 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 
 import com.mobilepower.tong.R;
+import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.model.TongInfo;
+import com.mobilepower.tong.ui.event.BuySureTongEvent;
+import com.mobilepower.tong.utils.UIntentKeys;
 
 public class CancelOkDialog extends DialogFragment implements OnClickListener {
+	private TongInfo mInfo;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		int style = DialogFragment.STYLE_NO_TITLE, theme = R.style.dialog;
 		setStyle(style, theme);
+		mInfo = (TongInfo) getArguments()
+				.getSerializable(UIntentKeys.TONG_INOF);
 		this.setCancelable(false);
 	}
 
@@ -33,7 +41,7 @@ public class CancelOkDialog extends DialogFragment implements OnClickListener {
 
 		mCancel = mView.findViewById(R.id.cancel);
 		mOk = mView.findViewById(R.id.sure);
-		
+
 		mCancel.setOnClickListener(this);
 		mOk.setOnClickListener(this);
 
@@ -60,6 +68,9 @@ public class CancelOkDialog extends DialogFragment implements OnClickListener {
 		if (v == mCancel) {
 			this.dismiss();
 		} else if (v == mOk) {
+			if (mInfo != null) {
+				TongApplication.getBus().post(new BuySureTongEvent(mInfo));
+			}
 			this.dismiss();
 		}
 	}

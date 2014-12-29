@@ -82,9 +82,6 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener {
 		femaleDrawable.setBounds(0, 0, femaleDrawable.getMinimumWidth(),
 				femaleDrawable.getMinimumHeight());
 
-		mAvatarView
-				.setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
-
 		if (mInfo != null) {
 			mNickName.setText(mInfo.nickName);
 			if (mInfo.sex == 1) {

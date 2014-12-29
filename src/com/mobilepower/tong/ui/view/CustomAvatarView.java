@@ -25,7 +25,7 @@ public class CustomAvatarView extends ViewGroup {
 		mAvatarView = new RoundedImageView(context);
 //		mAvatarView.setOval(true);
 		mAvatarView.setScaleType(ScaleType.CENTER_CROP);
-		mAvatarView.setImageResource(R.drawable.mm_trans);
+		mAvatarView.setImageResource(R.drawable.female);
 		mAvatarView.setCornerRadius((float)8);
 
 		mAvatarRim = new ProgressWheel(context);
@@ -50,7 +50,7 @@ public class CustomAvatarView extends ViewGroup {
 		mAvatarView = new RoundedImageView(context);
 //		mAvatarView.setOval(true);
 		mAvatarView.setScaleType(ScaleType.CENTER_CROP);
-		mAvatarView.setImageResource(R.drawable.mm_trans);
+		mAvatarView.setImageResource(R.drawable.female);
 		mAvatarView.setCornerRadius((float)8);
 
 		mAvatarRim = new ProgressWheel(context);
