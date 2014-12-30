@@ -15,14 +15,17 @@
  */
 package com.mobilepower.tong.ui.activity;
 
-import com.mobilepower.tong.R;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
+
+import com.mobilepower.tong.R;
 
 public class ChatActivity extends BaseActivity implements OnClickListener{
 
+	public static final int REQUEST_CODE_TEXT = 5;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -34,15 +37,16 @@ public class ChatActivity extends BaseActivity implements OnClickListener{
 	}
 
 	private View mBackBtn;
-
+	private TextView mTitle;
 	/**
 	 * 初始化actionBar
 	 */
 	private void initActionBar() {
 		mBackBtn = findViewById(R.id.back_btn);
-
+		mTitle = (TextView) findViewById(R.id.title);
 		mBackBtn.setOnClickListener(this);
 	}
+	
 	
 	@Override
 	protected void onResume() {

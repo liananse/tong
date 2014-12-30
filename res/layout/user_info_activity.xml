@@ -94,15 +94,16 @@
         android:gravity="center"
         android:padding="@dimen/login_and_register_padding"
         android:text="@string/user_info_send_msg"
-        android:textColor="@color/white" />
-    
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
     <TextView
         android:id="@+id/black_list_btn"
         style="@style/LoginAndRegisterBtn"
-        android:background="@drawable/red_btn_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="@string/user_info_put_in_blacklist" />
+        android:background="@drawable/red_btn_bg"
+        android:text="@string/user_info_put_in_blacklist"
+        android:visibility="gone" />
 
 </LinearLayout>
