@@ -32,6 +32,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.mapapi.SDKInitializer;
+import com.easemob.EMCallBack;
 import com.mobilepower.tong.db.DDBOpenHelper;
 import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.ui.activity.SplashActivity;
@@ -51,9 +52,16 @@ public class TongApplication extends FrontiaApplication {
 	public LocationClient mLocationClient;
 	public MyLocationListener mMyLocationListener;
 
+	// hx
+	public static Context applicationContext;
+	public final String PREF_USERNAME = "username";
+	public static String currentUserNick = "";
+	public static DemoHXSDKHelper hxSDKHelper = new DemoHXSDKHelper();
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		applicationContext = this;
 		SDKInitializer.initialize(this);
 		instance = this;
 		// 百度push接口
@@ -61,6 +69,7 @@ public class TongApplication extends FrontiaApplication {
 		bus = new Bus();
 
 		initLocation();
+		hxSDKHelper.onInit(applicationContext);
 	}
 
 	private static UserInfo mine;
@@ -73,6 +82,33 @@ public class TongApplication extends FrontiaApplication {
 			bus = new Bus();
 		}
 		return bus;
+	}
+
+	/**
+	 * 退出登录,清空数据
+	 */
+	public void logout(final EMCallBack emCallBack) {
+		// 先调用sdk logout，在清理app中自己的数据
+		hxSDKHelper.logout(emCallBack);
+	}
+
+	/**
+	 * 设置用户名
+	 * 
+	 * @param user
+	 */
+	public void setUserName(String username) {
+		hxSDKHelper.setHXId(username);
+	}
+
+	/**
+	 * 设置密码 下面的实例代码 只是demo，实际的应用中需要加password 加密后存入 preference 环信sdk
+	 * 内部的自动登录需要的密码，已经加密存储了
+	 * 
+	 * @param pwd
+	 */
+	public void setPassword(String pwd) {
+		hxSDKHelper.setPassword(pwd);
 	}
 
 	private void initLocation() {

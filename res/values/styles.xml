@@ -12,7 +12,7 @@
         <item name="android:padding">@dimen/login_and_register_padding</item>
         <item name="android:gravity">left|center_vertical</item>
     </style>
-    
+
     <style name="LoginAndRegisterBtn">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">18sp</item>
@@ -25,7 +25,7 @@
         <item name="android:padding">@dimen/login_and_register_padding</item>
         <item name="android:gravity">center</item>
     </style>
-    
+
     <style name="main_tab_bottom">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@drawable/tab_color_selector</item>
@@ -38,7 +38,7 @@
         <item name="android:paddingBottom">5dip</item>
         <item name="android:button">@null</item>
     </style>
-    
+
     <style name="dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -50,7 +50,7 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
-    
+
     <style name="HeaderLoadingBar">
         <item name="android:indeterminateOnly">true</item>
         <item name="android:indeterminateDrawable">@drawable/loading_bar</item>
@@ -62,4 +62,34 @@
         <item name="android:windowEnterAnimation">@anim/dialog_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/dialog_bottom_out</item>
     </style>
+
+    <!-- huanxin -->
+    <style name="chat_text_name_style">
+        <item name="android:textColor">#818181</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="chat_text_date_style">
+        <item name="android:padding">2dp</item>
+        <item name="android:paddingTop">2dip</item>
+        <item name="android:paddingBottom">2dip</item>
+        <item name="android:paddingLeft">12dip</item>
+        <item name="android:paddingRight">12dip</item>
+        <item name="android:textColor">@color/btn_gray_normal</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">@drawable/timestampe_bg</item>
+    </style>
+
+    <style name="chat_content_date_style">
+        <item name="android:minHeight">50dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">#bfbfbf</item>
+    </style>
+
 </resources>

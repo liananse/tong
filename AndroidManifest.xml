@@ -71,7 +71,7 @@
         <meta-data
             android:name="api_key"
             android:value="XgaFFSFsfHqB47chjQgG2QG0" />
-        
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -111,7 +111,6 @@
         <activity
             android:name=".ui.activity.MainTabActivity"
             android:screenOrientation="portrait" >
-            
         </activity>
         <activity
             android:name=".ui.activity.TongPageActivity"
@@ -166,6 +165,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.activity.ChatListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".ui.activity.ChatActivity"
             android:screenOrientation="portrait" >
         </activity>
@@ -197,6 +200,7 @@
         <!-- push service client -->
         <receiver android:name="com.mobilepower.tong.push.TongPushMessageReceiver" >
             <intent-filter>
+
                 <!-- 接收 push 消息 -->
                 <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
                 <!-- 接收 bind、setTags 等 method 的返回结果 -->
@@ -242,6 +246,13 @@
             </intent-filter>
         </service>
         <!-- push service end -->
+
+        <!-- Required. AppKey copied from Portal -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="gotodada#test" />
+        <!-- Required SDK核心功能 -->
+        <service android:name="com.easemob.chat.EMChatService" />
     </application>
 
 </manifest>
