@@ -133,6 +133,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.activity.LentCodeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".ui.activity.LentActivity"
             android:screenOrientation="portrait" >
         </activity>

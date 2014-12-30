@@ -53,6 +53,7 @@ import com.mobilepower.tong.ui.view.XListView;
 import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.UIntentKeys;
 import com.mobilepower.tong.utils.UToast;
 import com.squareup.otto.Bus;
 
@@ -311,7 +312,8 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 						Intent intent = new Intent();
 						intent.setClass(TongPageActivity.this,
 								ScanActivity.class);
-						intent.putExtra("frowWhere", "line");
+						intent.putExtra(UIntentKeys.FROM_WHERE, "line");
+						intent.putExtra(UIntentKeys.LINE_TYPE, whichButton);
 						startActivity(intent);
 					}
 				}
@@ -328,7 +330,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 	private void borrowBtnMethod() {
 		Intent intent = new Intent();
 		intent.setClass(this, ScanActivity.class);
-		intent.putExtra("fromWhere", "borrow");
+		intent.putExtra(UIntentKeys.FROM_WHERE, "borrow");
 		startActivity(intent);
 	}
 
@@ -339,7 +341,8 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 		// startActivity(intent);
 
 		// 弹框刷新页面
-		showDialog(DIALOG_YES_NO_LONG_MESSAGE);
+//		showDialog(DIALOG_YES_NO_LONG_MESSAGE);
+		lentBtnMethod();
 	}
 
 	private static final int DIALOG_YES_NO_LONG_MESSAGE = 1;

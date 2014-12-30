@@ -34,6 +34,7 @@ import com.mobilepower.tong.R;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
+import com.mobilepower.tong.model.HistoryModel;
 import com.mobilepower.tong.model.TaskInfo;
 import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 import com.mobilepower.tong.utils.UConfig;
@@ -42,28 +43,55 @@ import com.mobilepower.tong.utils.UIntentKeys;
 
 public class BorrowTipsActivity extends BaseActivity {
 
+	private String fromWhere;
 	private String mTerminal;
 	private String mScanTaskId;
 	private ProgressBar mPro;
 	private TextView mTips;
 
+	private String mCheckHistoryId;
+	private String mFromUserId;
+	private int lineType;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.borrow_tips_activity);
+		fromWhere = getIntent().getStringExtra(UIntentKeys.FROM_WHERE);
 
 		mPro = (ProgressBar) findViewById(R.id.result_pro);
 		mTips = (TextView) findViewById(R.id.result_tips);
 
-		mTerminal = getIntent().getStringExtra(UIntentKeys.TERMINAL);
+		if (fromWhere.equals(UIntentKeys.BORROW_TONG)) {
+			mTerminal = getIntent().getStringExtra(UIntentKeys.TERMINAL);
 
-		if (mTerminal == null) {
-			mTerminal = "";
+			if (mTerminal == null) {
+				mTerminal = "";
+			}
+
+			scanAdd();
+			mTips.setText("正在查询扫描结果");
+		} else if (fromWhere.equals(UIntentKeys.BORROW_LENT)) {
+			// 转借
+			mCheckHistoryId = getIntent().getStringExtra(UIntentKeys.CHECK_HISTORY_ID);
+			mFromUserId = getIntent().getStringExtra(UIntentKeys.FROM_USER_ID);
+			
+			if (mCheckHistoryId == null) {
+				mCheckHistoryId = "";
+				mFromUserId = "";
+			}
+			
+			scanLent();
+			mTips.setText("正在查询扫描结果");
+		} else if (fromWhere.equals(UIntentKeys.BORROW_LINE)) {
+			mTerminal = getIntent().getStringExtra(UIntentKeys.TERMINAL);
+			lineType = getIntent().getIntExtra(UIntentKeys.LINE_TYPE, 1);
+			if (mTerminal == null) {
+				mTerminal = "";
+			}
+			borrowLine();
+			mTips.setText("正在查询扫描结果");
 		}
-
-		scanAdd();
-		mTips.setText("正在查询扫描结果");
 	}
 
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
@@ -267,5 +295,158 @@ public class BorrowTipsActivity extends BaseActivity {
 				this.sendEmptyMessageDelayed(START_QUERY, QUERY_INTERAL_TIME);
 			}
 		}
+	}
+
+	// 转借
+	public void scanLent() {
+		final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mLoadingProgressBarFragment.show(ft, "dialog");
+
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("checkHistoryId", mCheckHistoryId);
+		params.put("fromUserId", mFromUserId);
+
+		mDataLoader.getData(UConfig.TASK_ADD_BUY_LINE_URL, params, this,
+				new HDataListener() {
+
+					@Override
+					public void onSocketTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+						mTips.setText("获取数据超时，请稍后再试。");
+						mPro.setVisibility(View.GONE);
+					}
+
+					@Override
+					public void onFinish(String source) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+
+						Gson gson = new Gson();
+
+						try {
+							TempLentModel mResultModel = gson.fromJson(source,
+									TempLentModel.class);
+
+							if (mResultModel != null) {
+								if (mResultModel.result == UConstants.SUCCESS) {
+//									mScanTaskId = mResultModel.taskId;
+//									initWorkHandler();
+									mTips.setText("借入成功");
+									mPro.setVisibility(View.GONE);
+								} else {
+									mTips.setText(mResultModel.msg);
+									mPro.setVisibility(View.GONE);
+								}
+							} else {
+								mTips.setText("数据解析失败，请重新扫描");
+								mPro.setVisibility(View.GONE);
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							mTips.setText("数据解析失败，请重新扫描");
+							mPro.setVisibility(View.GONE);
+						}
+
+					}
+
+					@Override
+					public void onFail(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+						// restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
+						mTips.setText("返回错误，请稍后再试。");
+						mPro.setVisibility(View.GONE);
+					}
+
+					@Override
+					public void onConnectTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+						mTips.setText("网络连接超时，请检查网络是否畅通。");
+						mPro.setVisibility(View.GONE);
+					}
+				});
+	}
+	
+	class TempLentModel extends BaseInfo {
+		public HistoryModel historyModel;
+	}
+	
+	// 借线
+	public void borrowLine() {
+		final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		mLoadingProgressBarFragment.show(ft, "dialog");
+
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("lineType", lineType + "");
+		params.put("terminal", mTerminal);
+
+		System.out.println("dddddd " + lineType);
+		mDataLoader.getData(UConfig.TASK_ADD_BUY_LINE_URL, params, this,
+				new HDataListener() {
+
+					@Override
+					public void onSocketTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+						mTips.setText("获取数据超时，请稍后再试。");
+						mPro.setVisibility(View.GONE);
+					}
+
+					@Override
+					public void onFinish(String source) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+
+						Gson gson = new Gson();
+
+						try {
+							TempLentModel mResultModel = gson.fromJson(source,
+									TempLentModel.class);
+
+							if (mResultModel != null) {
+								if (mResultModel.result == UConstants.SUCCESS) {
+//									mScanTaskId = mResultModel.taskId;
+//									initWorkHandler();
+									mTips.setText("购买成功");
+									mPro.setVisibility(View.GONE);
+								} else {
+									mTips.setText(mResultModel.msg);
+									mPro.setVisibility(View.GONE);
+								}
+							} else {
+								mTips.setText("数据解析失败，请重新扫描");
+								mPro.setVisibility(View.GONE);
+							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							mTips.setText("数据解析失败，请重新扫描");
+							mPro.setVisibility(View.GONE);
+						}
+
+					}
+
+					@Override
+					public void onFail(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+						// restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
+						mTips.setText("返回错误，请稍后再试。");
+						mPro.setVisibility(View.GONE);
+					}
+
+					@Override
+					public void onConnectTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+						mTips.setText("网络连接超时，请检查网络是否畅通。");
+						mPro.setVisibility(View.GONE);
+					}
+				});
 	}
 }

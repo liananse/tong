@@ -1,9 +1,12 @@
 package com.mobilepower.tong.ui.adapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +18,9 @@ import android.widget.TextView;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.model.TongInfo;
+import com.mobilepower.tong.ui.activity.LentCodeActivity;
 import com.mobilepower.tong.ui.event.BuyTongEvent;
+import com.mobilepower.tong.utils.UIntentKeys;
 import com.mobilepower.tong.utils.UTimeUtils;
 
 public class TongListAdapter extends BaseAdapter {
@@ -112,6 +117,10 @@ public class TongListAdapter extends BaseAdapter {
 			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
 			holder.mMoneyV.setVisibility(View.GONE);
 			holder.mBuyV.setVisibility(View.GONE);
+		} else if (fromWhere.equals("lent_activity")) {
+			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
+			holder.mMoneyV.setVisibility(View.GONE);
+			holder.mBuyV.setVisibility(View.GONE);
 		}
 		holder.mTongFrom.setText("编号: " + mModel.deviceTerminal);
 		holder.mTongTime.setText("时间: " + mModel.updateTime);
@@ -123,7 +132,20 @@ public class TongListAdapter extends BaseAdapter {
 		holder.mTimeTips.setText(UTimeUtils.computeHowLongLeft(mContext,
 				Long.parseLong(mModel.expires)));
 
-		System.out.println("current time " + System.currentTimeMillis());
+		holder.mTongItem.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if (fromWhere.equals("lent_activity")) {
+					Intent i = new Intent(mContext, LentCodeActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable(UIntentKeys.TONG_INOF, (Serializable) mModel);
+					i.putExtras(bundle);
+					mContext.startActivity(i);
+				}
+			}
+		});
 
 		// holder.mTongLocation.setText(UTimeUtils.computeHowLongLeft(mContext,
 		// Long.parseLong(mModel.expires)));

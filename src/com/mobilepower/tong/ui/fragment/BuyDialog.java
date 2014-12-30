@@ -34,7 +34,7 @@ public class BuyDialog {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				alertDo.onClick(1);
+				alertDo.onClick(2);
 				dlg.dismiss();
 			}
 		});
@@ -46,7 +46,7 @@ public class BuyDialog {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				alertDo.onClick(2);
+				alertDo.onClick(1);
 				dlg.dismiss();
 			}
 		});

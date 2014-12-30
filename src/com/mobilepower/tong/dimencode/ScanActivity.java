@@ -36,7 +36,6 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.dimencode.camera.CameraManager;
-import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.ui.activity.BaseActivity;
 import com.mobilepower.tong.ui.activity.BorrowTipsActivity;
 import com.mobilepower.tong.ui.activity.ScanResultActivity;
@@ -71,6 +70,8 @@ public class ScanActivity extends BaseActivity implements
 		return cameraManager;
 	}
 
+	private String fromWhere;
+	private int lineType;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,7 +80,8 @@ public class ScanActivity extends BaseActivity implements
 		window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		setContentView(R.layout.scan_activity);
-
+		fromWhere = getIntent().getStringExtra(UIntentKeys.FROM_WHERE);
+		lineType = getIntent().getIntExtra(UIntentKeys.LINE_TYPE, 1);
 		initActionBar();
 		initView();
 
@@ -240,6 +242,8 @@ public class ScanActivity extends BaseActivity implements
 	 */
 	public void handleDecode(Result rawResult, Bitmap barcode) {
 		inactivityTimer.onActivity();
+
+		System.out.println("rawResult " + rawResult.getText());
 		String[] result = rawResult.getText().split("_");
 
 		if (result == null || result.length <= 0) {
@@ -255,11 +259,34 @@ public class ScanActivity extends BaseActivity implements
 			return;
 		}
 
-		Intent intent = new Intent();
-		intent.setClass(ScanActivity.this, BorrowTipsActivity.class);
-		intent.putExtra(UIntentKeys.TERMINAL, result[0]);
-		ScanActivity.this.startActivity(intent);
-		ScanActivity.this.finish();
+		if (result[0].equals("lent")) {
+			// 转借
+			Intent intent = new Intent();
+			intent.setClass(ScanActivity.this, BorrowTipsActivity.class);
+			intent.putExtra(UIntentKeys.FROM_WHERE, UIntentKeys.BORROW_LENT);
+			intent.putExtra(UIntentKeys.CHECK_HISTORY_ID, result[1]);
+			intent.putExtra(UIntentKeys.FROM_USER_ID, result[2]);
+			ScanActivity.this.startActivity(intent);
+			ScanActivity.this.finish();
+		} else {
+			// 借充电宝
+			if (fromWhere.equals("borrow")) {
+				Intent intent = new Intent();
+				intent.setClass(ScanActivity.this, BorrowTipsActivity.class);
+				intent.putExtra(UIntentKeys.FROM_WHERE, UIntentKeys.BORROW_TONG);
+				intent.putExtra(UIntentKeys.TERMINAL, result[0]);
+				ScanActivity.this.startActivity(intent);
+				ScanActivity.this.finish();
+			} else if (fromWhere.equals("line")) {
+				Intent intent = new Intent();
+				intent.setClass(ScanActivity.this, BorrowTipsActivity.class);
+				intent.putExtra(UIntentKeys.FROM_WHERE, UIntentKeys.BORROW_LINE);
+				intent.putExtra(UIntentKeys.TERMINAL, result[0]);
+				intent.putExtra(UIntentKeys.LINE_TYPE, lineType);
+				ScanActivity.this.startActivity(intent);
+				ScanActivity.this.finish();
+			}
+		}
 	}
 
 	private void initCamera(SurfaceHolder surfaceHolder) {
