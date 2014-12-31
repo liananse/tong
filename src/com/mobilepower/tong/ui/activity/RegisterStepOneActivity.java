@@ -18,7 +18,6 @@ package com.mobilepower.tong.ui.activity;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -28,7 +27,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.easemob.EMError;
+import com.easemob.chat.EMChatManager;
+import com.easemob.exceptions.EaseMobException;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -273,7 +276,7 @@ public class RegisterStepOneActivity extends BaseActivity implements
 
 							if (mResultModel != null) {
 								if (mResultModel.result == UConstants.SUCCESS) {
-									UserInfo mSelf = new UserInfo();
+									UserInfo mSelf = mResultModel.user;
 									mSelf.access_token = mResultModel.access_token;
 									// 将用户个人信息存数据库
 									TongApplication
@@ -291,13 +294,13 @@ public class RegisterStepOneActivity extends BaseActivity implements
 									mEditor.commit();
 
 									// 跳转到step two
-									Intent intent = new Intent(
-											RegisterStepOneActivity.this,
-											RegisterStepTwoActivity.class);
-									RegisterStepOneActivity.this
-											.startActivity(intent);
-									UTools.activityhelper.clearAllBut(RegisterStepOneActivity.this);
-									RegisterStepOneActivity.this.finish();
+//									Intent intent = new Intent(
+//											RegisterStepOneActivity.this,
+//											RegisterStepTwoActivity.class);
+//									RegisterStepOneActivity.this
+//											.startActivity(intent);
+//									UTools.activityhelper.clearAllBut(RegisterStepOneActivity.this);
+//									RegisterStepOneActivity.this.finish();
 								} else {
 									UToast.showShortToast(
 											RegisterStepOneActivity.this,
@@ -335,6 +338,45 @@ public class RegisterStepOneActivity extends BaseActivity implements
 
 	class TempModel extends BaseInfo {
 		public String access_token;
+		public UserInfo user;
 	}
+	
+//	public void registerHX() {
+//		new Thread(new Runnable() {
+//			public void run() {
+//				try {
+//					// 调用sdk注册方法
+//					EMChatManager.getInstance().createAccountOnServer(username, pwd);
+//					runOnUiThread(new Runnable() {
+//						public void run() {
+//							if (!RegisterActivity.this.isFinishing())
+//								pd.dismiss();
+//							// 保存用户名
+//							DemoApplication.getInstance().setUserName(username);
+//							Toast.makeText(getApplicationContext(), "注册成功", 0).show();
+//							finish();
+//						}
+//					});
+//				} catch (final EaseMobException e) {
+//					runOnUiThread(new Runnable() {
+//						public void run() {
+//							if (!RegisterActivity.this.isFinishing())
+//								pd.dismiss();
+//							int errorCode=e.getErrorCode();
+//							if(errorCode==EMError.NONETWORK_ERROR){
+//								Toast.makeText(getApplicationContext(), "网络异常，请检查网络！", Toast.LENGTH_SHORT).show();
+//							}else if(errorCode==EMError.USER_ALREADY_EXISTS){
+//								Toast.makeText(getApplicationContext(), "用户已存在！", Toast.LENGTH_SHORT).show();
+//							}else if(errorCode==EMError.UNAUTHORIZED){
+//								Toast.makeText(getApplicationContext(), "注册失败，无权限！", Toast.LENGTH_SHORT).show();
+//							}else{
+//								Toast.makeText(getApplicationContext(), "注册失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//							}
+//						}
+//					});
+//				}
+//			}
+//		}).start();
+//	}
 
 }

@@ -15,6 +15,7 @@
  */
 package com.mobilepower.tong.ui.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -124,7 +125,8 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener {
 		if (v == mBackBtn) {
 			this.finish();
 		} else if (v == mSendMsg) {
-			
+			Intent i = new Intent(this, ChatActivity.class);
+			this.startActivity(i);
 		}
 	}
 

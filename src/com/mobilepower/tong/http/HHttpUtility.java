@@ -97,23 +97,23 @@ public class HHttpUtility {
 		HttpConnectionParams.setSoTimeout(httpParameters,
 				HHttpUtility.SET_SOCKET_TIMEOUT);
 		HttpClient client = new DefaultHttpClient(httpParameters);
-		WifiManager wifiManager = (WifiManager) context
-				.getSystemService(Context.WIFI_SERVICE);
-		if (!wifiManager.isWifiEnabled()) {
-			Uri uri = Uri.parse("content://telephony/carriers/preferapn");
-			Cursor mCursor = context.getContentResolver().query(uri, null,
-					null, null, null);
-			if (mCursor != null && mCursor.moveToFirst()) {
-				String proxyStr = mCursor.getString(mCursor
-						.getColumnIndex("proxy"));
-				if (proxyStr != null && proxyStr.trim().length() > 0) {
-					HttpHost proxy = new HttpHost(proxyStr, 80);
-					client.getParams().setParameter(
-							ConnRouteParams.DEFAULT_PROXY, proxy);
-				}
-				mCursor.close();
-			}
-		}
+//		WifiManager wifiManager = (WifiManager) context
+//				.getSystemService(Context.WIFI_SERVICE);
+//		if (!wifiManager.isWifiEnabled()) {
+//			Uri uri = Uri.parse("content://telephony/carriers/preferapn");
+//			Cursor mCursor = context.getContentResolver().query(uri, null,
+//					null, null, null);
+//			if (mCursor != null && mCursor.moveToFirst()) {
+//				String proxyStr = mCursor.getString(mCursor
+//						.getColumnIndex("proxy"));
+//				if (proxyStr != null && proxyStr.trim().length() > 0) {
+//					HttpHost proxy = new HttpHost(proxyStr, 80);
+//					client.getParams().setParameter(
+//							ConnRouteParams.DEFAULT_PROXY, proxy);
+//				}
+//				mCursor.close();
+//			}
+//		}
 		return client;
 	}
 
