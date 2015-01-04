@@ -233,9 +233,13 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			intent.setClass(this, AboutActivity.class);
 			this.startActivity(intent);
 		} else if (v == mInfoBtn) {
-			Intent intent = new Intent();
-			intent.setClass(this, ChatListActivity.class);
-			this.startActivity(intent);
+//			Intent intent = new Intent();
+//			intent.setClass(this, ChatListActivity.class);
+//			this.startActivity(intent);
+			
+			Intent i = new Intent(this, ChatActivity.class);
+			i.putExtra("userId", "liananse002");
+		    this.startActivity(i);
 		}
 		else if (v == mExitBtn) {
 			showDialog(DIALOG_YES_NO_LONG_MESSAGE);

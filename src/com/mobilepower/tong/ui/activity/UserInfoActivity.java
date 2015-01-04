@@ -125,8 +125,12 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener {
 		if (v == mBackBtn) {
 			this.finish();
 		} else if (v == mSendMsg) {
+//			Intent i = new Intent(this, ChatActivity.class);
+//			this.startActivity(i);
+			
 			Intent i = new Intent(this, ChatActivity.class);
-			this.startActivity(i);
+			i.putExtra("userId", "liananse002");
+		    this.startActivity(i);
 		}
 	}
 

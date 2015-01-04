@@ -18,6 +18,7 @@ package com.mobilepower.tong.ui.activity;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -228,29 +229,19 @@ public class RegisterStepOneActivity extends BaseActivity implements
 
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
 
+	final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
 	private void registerMethod() {
 		// dialog show
-		final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		mLoadingProgressBarFragment.show(ft, "dialog");
 
 		// 设置不可点击
 		mNextBtn.setEnabled(false);
 
-		// 参数
-		// SharedPreferences sp = UTools.Storage.getSharedPreferences(mContext,
-		// UConstants.BASE_PREFS_NAME);
-
 		Map<String, String> params = new HashMap<String, String>();
-		// params.put("avatar",
-		// "avatar:" + UTools.Storage.getHeadPicSmallImagePath());
-		// params.put("nickName", mUserName.getText().toString().trim());
 		params.put("mobile", mMobileEt.getText().toString());
 		params.put("pwd", mPasswordEt.getText().toString());
-		// params.put("xiaomiUserId", sp.getString(UConstants.XIAOMI_REGID,
-		// ""));
-		// params.put("x", sp.getString(UConstants.LOCATION_LATITUDE, "0.0"));
-		// params.put("y", sp.getString(UConstants.LOCATION_LONGITUDE, "0.0"));
+		
 		mDataLoader.postData(UConfig.USER_ADD_URL, params,
 				RegisterStepOneActivity.this, new HDataListener() {
 
@@ -265,7 +256,7 @@ public class RegisterStepOneActivity extends BaseActivity implements
 					@Override
 					public void onFinish(String source) {
 						// TODO Auto-generated method stub
-						mLoadingProgressBarFragment.dismiss();
+//						mLoadingProgressBarFragment.dismiss();
 
 						Gson gson = new Gson();
 
@@ -293,6 +284,7 @@ public class RegisterStepOneActivity extends BaseActivity implements
 											mResultModel.access_token);
 									mEditor.commit();
 
+									registerHX();
 									// 跳转到step two
 //									Intent intent = new Intent(
 //											RegisterStepOneActivity.this,
@@ -341,27 +333,35 @@ public class RegisterStepOneActivity extends BaseActivity implements
 		public UserInfo user;
 	}
 	
-//	public void registerHX() {
-//		new Thread(new Runnable() {
-//			public void run() {
-//				try {
-//					// 调用sdk注册方法
-//					EMChatManager.getInstance().createAccountOnServer(username, pwd);
-//					runOnUiThread(new Runnable() {
-//						public void run() {
-//							if (!RegisterActivity.this.isFinishing())
-//								pd.dismiss();
-//							// 保存用户名
-//							DemoApplication.getInstance().setUserName(username);
+	public void registerHX() {
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					final UserInfo mInfo = TongApplication.getMineInfo(RegisterStepOneActivity.this);
+					// 调用sdk注册方法
+					EMChatManager.getInstance().createAccountOnServer(mInfo.mobile, mInfo.mobile);
+					runOnUiThread(new Runnable() {
+						public void run() {
+							if (!RegisterStepOneActivity.this.isFinishing())
+								mLoadingProgressBarFragment.dismiss();
+							// 保存用户名
+							TongApplication.getInstance().setUserName(mInfo.mobile);
 //							Toast.makeText(getApplicationContext(), "注册成功", 0).show();
 //							finish();
-//						}
-//					});
-//				} catch (final EaseMobException e) {
-//					runOnUiThread(new Runnable() {
-//						public void run() {
-//							if (!RegisterActivity.this.isFinishing())
-//								pd.dismiss();
+							Intent intent = new Intent(
+									RegisterStepOneActivity.this,
+									RegisterStepTwoActivity.class);
+							RegisterStepOneActivity.this
+									.startActivity(intent);
+							UTools.activityhelper.clearAllBut(RegisterStepOneActivity.this);
+							RegisterStepOneActivity.this.finish();
+						}
+					});
+				} catch (final EaseMobException e) {
+					runOnUiThread(new Runnable() {
+						public void run() {
+							if (!RegisterStepOneActivity.this.isFinishing())
+								mLoadingProgressBarFragment.dismiss();
 //							int errorCode=e.getErrorCode();
 //							if(errorCode==EMError.NONETWORK_ERROR){
 //								Toast.makeText(getApplicationContext(), "网络异常，请检查网络！", Toast.LENGTH_SHORT).show();
@@ -372,11 +372,11 @@ public class RegisterStepOneActivity extends BaseActivity implements
 //							}else{
 //								Toast.makeText(getApplicationContext(), "注册失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 //							}
-//						}
-//					});
-//				}
-//			}
-//		}).start();
-//	}
+						}
+					});
+				}
+			}
+		}).start();
+	}
 
 }

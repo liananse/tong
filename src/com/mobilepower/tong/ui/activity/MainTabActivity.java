@@ -24,8 +24,13 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TabHost;
 
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMGroupManager;
+import com.mobilepower.tong.DemoHXSDKHelper;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.model.UserInfo;
 import com.squareup.otto.Bus;
 
 @SuppressWarnings("deprecation")
@@ -130,6 +135,63 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	private static final int sleepTime = 2500;
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		new Thread(new Runnable() {
+			public void run() {
+				if (DemoHXSDKHelper.getInstance().isLogined()) {
+					long start = System.currentTimeMillis();
+					EMGroupManager.getInstance().loadAllGroups();
+					EMChatManager.getInstance().loadAllConversations();
+					long costTime = System.currentTimeMillis() - start;
+					if (sleepTime - costTime > 0) {
+						try {
+							Thread.sleep(sleepTime - costTime);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				} else {
+					try {
+						Thread.sleep(sleepTime);
+					} catch (InterruptedException e) {
+					}
+					loginHx();
+				}
+			}
+		}).start();
+
+	}
+
+	private void loginHx() {
+		final UserInfo mInfo = TongApplication.getMineInfo(this);
+		EMChatManager.getInstance().login(mInfo.mobile, mInfo.mobile,
+				new EMCallBack() {
+
+					@Override
+					public void onSuccess() {
+						TongApplication.getInstance()
+								.setUserName(mInfo.mobile);
+						TongApplication.getInstance()
+								.setPassword(mInfo.mobile);
+					}
+
+					@Override
+					public void onProgress(int progress, String status) {
+
+					}
+
+					@Override
+					public void onError(final int code, final String message) {
+					}
+				});
 	}
 
 }

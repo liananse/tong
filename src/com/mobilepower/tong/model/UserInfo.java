@@ -16,7 +16,7 @@ public class UserInfo implements Serializable{
 	public double money = 0;
 	public String phonecode;
 	public String pushToken;
-	public String registerTime;
+	public TimeModel registerTime;
 	public int sex;
 	public int source;
 	public int tokenType;
@@ -113,11 +113,11 @@ public class UserInfo implements Serializable{
 		this.pushToken = pushToken;
 	}
 
-	public String getRegisterTime() {
+	public TimeModel getRegisterTime() {
 		return registerTime;
 	}
 
-	public void setRegisterTime(String registerTime) {
+	public void setRegisterTime(TimeModel registerTime) {
 		this.registerTime = registerTime;
 	}
 
