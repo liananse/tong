@@ -1,5 +1,7 @@
 package com.mobilepower.tong.hx.utils;
 
+import com.mobilepower.tong.utils.UConstants;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -7,7 +9,7 @@ public class HXPreferenceUtils {
 	/**
 	 * 保存Preference的name
 	 */
-	public static final String PREFERENCE_NAME = "tongInfo";
+	public static final String PREFERENCE_NAME = UConstants.BASE_PREFS_NAME;
 	private static SharedPreferences mSharedPreferences;
 	private static HXPreferenceUtils mPreferenceUtils;
 	private static SharedPreferences.Editor editor;

@@ -101,7 +101,8 @@ public class TongListAdapter extends BaseAdapter {
 			holder.mBuyV = convertView.findViewById(R.id.buy_btn_v);
 			holder.mBuyT = (TextView) convertView.findViewById(R.id.buy_btn);
 			holder.mLentT = (TextView) convertView.findViewById(R.id.lent_btn);
-			holder.mRefreshT = (TextView) convertView.findViewById(R.id.refresh_status_btn);
+			holder.mRefreshT = (TextView) convertView
+					.findViewById(R.id.refresh_status_btn);
 
 			convertView.setTag(holder);
 		} else {
@@ -133,34 +134,36 @@ public class TongListAdapter extends BaseAdapter {
 		holder.mTongLocation.setText("地点: " + mModel.shopModel.address
 				+ mModel.shopModel.address);
 
-		// holder.mTimeTips.setText(UTimeUtils.computeHowLongLeft(mContext,
-		// Long.parseLong("1419842888964")));
-		holder.mTimeTips.setText(UTimeUtils.computeHowLongLeft(mContext,
-				Long.parseLong(mModel.expires)));
+		if (mModel.expires != null) {
+			holder.mTimeTips.setText(UTimeUtils.computeHowLongLeft(mContext,
+					Long.parseLong(mModel.expires)));
+		}
 
 		holder.mTongItem.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (fromWhere.equals("lent_activity")) {
 					Intent i = new Intent(mContext, LentCodeActivity.class);
 					Bundle bundle = new Bundle();
-					bundle.putSerializable(UIntentKeys.TONG_INOF, (Serializable) mModel);
+					bundle.putSerializable(UIntentKeys.TONG_INOF,
+							(Serializable) mModel);
 					i.putExtras(bundle);
 					mContext.startActivity(i);
 				}
 			}
 		});
-		
+
 		holder.mLentT.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(mContext, LentCodeActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putSerializable(UIntentKeys.TONG_INOF, (Serializable) mModel);
+				bundle.putSerializable(UIntentKeys.TONG_INOF,
+						(Serializable) mModel);
 				i.putExtras(bundle);
 				mContext.startActivity(i);
 			}
