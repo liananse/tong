@@ -261,7 +261,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
 				username = message.getTo();
 			}
 			if (!username.equals(toChatUsername)) {
-				// notifyNewMessage(message);
+				notifyNewMessage(message);
 				return;
 			}
 			// conversation =
