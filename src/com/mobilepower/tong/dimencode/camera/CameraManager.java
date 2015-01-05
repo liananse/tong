@@ -232,12 +232,14 @@ public final class CameraManager {
 			} else if (width > MAX_FRAME_WIDTH) {
 				width = MAX_FRAME_WIDTH;
 			}
+			width = context.getResources().getDisplayMetrics().widthPixels;
 			int height = screenResolution.y * 3 / 4;
 			if (height < MIN_FRAME_HEIGHT) {
 				height = MIN_FRAME_HEIGHT;
 			} else if (height > MAX_FRAME_HEIGHT) {
 				height = MAX_FRAME_HEIGHT;
 			}
+			height = context.getResources().getDisplayMetrics().heightPixels / 2;
 			int leftOffset = (screenResolution.x - width) / 2;
 			int topOffset = (screenResolution.y - height) / 2;
 			framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
