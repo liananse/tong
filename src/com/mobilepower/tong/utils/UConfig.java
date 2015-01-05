@@ -105,4 +105,9 @@ public class UConfig {
 	 */
 	public static final String BUY_CHONGDIANBAO_URL = SERVER_HOST + "/buyChongdianbao";
 	
+	/**
+	 * checkHistoryId
+	 * fromUserId
+	 */
+	public static final String BORROW_FROM_USER_URL = SERVER_HOST + "/borrowFromUser";	
 }

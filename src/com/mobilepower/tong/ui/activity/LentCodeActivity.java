@@ -38,7 +38,7 @@ public class LentCodeActivity extends BaseActivity {
 		if (mInfo != null) {
 			mCodeT.setText("编号：" + mInfo.deviceTerminal);
 			try {
-				mCodeV.setImageBitmap(Create2DCode("lent_" + mInfo.id + "_"
+				mCodeV.setImageBitmap(Create2DCode("borrowToUser_" + mInfo.id + "_"
 						+ TongApplication.getMineInfo(this).id));
 
 			} catch (WriterException e) {

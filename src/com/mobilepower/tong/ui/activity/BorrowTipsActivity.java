@@ -25,6 +25,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -41,7 +42,7 @@ import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UIntentKeys;
 
-public class BorrowTipsActivity extends BaseActivity {
+public class BorrowTipsActivity extends BaseActivity implements OnClickListener {
 
 	private String fromWhere;
 	private String mTerminal;
@@ -52,6 +53,7 @@ public class BorrowTipsActivity extends BaseActivity {
 	private String mCheckHistoryId;
 	private String mFromUserId;
 	private int lineType;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -59,6 +61,7 @@ public class BorrowTipsActivity extends BaseActivity {
 		setContentView(R.layout.borrow_tips_activity);
 		fromWhere = getIntent().getStringExtra(UIntentKeys.FROM_WHERE);
 
+		initActionBar();
 		mPro = (ProgressBar) findViewById(R.id.result_pro);
 		mTips = (TextView) findViewById(R.id.result_tips);
 
@@ -73,14 +76,15 @@ public class BorrowTipsActivity extends BaseActivity {
 			mTips.setText("正在查询扫描结果");
 		} else if (fromWhere.equals(UIntentKeys.BORROW_LENT)) {
 			// 转借
-			mCheckHistoryId = getIntent().getStringExtra(UIntentKeys.CHECK_HISTORY_ID);
+			mCheckHistoryId = getIntent().getStringExtra(
+					UIntentKeys.CHECK_HISTORY_ID);
 			mFromUserId = getIntent().getStringExtra(UIntentKeys.FROM_USER_ID);
-			
+
 			if (mCheckHistoryId == null) {
 				mCheckHistoryId = "";
 				mFromUserId = "";
 			}
-			
+
 			scanLent();
 			mTips.setText("正在查询扫描结果");
 		} else if (fromWhere.equals(UIntentKeys.BORROW_LINE)) {
@@ -92,6 +96,13 @@ public class BorrowTipsActivity extends BaseActivity {
 			borrowLine();
 			mTips.setText("正在查询扫描结果");
 		}
+	}
+
+	private View mBack;
+
+	private void initActionBar() {
+		mBack = findViewById(R.id.back_btn);
+		mBack.setOnClickListener(this);
 	}
 
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
@@ -207,13 +218,32 @@ public class BorrowTipsActivity extends BaseActivity {
 										workHandler.removeMessages(START_QUERY);
 
 										if (mResult.taskModel.status == 1) {
-											mTips.setText("借充电宝成功");
+
+											if (fromWhere
+													.equals(UIntentKeys.BORROW_TONG)) {
+												mTips.setText("借充电宝成功");
+											} else if (fromWhere
+													.equals(UIntentKeys.BORROW_LINE)) {
+												mTips.setText("购线成功");
+											}
 											mPro.setVisibility(View.GONE);
 										} else if (mResult.taskModel.status == 0) {
-											mTips.setText("借充电宝失败");
+											if (fromWhere
+													.equals(UIntentKeys.BORROW_TONG)) {
+												mTips.setText("借充电宝失败");
+											} else if (fromWhere
+													.equals(UIntentKeys.BORROW_LINE)) {
+												mTips.setText("购线失败");
+											}
 											mPro.setVisibility(View.GONE);
 										} else if (mResult.taskModel.status == -1) {
-											mTips.setText("终端暂无充电宝");
+											if (fromWhere
+													.equals(UIntentKeys.BORROW_TONG)) {
+												mTips.setText("终端暂无充电宝");
+											} else if (fromWhere
+													.equals(UIntentKeys.BORROW_LINE)) {
+												mTips.setText("终端暂无数据线");
+											}
 											mPro.setVisibility(View.GONE);
 										}
 										return;
@@ -307,7 +337,7 @@ public class BorrowTipsActivity extends BaseActivity {
 		params.put("checkHistoryId", mCheckHistoryId);
 		params.put("fromUserId", mFromUserId);
 
-		mDataLoader.getData(UConfig.TASK_ADD_BUY_LINE_URL, params, this,
+		mDataLoader.getData(UConfig.BORROW_FROM_USER_URL, params, this,
 				new HDataListener() {
 
 					@Override
@@ -331,8 +361,6 @@ public class BorrowTipsActivity extends BaseActivity {
 
 							if (mResultModel != null) {
 								if (mResultModel.result == UConstants.SUCCESS) {
-//									mScanTaskId = mResultModel.taskId;
-//									initWorkHandler();
 									mTips.setText("借入成功");
 									mPro.setVisibility(View.GONE);
 								} else {
@@ -370,11 +398,11 @@ public class BorrowTipsActivity extends BaseActivity {
 					}
 				});
 	}
-	
+
 	class TempLentModel extends BaseInfo {
 		public HistoryModel historyModel;
 	}
-	
+
 	// 借线
 	public void borrowLine() {
 		final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
@@ -385,7 +413,6 @@ public class BorrowTipsActivity extends BaseActivity {
 		params.put("lineType", lineType + "");
 		params.put("terminal", mTerminal);
 
-		System.out.println("dddddd " + lineType);
 		mDataLoader.getData(UConfig.TASK_ADD_BUY_LINE_URL, params, this,
 				new HDataListener() {
 
@@ -405,15 +432,17 @@ public class BorrowTipsActivity extends BaseActivity {
 						Gson gson = new Gson();
 
 						try {
-							TempLentModel mResultModel = gson.fromJson(source,
-									TempLentModel.class);
+							TempAddModel mResultModel = gson.fromJson(source,
+									TempAddModel.class);
 
 							if (mResultModel != null) {
 								if (mResultModel.result == UConstants.SUCCESS) {
-//									mScanTaskId = mResultModel.taskId;
-//									initWorkHandler();
-									mTips.setText("购买成功");
-									mPro.setVisibility(View.GONE);
+									// mScanTaskId = mResultModel.taskId;
+									// initWorkHandler();
+									mScanTaskId = mResultModel.taskId;
+									initWorkHandler();
+									// mTips.setText("购买成功");
+									// mPro.setVisibility(View.GONE);
 								} else {
 									mTips.setText(mResultModel.msg);
 									mPro.setVisibility(View.GONE);
@@ -448,5 +477,13 @@ public class BorrowTipsActivity extends BaseActivity {
 						mPro.setVisibility(View.GONE);
 					}
 				});
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if (v == mBack) {
+			this.finish();
+		}
 	}
 }

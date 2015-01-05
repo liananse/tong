@@ -259,7 +259,7 @@ public class ScanActivity extends BaseActivity implements
 			return;
 		}
 
-		if (result[0].equals("lent")) {
+		if (result[0].equals("borrowToUser")) {
 			// 转借
 			Intent intent = new Intent();
 			intent.setClass(ScanActivity.this, BorrowTipsActivity.class);
