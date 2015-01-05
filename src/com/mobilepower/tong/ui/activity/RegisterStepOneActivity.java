@@ -297,14 +297,17 @@ public class RegisterStepOneActivity extends BaseActivity implements
 									UToast.showShortToast(
 											RegisterStepOneActivity.this,
 											mResultModel.msg);
+									mLoadingProgressBarFragment.dismiss();
 								}
 							} else {
 								UToast.showOnFail(RegisterStepOneActivity.this);
+								mLoadingProgressBarFragment.dismiss();
 							}
 						} catch (JsonSyntaxException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 							UToast.showDataParsingError(RegisterStepOneActivity.this);
+							mLoadingProgressBarFragment.dismiss();
 						}
 
 						mNextBtn.setEnabled(true);

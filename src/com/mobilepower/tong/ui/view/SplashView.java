@@ -44,6 +44,7 @@ import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.ui.activity.MainTabActivity;
 import com.mobilepower.tong.ui.activity.RegisterStepOneActivity;
+import com.mobilepower.tong.ui.activity.RegisterStepTwoActivity;
 import com.mobilepower.tong.ui.activity.SplashActivity;
 import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 import com.mobilepower.tong.utils.UConfig;
@@ -334,12 +335,21 @@ public class SplashView extends ViewGroup {
 											mResultModel.access_token);
 									mEditor.commit();
 
-									Intent intent = new Intent(mContext,
-											MainTabActivity.class);
-									mContext.startActivity(intent);
-									if (mContext instanceof SplashActivity) {
-										((SplashActivity) mContext).finish();
+									if (mSelf.nickName != null && !mSelf.nickName.equals("")) {
+										Intent intent = new Intent(mContext,
+												MainTabActivity.class);
+										mContext.startActivity(intent);
+										if (mContext instanceof SplashActivity) {
+											((SplashActivity) mContext).finish();
+										}
+									} else {
+										Intent intent = new Intent(mContext, RegisterStepTwoActivity.class);
+										mContext.startActivity(intent);
+										if (mContext instanceof SplashActivity) {
+											((SplashActivity) mContext).finish();
+										}
 									}
+									
 								} else {
 									UToast.showShortToast(mContext,
 											mResultModel.msg);
