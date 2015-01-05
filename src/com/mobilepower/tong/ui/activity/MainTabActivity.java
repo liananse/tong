@@ -15,8 +15,13 @@
  */
 package com.mobilepower.tong.ui.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.TabActivity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,34 +32,40 @@ import android.widget.TabHost;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.NotificationCompat;
+import com.easemob.chat.EMMessage.ChatType;
+import com.easemob.chat.EMMessage.Type;
+import com.easemob.util.EasyUtils;
 import com.mobilepower.tong.DemoHXSDKHelper;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.hx.utils.CommonUtils;
 import com.mobilepower.tong.model.UserInfo;
 import com.squareup.otto.Bus;
 
 @SuppressWarnings("deprecation")
-public class MainTabActivity extends TabActivity implements OnClickListener{
-	
+public class MainTabActivity extends TabActivity implements OnClickListener {
+
 	private Bus bus;
-	
+
 	public TabHost tabHost;
 	public RadioGroup radioGroup;
 
 	public static final String TAB_TONG = "TabTong";
 	public static final String TAB_SHOP = "TabShop";
-//	public static final String TAB_HISTORY = "TabHistory";
-//	public static final String TAB_NEARBY = "TabNearby";
+	// public static final String TAB_HISTORY = "TabHistory";
+	// public static final String TAB_NEARBY = "TabNearby";
 	public static final String TAB_SELF = "TabSelf";
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.main_tab_activity);
 		bus = TongApplication.getBus();
-		
+
 		tabHost = this.getTabHost();
 
 		tabHost.addTab(tabHost
@@ -67,16 +78,16 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 				.setIndicator(TAB_SHOP)
 				.setContent(
 						new Intent(MainTabActivity.this, ShopPageActivity.class)));
-//		tabHost.addTab(tabHost
-//				.newTabSpec(TAB_HISTORY)
-//				.setIndicator(TAB_HISTORY)
-//				.setContent(
-//						new Intent(MainTabActivity.this, HistoryPageActivity.class)));
-//		tabHost.addTab(tabHost
-//				.newTabSpec(TAB_NEARBY)
-//				.setIndicator(TAB_NEARBY)
-//				.setContent(
-//						new Intent(MainTabActivity.this, NearByPageActivity.class)));
+		// tabHost.addTab(tabHost
+		// .newTabSpec(TAB_HISTORY)
+		// .setIndicator(TAB_HISTORY)
+		// .setContent(
+		// new Intent(MainTabActivity.this, HistoryPageActivity.class)));
+		// tabHost.addTab(tabHost
+		// .newTabSpec(TAB_NEARBY)
+		// .setIndicator(TAB_NEARBY)
+		// .setContent(
+		// new Intent(MainTabActivity.this, NearByPageActivity.class)));
 		tabHost.addTab(tabHost
 				.newTabSpec(TAB_SELF)
 				.setIndicator(TAB_SELF)
@@ -98,10 +109,10 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 					tabHost.setCurrentTabByTag(TAB_SHOP);
 					break;
 				case R.id.radio_event_type:
-//					tabHost.setCurrentTabByTag(TAB_HISTORY);
+					// tabHost.setCurrentTabByTag(TAB_HISTORY);
 					break;
 				case R.id.radio_friends:
-//					tabHost.setCurrentTabByTag(TAB_NEARBY);
+					// tabHost.setCurrentTabByTag(TAB_NEARBY);
 					break;
 				case R.id.radio_more:
 					tabHost.setCurrentTabByTag(TAB_SELF);
@@ -109,8 +120,9 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 				}
 			}
 		});
+
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -134,10 +146,9 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 	@Override
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
+
 	private static final int sleepTime = 2500;
 
 	@Override
@@ -177,10 +188,8 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 
 					@Override
 					public void onSuccess() {
-						TongApplication.getInstance()
-								.setUserName(mInfo.mobile);
-						TongApplication.getInstance()
-								.setPassword(mInfo.mobile);
+						TongApplication.getInstance().setUserName(mInfo.mobile);
+						TongApplication.getInstance().setPassword(mInfo.mobile);
 					}
 
 					@Override
@@ -193,5 +202,5 @@ public class MainTabActivity extends TabActivity implements OnClickListener{
 					}
 				});
 	}
-
+	
 }

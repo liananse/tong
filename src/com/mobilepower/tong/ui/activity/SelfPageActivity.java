@@ -21,8 +21,13 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +35,12 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.NotificationCompat;
+import com.easemob.chat.EMMessage.ChatType;
+import com.easemob.chat.EMMessage.Type;
+import com.easemob.util.EasyUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -37,6 +48,7 @@ import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
+import com.mobilepower.tong.hx.utils.CommonUtils;
 import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.utils.UConfig;
@@ -49,6 +61,8 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 
 	private Bus bus;
 
+	private NewMessageBroadcastReceiver msgReceiver;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -56,9 +70,15 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 
 		setContentView(R.layout.self_page_activity);
 		bus = TongApplication.getBus();
-
+		notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		initView();
 		initData();
+		// 注册一个接收消息的BroadcastReceiver
+		msgReceiver = new NewMessageBroadcastReceiver();
+		IntentFilter intentFilter = new IntentFilter(EMChatManager
+				.getInstance().getNewMessageBroadcastAction());
+		intentFilter.setPriority(3);
+		registerReceiver(msgReceiver, intentFilter);
 		getUserInfo();
 	}
 
@@ -78,6 +98,8 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private View mExitBtn;
 	private CheckBox mWantPush;
 	private CheckBox mNearbyUser;
+	
+	private TextView mUnReadMsgCount;
 
 	private void initView() {
 		mSelfInfo = findViewById(R.id.self_page_info);
@@ -97,6 +119,8 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mExitBtn = findViewById(R.id.self_page_exit_btn);
 		mWantPush = (CheckBox) findViewById(R.id.setting_want_info_push);
 		mNearbyUser = (CheckBox) findViewById(R.id.setting_nearby_user);
+		
+		mUnReadMsgCount = (TextView) findViewById(R.id.unread_msg_number);
 
 		mRechargeBtn.setOnClickListener(this);
 		mChatBtn.setOnClickListener(this);
@@ -118,7 +142,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			mNickName.setText(mInfo.nickName);
 			mSelfYue.setText(getResources().getString(R.string.self_page_yue,
 					mInfo.money));
-			
+
 			mSelfYa.setText(getResources().getString(R.string.self_page_ya,
 					mInfo.preMoney));
 		}
@@ -194,6 +218,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		super.onResume();
 		this.bus.register(this);
 		initData();
+		refresh();
 	}
 
 	@Override
@@ -213,9 +238,9 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v == mAvatarView) {
-//			Intent intent = new Intent();
-//			intent.setClass(this, UserInfoActivity.class);
-//			this.startActivity(intent);
+			// Intent intent = new Intent();
+			// intent.setClass(this, UserInfoActivity.class);
+			// this.startActivity(intent);
 		} else if (v == mChatBtn) {
 			Intent intent = new Intent();
 			intent.setClass(this, ChatActivity.class);
@@ -236,17 +261,16 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			Intent intent = new Intent();
 			intent.setClass(this, ChatListActivity.class);
 			this.startActivity(intent);
-		}
-		else if (v == mExitBtn) {
+		} else if (v == mExitBtn) {
 			showDialog(DIALOG_YES_NO_LONG_MESSAGE);
 		} else if (v == mRechargeBtn) {
 			Intent intent = new Intent();
 			intent.setClass(this, RechargeActivity.class);
 			this.startActivityForResult(intent, URequestCodes.RECHARGE);
 		} else if (v == mSelfEditBtn) {
-//			Intent intent = new Intent();
-//			intent.setClass(this, EditInfoActivity.class);
-//			this.startActivityForResult(intent, URequestCodes.EDIT_INFO);
+			// Intent intent = new Intent();
+			// intent.setClass(this, EditInfoActivity.class);
+			// this.startActivityForResult(intent, URequestCodes.EDIT_INFO);
 		} else if (v == mSelfInfo) {
 			Intent intent = new Intent();
 			intent.setClass(this, EditInfoActivity.class);
@@ -312,6 +336,94 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 
 	private void logOut() {
 		TongApplication.relogin(this);
+	}
+
+	/**
+	 * 新消息广播接收者
+	 * 
+	 * 
+	 */
+	private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// 主页面收到消息后，主要为了提示未读，实际消息内容需要到chat页面查看
+
+			String from = intent.getStringExtra("from");
+			// 消息id
+			String msgId = intent.getStringExtra("msgid");
+			EMMessage message = EMChatManager.getInstance().getMessage(msgId);
+			// 2014-10-22 修复在某些机器上，在聊天页面对方发消息过来时不立即显示内容的bug
+			if (ChatActivity.activityInstance != null) {
+				if (message.getChatType() == ChatType.GroupChat) {
+					if (message.getTo().equals(
+							ChatActivity.activityInstance.getToChatUsername()))
+						return;
+				} else {
+					if (from.equals(ChatActivity.activityInstance
+							.getToChatUsername()))
+						return;
+				}
+			}
+
+			// 注销广播接收者，否则在ChatActivity中会收到这个广播
+			abortBroadcast();
+
+			notifyNewMessage(message);
+			// 刷新bottom bar消息未读数
+			refresh();
+
+		}
+	}
+	
+	public void refresh() {
+		int count = getUnreadMsgCountTotal();
+		if (count > 0) {
+			mUnReadMsgCount.setText(String.valueOf(count));
+			mUnReadMsgCount.setVisibility(View.VISIBLE);
+		} else {
+			mUnReadMsgCount.setVisibility(View.INVISIBLE);
+		}
+	}
+	
+	/**
+	 * 获取未读消息数
+	 * 
+	 * @return
+	 */
+	public int getUnreadMsgCountTotal() {
+		int unreadMsgCountTotal = 0;
+		unreadMsgCountTotal = EMChatManager.getInstance().getUnreadMsgsCount();
+		return unreadMsgCountTotal;
+	}
+
+	private static final int notifiId = 11;
+	protected NotificationManager notificationManager;
+
+	/**
+	 * 当应用在前台时，如果当前消息不是属于当前会话，在状态栏提示一下 如果不需要，注释掉即可
+	 * 
+	 * @param message
+	 */
+	protected void notifyNewMessage(EMMessage message) {
+		// 如果是设置了不提醒只显示数目的群组(这个是app里保存这个数据的，demo里不做判断)
+		// 以及设置了setShowNotificationInbackgroup:false(设为false后，后台时sdk也发送广播)
+		if (!EasyUtils.isAppRunningForeground(this)) {
+			return;
+		}
+
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+				this).setSmallIcon(getApplicationInfo().icon)
+				.setWhen(System.currentTimeMillis()).setAutoCancel(true);
+
+		String ticker = CommonUtils.getMessageDigest(message, this);
+		if (message.getType() == Type.TXT)
+			ticker = ticker.replaceAll("\\[.{2,3}\\]", "[表情]");
+		// 设置状态栏提示
+		mBuilder.setTicker(message.getFrom() + ": " + ticker);
+
+		Notification notification = mBuilder.build();
+		notificationManager.notify(notifiId, notification);
+		notificationManager.cancel(notifiId);
 	}
 
 }
