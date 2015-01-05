@@ -266,7 +266,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener {
 			}
 			// conversation =
 			// EMChatManager.getInstance().getConversation(toChatUsername);
-			adapter.refresh();
+			adapter.notifyDataSetChanged();
 			listView.setSelection(listView.getCount() - 1);
 
 		}

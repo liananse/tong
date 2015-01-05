@@ -38,6 +38,21 @@ import com.mobilepower.tong.ui.activity.ChatActivity;
 
 public class MessageAdapter extends BaseAdapter {
 
+	private static final int MESSAGE_TYPE_RECV_TXT = 0;
+	private static final int MESSAGE_TYPE_SENT_TXT = 1;
+	private static final int MESSAGE_TYPE_SENT_IMAGE = 2;
+	private static final int MESSAGE_TYPE_SENT_LOCATION = 3;
+	private static final int MESSAGE_TYPE_RECV_LOCATION = 4;
+	private static final int MESSAGE_TYPE_RECV_IMAGE = 5;
+	private static final int MESSAGE_TYPE_SENT_VOICE = 6;
+	private static final int MESSAGE_TYPE_RECV_VOICE = 7;
+	private static final int MESSAGE_TYPE_SENT_VIDEO = 8;
+	private static final int MESSAGE_TYPE_RECV_VIDEO = 9;
+	private static final int MESSAGE_TYPE_SENT_FILE = 10;
+	private static final int MESSAGE_TYPE_RECV_FILE = 11;
+	private static final int MESSAGE_TYPE_SENT_VOICE_CALL = 12;
+	private static final int MESSAGE_TYPE_RECV_VOICE_CALL = 13;
+	
 	private String username;
 	private LayoutInflater inflater;
 	private Activity activity;
@@ -78,6 +93,24 @@ public class MessageAdapter extends BaseAdapter {
 
 	public long getItemId(int position) {
 		return position;
+	}
+	
+	/**
+	 * 获取item类型
+	 */
+	public int getItemViewType(int position) {
+		EMMessage message = conversation.getMessage(position);
+		if (message.getType() == EMMessage.Type.TXT) {
+			if (!message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VOICE_CALL, false))
+				return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
+			return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VOICE_CALL : MESSAGE_TYPE_SENT_VOICE_CALL;
+		}
+
+		return -1;// invalid
+	}
+
+	public int getViewTypeCount() {
+		return 14;
 	}
 
 	private View createViewByMessage(EMMessage message, int position) {
