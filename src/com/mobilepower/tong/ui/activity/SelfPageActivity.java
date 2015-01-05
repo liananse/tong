@@ -120,7 +120,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 					mInfo.money));
 			
 			mSelfYa.setText(getResources().getString(R.string.self_page_ya,
-					mInfo.money));
+					mInfo.preMoney));
 		}
 	}
 

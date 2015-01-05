@@ -100,6 +100,8 @@ public class TongListAdapter extends BaseAdapter {
 			holder.mMoneyT = (TextView) convertView.findViewById(R.id.money_t);
 			holder.mBuyV = convertView.findViewById(R.id.buy_btn_v);
 			holder.mBuyT = (TextView) convertView.findViewById(R.id.buy_btn);
+			holder.mLentT = (TextView) convertView.findViewById(R.id.lent_btn);
+			holder.mRefreshT = (TextView) convertView.findViewById(R.id.refresh_status_btn);
 
 			convertView.setTag(holder);
 		} else {
@@ -118,6 +120,10 @@ public class TongListAdapter extends BaseAdapter {
 			holder.mMoneyV.setVisibility(View.GONE);
 			holder.mBuyV.setVisibility(View.GONE);
 		} else if (fromWhere.equals("lent_activity")) {
+			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
+			holder.mMoneyV.setVisibility(View.GONE);
+			holder.mBuyV.setVisibility(View.GONE);
+		} else if (fromWhere.equals("buy")) {
 			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
 			holder.mMoneyV.setVisibility(View.GONE);
 			holder.mBuyV.setVisibility(View.GONE);
@@ -146,32 +152,19 @@ public class TongListAdapter extends BaseAdapter {
 				}
 			}
 		});
-
-		// holder.mTongLocation.setText(UTimeUtils.computeHowLongLeft(mContext,
-		// Long.parseLong(mModel.expires)));
-
-		// holder.mTongItem.setVisibility(View.VISIBLE);
-		// if (mModel.type == 1) {
-		// holder.mTongFrom.setText("从 " + mModel.shopModel.name + " 借入");
-		// holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
-		// } else if (mModel.type == 2) {
-		// holder.mTongFrom.setText("在 " + mModel.shopModel.name + " 归还");
-		// holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
-		// } else if (mModel.type == 3) {
-		// // 转借他人
-		// holder.mTongFrom.setText("转借他人");
-		// holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
-		// } else if (mModel.type == -1) {
-		// // 借入失败
-		// holder.mTongFrom.setText("借入失败");
-		// holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
-		// } else if (mModel.type == -2) {
-		// // 未知状态
-		// holder.mTongFrom.setText("未知状态");
-		// holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
-		// } else {
-		// holder.mTongItem.setVisibility(View.GONE);
-		// }
+		
+		holder.mLentT.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(mContext, LentCodeActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable(UIntentKeys.TONG_INOF, (Serializable) mModel);
+				i.putExtras(bundle);
+				mContext.startActivity(i);
+			}
+		});
 
 		holder.mBuyT.setOnClickListener(new OnClickListener() {
 
@@ -197,6 +190,8 @@ public class TongListAdapter extends BaseAdapter {
 
 		View mBuyV;
 		TextView mBuyT;
+		TextView mLentT;
+		TextView mRefreshT;
 	}
 
 	public void refreshData(List<TongInfo> list) {

@@ -46,6 +46,7 @@ import com.mobilepower.tong.ui.adapter.FragmentsAdapter;
 import com.mobilepower.tong.ui.adapter.TongListAdapter;
 import com.mobilepower.tong.ui.fragment.BorrowListFragment;
 import com.mobilepower.tong.ui.fragment.BuyDialog;
+import com.mobilepower.tong.ui.fragment.BuyListFragment;
 import com.mobilepower.tong.ui.fragment.LentListFragment;
 import com.mobilepower.tong.ui.fragment.OnAlertSelectId;
 import com.mobilepower.tong.ui.view.CustomViewPager;
@@ -91,6 +92,10 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 	private View mLentV;
 	private TextView mLentTitleV;
 	private View mLentLineV;
+	
+	private View mBuyV;
+	private TextView mBuyTitleV;
+	private View mBuyLineV;
 
 	private void initView() {
 		mBorrowBtn = findViewById(R.id.borrow_btn);
@@ -119,22 +124,31 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 		mLentV = findViewById(R.id.lent_list_v);
 		mLentTitleV = (TextView) findViewById(R.id.lent_title_v);
 		mLentLineV = findViewById(R.id.lent_title_line);
+		
+		mBuyV = findViewById(R.id.buy_list_v);
+		mBuyTitleV = (TextView) findViewById(R.id.buy_title_v);
+		mBuyLineV = findViewById(R.id.buy_title_line);
 
 		mBorrowTitleV.setTextColor(getResources().getColor(
 				R.color.view_pager_title_press));
 		mLentTitleV.setTextColor(getResources().getColor(
 				R.color.view_pager_title_normal));
+		mBuyTitleV.setTextColor(getResources().getColor(
+				R.color.view_pager_title_normal));
 		mBorrowLineV.setVisibility(View.VISIBLE);
 		mLentLineV.setVisibility(View.INVISIBLE);
+		mBuyLineV.setVisibility(View.INVISIBLE);
 
 		mBorrowV.setOnClickListener(this);
 		mLentV.setOnClickListener(this);
+		mBuyV.setOnClickListener(this);
 	}
 
 	private CustomViewPager mViewPager;
 	private ArrayList<Fragment> fragmentsList;
 	private Fragment borrowFragment;
 	private Fragment lentFragment;
+	private Fragment buyFragment;
 
 	private void initContentFragment() {
 		mViewPager = (CustomViewPager) findViewById(R.id.pager);
@@ -143,15 +157,17 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 
 		borrowFragment = new BorrowListFragment();
 		lentFragment = new LentListFragment();
-
+		buyFragment = new BuyListFragment();
+		
 		fragmentsList.add(borrowFragment);
 		fragmentsList.add(lentFragment);
+		fragmentsList.add(buyFragment);
 
 		mViewPager.setAdapter(new FragmentsAdapter(getSupportFragmentManager(),
 				fragmentsList));
 		mViewPager.setCurrentItem(0);
 		mViewPager.setOnPageChangeListener(new MyOnPageChangeListener());
-		mViewPager.setOffscreenPageLimit(2);
+		mViewPager.setOffscreenPageLimit(3);
 	}
 
 	public class MyOnPageChangeListener implements OnPageChangeListener {
@@ -174,16 +190,32 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 			if (arg0 == 0) {
 				mBorrowLineV.setVisibility(View.VISIBLE);
 				mLentLineV.setVisibility(View.INVISIBLE);
+				mBuyLineV.setVisibility(View.INVISIBLE);
 				mBorrowTitleV.setTextColor(getResources().getColor(
 						R.color.view_pager_title_press));
 				mLentTitleV.setTextColor(getResources().getColor(
 						R.color.view_pager_title_normal));
+				mBuyTitleV.setTextColor(getResources().getColor(
+						R.color.view_pager_title_normal));
 			} else if (arg0 == 1) {
 				mBorrowLineV.setVisibility(View.INVISIBLE);
 				mLentLineV.setVisibility(View.VISIBLE);
+				mBuyLineV.setVisibility(View.INVISIBLE);
 				mBorrowTitleV.setTextColor(getResources().getColor(
 						R.color.view_pager_title_normal));
 				mLentTitleV.setTextColor(getResources().getColor(
+						R.color.view_pager_title_press));
+				mBuyTitleV.setTextColor(getResources().getColor(
+						R.color.view_pager_title_normal));
+			} else if (arg0 == 2) {
+				mBorrowLineV.setVisibility(View.INVISIBLE);
+				mLentLineV.setVisibility(View.INVISIBLE);
+				mBuyLineV.setVisibility(View.VISIBLE);
+				mBorrowTitleV.setTextColor(getResources().getColor(
+						R.color.view_pager_title_normal));
+				mLentTitleV.setTextColor(getResources().getColor(
+						R.color.view_pager_title_normal));
+				mBuyTitleV.setTextColor(getResources().getColor(
 						R.color.view_pager_title_press));
 			}
 		}
@@ -324,6 +356,8 @@ public class TongPageActivity extends BaseActivity implements OnClickListener,
 			mViewPager.setCurrentItem(0);
 		} else if (v == mLentV) {
 			mViewPager.setCurrentItem(1);
+		} else if (v == mBuyV) {
+			mViewPager.setCurrentItem(2);
 		}
 	}
 

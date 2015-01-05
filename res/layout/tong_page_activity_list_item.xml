@@ -154,9 +154,38 @@
             android:padding="@dimen/list_default_padding" >
 
             <TextView
+                android:id="@+id/refresh_status_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/buy_btn_bg"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp"
+                android:text="查看状态"
+                android:textColor="#ff7d25"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/lent_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/buy_btn_bg"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp"
+                android:text="转借"
+                android:textColor="#ff7d25"
+                android:textSize="16sp" />
+
+            <TextView
                 android:id="@+id/buy_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:background="@drawable/buy_btn_bg"
                 android:paddingBottom="5dp"
                 android:paddingLeft="20dp"
