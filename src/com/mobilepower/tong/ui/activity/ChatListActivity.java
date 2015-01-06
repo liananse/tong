@@ -129,6 +129,18 @@ public class ChatListActivity extends BaseActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onPause();
 	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		try {
+			unregisterReceiver(msgReceiver);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public void refresh() {
 		conversationList.clear();

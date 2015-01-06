@@ -185,6 +185,8 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 									// 将用户个人信息存数据库
 									TongApplication.initMineInfo(
 											SelfPageActivity.this, mSelf);
+									
+									initData();
 								}
 							}
 
@@ -217,7 +219,8 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onResume();
 		this.bus.register(this);
-		initData();
+//		initData();
+		getUserInfo();
 		refresh();
 	}
 
@@ -232,6 +235,13 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		this.bus.unregister(this);
+		
+		try {
+			unregisterReceiver(msgReceiver);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.mobilepower.tong.ui.fragment;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UIntentKeys;
+import com.mobilepower.tong.utils.UTimeUtils;
 import com.mobilepower.tong.utils.UToast;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -38,6 +40,7 @@ import com.squareup.otto.Subscribe;
 public class BorrowListFragment extends Fragment implements IXListViewListener {
 
 	Bus bus;
+	boolean hasShowTwoHoursTips = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,8 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 		mAdapter = new TongListAdapter(getActivity());
 		mAdapter.setFromWhere("borrow");
 		bus = TongApplication.getBus();
+
+		hasShowTwoHoursTips = false;
 	}
 
 	@Override
@@ -79,7 +84,7 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 		mListView = (XListView) mView.findViewById(R.id.tong_list);
 
 		mListView.setPullRefreshEnable(true);
-		mListView.setPullLoadEnable(true);
+		mListView.setPullLoadEnable(false);
 		mListView.setXListViewListener(this);
 
 		mListView.setAdapter(mAdapter);
@@ -132,15 +137,6 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 										source, TempBuyModel.class);
 								if (mResultModel != null) {
 									if (mResultModel.result == UConstants.SUCCESS) {
-										DDBOpenHelper mDdbOpenHelper = DDBOpenHelper
-												.getInstance(getActivity());
-
-										double money = TongApplication
-												.getMineInfo(getActivity()).money
-												- mResultModel.buyModel.cost;
-										mDdbOpenHelper.updateMoney(money);
-
-										TongApplication.updateMineMoney(money);
 										UToast.showShortToast(getActivity(),
 												mResultModel.msg);
 									} else {
@@ -218,8 +214,12 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 											&& mResultModel.data.size() > 0) {
 										if (BorrowListFragment.this.isRefresh) {
 											mAdapter.refreshData(mResultModel.data);
+											
+//											checkIfShowTwoHoursTips(mResultModel.data);
 										} else {
 											mAdapter.addData(mResultModel.data);
+											
+//											checkIfShowTwoHoursTips(mResultModel.data);
 										}
 									} else {
 
@@ -265,6 +265,45 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 						onStopLoad();
 					}
 				});
+	}
+
+	public void checkIfShowTwoHoursTips(List<TongInfo> mList) {
+		if (mList != null && mList.size() > 0) {
+			for (int i = 0; i < mList.size(); i++) {
+				try {
+					System.out.println(UTimeUtils.stringToLong(
+							mList.get(i).addTime, "yyyy-MM-dd HH:mm:ss") + "");
+					Bundle bundle = new Bundle();
+					
+					TongInfo mModel = mList.get(i);
+					mModel.deviceTerminal = "" + i;
+					bundle.putSerializable(UIntentKeys.TONG_INOF,
+							(Serializable) mModel);
+					
+					long freeEndTime = UTimeUtils.stringToLong(
+							mList.get(i).addTime, "yyyy-MM-dd HH:mm:ss") + 24 * 60 * 60 * 1000;
+					
+//					long diffTime = freeEndTime - System.currentTimeMillis();
+					long diffTime = 90 * 60 * 1000;
+					
+					// 免费时间未到并且小于两个小时
+					if (diffTime > 0 && diffTime / (60 * 60 * 1000) < 2) {
+						FragmentTransaction ft = getActivity().getSupportFragmentManager()
+								.beginTransaction();
+
+						TwoHoursTips mTwoHoursTips = new TwoHoursTips();
+						mTwoHoursTips.setArguments(bundle);
+						mTwoHoursTips.show(ft, "two_hour_tips");
+						
+						System.out.println("ddddddddd " + i);
+					}
+					
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override

@@ -18,9 +18,8 @@ import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
-import com.mobilepower.tong.model.BuyModel;
-import com.mobilepower.tong.model.TongInfo;
-import com.mobilepower.tong.ui.adapter.TongListAdapter;
+import com.mobilepower.tong.model.BuyListModel;
+import com.mobilepower.tong.ui.adapter.BuyListAdapter;
 import com.mobilepower.tong.ui.view.XListView;
 import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
 import com.mobilepower.tong.utils.UConfig;
@@ -36,8 +35,7 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		mAdapter = new TongListAdapter(getActivity());
-		mAdapter.setFromWhere("buy");
+		mAdapter = new BuyListAdapter(getActivity());
 		bus = TongApplication.getBus();
 	}
 
@@ -66,13 +64,13 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 	}
 
 	private XListView mListView;
-	private TongListAdapter mAdapter;
+	private BuyListAdapter mAdapter;
 
 	private void initView(View mView) {
 		mListView = (XListView) mView.findViewById(R.id.tong_list);
 
 		mListView.setPullRefreshEnable(true);
-		mListView.setPullLoadEnable(true);
+		mListView.setPullLoadEnable(false);
 		mListView.setXListViewListener(this);
 
 		mListView.setAdapter(mAdapter);
@@ -98,7 +96,7 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 		params.put("sortTime", sortTime);
 		params.put("type", "3");
 
-		mDataLoader.getData(UConfig.CHECK_HISTORY_LIST_URL, params,
+		mDataLoader.getData(UConfig.BUY_HISTORY_GET_URL, params,
 				getActivity(), new HDataListener() {
 
 					@Override
@@ -129,7 +127,7 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 									} else {
 
 										if (BuyListFragment.this.isRefresh) {
-											mAdapter.refreshData(new ArrayList<TongInfo>());
+											mAdapter.refreshData(new ArrayList<BuyListModel>());
 										}
 										UToast.showShortToast(
 												getActivity(),
@@ -140,7 +138,7 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 								} else {
 
 									if (BuyListFragment.this.isRefresh) {
-										mAdapter.refreshData(new ArrayList<TongInfo>());
+										mAdapter.refreshData(new ArrayList<BuyListModel>());
 									}
 
 									UToast.showShortToast(getActivity(),
@@ -195,10 +193,6 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 
 	class TempModel extends BaseInfo {
 		public String sortTime;
-		public List<TongInfo> data;
-	}
-
-	class TempBuyModel extends BaseInfo {
-		public BuyModel buyModel;
+		public List<BuyListModel> data;
 	}
 }

@@ -64,6 +64,11 @@ public class UConfig {
 	public static final String CHECK_HISTORY_LIST_URL = SERVER_HOST + "/checkHistoryGet";
 	
 	/**
+	 * sortTime
+	 */
+	public static final String BUY_HISTORY_GET_URL = SERVER_HOST + "/buyHistoryGet";
+	
+	/**
 	 * 店铺列表
 	 * sortTime
 	 * lat 纬度
