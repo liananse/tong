@@ -18,7 +18,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
-import com.mobilepower.tong.db.DDBOpenHelper;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
@@ -215,11 +214,11 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 										if (BorrowListFragment.this.isRefresh) {
 											mAdapter.refreshData(mResultModel.data);
 											
-//											checkIfShowTwoHoursTips(mResultModel.data);
+											checkIfShowTwoHoursTips(mResultModel.data);
 										} else {
 											mAdapter.addData(mResultModel.data);
 											
-//											checkIfShowTwoHoursTips(mResultModel.data);
+											checkIfShowTwoHoursTips(mResultModel.data);
 										}
 									} else {
 
@@ -271,20 +270,14 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 		if (mList != null && mList.size() > 0) {
 			for (int i = 0; i < mList.size(); i++) {
 				try {
-					System.out.println(UTimeUtils.stringToLong(
-							mList.get(i).addTime, "yyyy-MM-dd HH:mm:ss") + "");
 					Bundle bundle = new Bundle();
-					
-					TongInfo mModel = mList.get(i);
-					mModel.deviceTerminal = "" + i;
 					bundle.putSerializable(UIntentKeys.TONG_INOF,
-							(Serializable) mModel);
+							(Serializable) mList.get(i));
 					
 					long freeEndTime = UTimeUtils.stringToLong(
 							mList.get(i).addTime, "yyyy-MM-dd HH:mm:ss") + 24 * 60 * 60 * 1000;
 					
-//					long diffTime = freeEndTime - System.currentTimeMillis();
-					long diffTime = 90 * 60 * 1000;
+					long diffTime = freeEndTime - System.currentTimeMillis();
 					
 					// 免费时间未到并且小于两个小时
 					if (diffTime > 0 && diffTime / (60 * 60 * 1000) < 2) {
@@ -294,8 +287,6 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 						TwoHoursTips mTwoHoursTips = new TwoHoursTips();
 						mTwoHoursTips.setArguments(bundle);
 						mTwoHoursTips.show(ft, "two_hour_tips");
-						
-						System.out.println("ddddddddd " + i);
 					}
 					
 				} catch (ParseException e) {
