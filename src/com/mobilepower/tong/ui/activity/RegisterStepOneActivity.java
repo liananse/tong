@@ -284,15 +284,15 @@ public class RegisterStepOneActivity extends BaseActivity implements
 											mResultModel.access_token);
 									mEditor.commit();
 
-									registerHX();
+//									registerHX();
 									// 跳转到step two
-//									Intent intent = new Intent(
-//											RegisterStepOneActivity.this,
-//											RegisterStepTwoActivity.class);
-//									RegisterStepOneActivity.this
-//											.startActivity(intent);
-//									UTools.activityhelper.clearAllBut(RegisterStepOneActivity.this);
-//									RegisterStepOneActivity.this.finish();
+									Intent intent = new Intent(
+											RegisterStepOneActivity.this,
+											RegisterStepTwoActivity.class);
+									RegisterStepOneActivity.this
+											.startActivity(intent);
+									UTools.activityhelper.clearAllBut(RegisterStepOneActivity.this);
+									RegisterStepOneActivity.this.finish();
 								} else {
 									UToast.showShortToast(
 											RegisterStepOneActivity.this,
