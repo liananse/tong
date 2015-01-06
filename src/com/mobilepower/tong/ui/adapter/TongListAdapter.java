@@ -131,8 +131,16 @@ public class TongListAdapter extends BaseAdapter {
 		}
 		holder.mTongFrom.setText("编号: " + mModel.deviceTerminal);
 		holder.mTongTime.setText("时间: " + mModel.updateTime);
-		holder.mTongLocation.setText("地点: " + mModel.shopModel.address
-				+ mModel.shopModel.address);
+
+		if (mModel.name != null && !mModel.name.equals("")) {
+			holder.mTongLocation.setText("从" + mModel.name + "借得。");
+		} else if (mModel.shopModel != null && mModel.shopModel.address != null
+				&& !mModel.shopModel.address.equals("")) {
+			holder.mTongLocation.setText("地点: " + mModel.shopModel.address
+					+ mModel.shopModel.address);
+		} else {
+			
+		}
 
 		if (mModel.expires != null) {
 			holder.mTimeTips.setText(UTimeUtils.computeHowLongLeft(mContext,

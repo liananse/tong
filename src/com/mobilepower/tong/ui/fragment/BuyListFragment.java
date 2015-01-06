@@ -1,5 +1,6 @@
 package com.mobilepower.tong.ui.fragment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,6 +127,10 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 											mAdapter.addData(mResultModel.data);
 										}
 									} else {
+
+										if (BuyListFragment.this.isRefresh) {
+											mAdapter.refreshData(new ArrayList<TongInfo>());
+										}
 										UToast.showShortToast(
 												getActivity(),
 												getResources()
@@ -133,6 +138,11 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 																R.string.shop_page_no_more_data));
 									}
 								} else {
+
+									if (BuyListFragment.this.isRefresh) {
+										mAdapter.refreshData(new ArrayList<TongInfo>());
+									}
+
 									UToast.showShortToast(getActivity(),
 											mResultModel.msg);
 								}

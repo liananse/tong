@@ -1,5 +1,6 @@
 package com.mobilepower.tong.ui.fragment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UToast;
 
-public class LentListFragment extends Fragment implements IXListViewListener{
+public class LentListFragment extends Fragment implements IXListViewListener {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,9 +44,10 @@ public class LentListFragment extends Fragment implements IXListViewListener{
 		getHistoryList(true);
 		return mView;
 	}
-	
+
 	private XListView mListView;
 	private TongListAdapter mAdapter;
+
 	private void initView(View mView) {
 		mListView = (XListView) mView.findViewById(R.id.tong_list);
 
@@ -55,7 +57,7 @@ public class LentListFragment extends Fragment implements IXListViewListener{
 
 		mListView.setAdapter(mAdapter);
 	}
-	
+
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
 
 	private boolean isRefresh = true;
@@ -76,8 +78,8 @@ public class LentListFragment extends Fragment implements IXListViewListener{
 		params.put("sortTime", sortTime);
 		params.put("type", "2");
 
-		mDataLoader.getData(UConfig.CHECK_HISTORY_LIST_URL, params, getActivity(),
-				new HDataListener() {
+		mDataLoader.getData(UConfig.CHECK_HISTORY_LIST_URL, params,
+				getActivity(), new HDataListener() {
 
 					@Override
 					public void onSocketTimeoutException(String msg) {
@@ -105,15 +107,24 @@ public class LentListFragment extends Fragment implements IXListViewListener{
 											mAdapter.addData(mResultModel.data);
 										}
 									} else {
+
+										if (LentListFragment.this.isRefresh) {
+											mAdapter.refreshData(new ArrayList<TongInfo>());
+										}
+
 										UToast.showShortToast(
-											    getActivity(),
+												getActivity(),
 												getResources()
 														.getString(
 																R.string.shop_page_no_more_data));
 									}
 								} else {
-									UToast.showShortToast(
-											getActivity(),
+
+									if (LentListFragment.this.isRefresh) {
+										mAdapter.refreshData(new ArrayList<TongInfo>());
+									}
+
+									UToast.showShortToast(getActivity(),
 											mResultModel.msg);
 								}
 
@@ -140,7 +151,6 @@ public class LentListFragment extends Fragment implements IXListViewListener{
 					}
 				});
 	}
-
 
 	@Override
 	public void onRefresh() {

@@ -20,8 +20,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.mobilepower.tong.R;
+import com.mobilepower.tong.utils.UTools;
 
 public class AboutActivity extends BaseActivity implements OnClickListener {
 
@@ -37,12 +39,14 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 	private View mBackBtn;
 	private View mReportBug;
 
+	private TextView mVersionCode;
 	/**
 	 * 初始化actionBar
 	 */
 	private void initActionBar() {
 		mBackBtn = findViewById(R.id.back_btn);
 		mReportBug = findViewById(R.id.report_bug);
+		mVersionCode = (TextView) findViewById(R.id.version_code);
 		mBackBtn.setOnClickListener(this);
 		mReportBug.setOnClickListener(this);
 	}
@@ -51,6 +55,8 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		
+		mVersionCode.setText("版本：" + UTools.OS.getAppVersion(this));
 	}
 
 	@Override
