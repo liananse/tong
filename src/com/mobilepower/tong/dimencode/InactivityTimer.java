@@ -57,7 +57,12 @@ final class InactivityTimer {
 
   public void onPause() {
     cancel();
-    activity.unregisterReceiver(powerStatusReceiver);
+    try {
+		activity.unregisterReceiver(powerStatusReceiver);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
   }
 
   public void onResume(){
