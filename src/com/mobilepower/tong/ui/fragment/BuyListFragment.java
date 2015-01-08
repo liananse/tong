@@ -96,8 +96,8 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 		params.put("sortTime", sortTime);
 		params.put("type", "3");
 
-		mDataLoader.getData(UConfig.BUY_HISTORY_GET_URL, params,
-				getActivity(), new HDataListener() {
+		mDataLoader.getData(UConfig.BUY_HISTORY_GET_URL, params, getActivity(),
+				new HDataListener() {
 
 					@Override
 					public void onSocketTimeoutException(String msg) {
@@ -129,11 +129,14 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 										if (BuyListFragment.this.isRefresh) {
 											mAdapter.refreshData(new ArrayList<BuyListModel>());
 										}
-										UToast.showShortToast(
-												getActivity(),
-												getResources()
-														.getString(
-																R.string.shop_page_no_more_data));
+
+										if (BuyListFragment.this.isAdded()) {
+											UToast.showShortToast(
+													getActivity(),
+													getResources()
+															.getString(
+																	R.string.shop_page_no_more_data));
+										}
 									}
 								} else {
 

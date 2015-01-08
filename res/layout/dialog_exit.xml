@@ -31,7 +31,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/logout_dialog_content"
+                android:text="确定购买该设备？"
                 android:textColor="#000000"
                 android:textSize="16sp" />
 
@@ -51,7 +51,7 @@
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:paddingTop="5dp"
-                    android:text="@string/logout_dialog_cancel"
+                    android:text="取消"
                     android:textColor="#79e147"
                     android:textSize="16sp" />
 
@@ -70,7 +70,7 @@
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:paddingTop="5dp"
-                    android:text="@string/logout_dialog_comfirm"
+                    android:text="确定"
                     android:textColor="#79e147"
                     android:textSize="16sp" />
             </LinearLayout>

@@ -213,11 +213,11 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 											&& mResultModel.data.size() > 0) {
 										if (BorrowListFragment.this.isRefresh) {
 											mAdapter.refreshData(mResultModel.data);
-											
+
 											checkIfShowTwoHoursTips(mResultModel.data);
 										} else {
 											mAdapter.addData(mResultModel.data);
-											
+
 											checkIfShowTwoHoursTips(mResultModel.data);
 										}
 									} else {
@@ -226,11 +226,13 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 											mAdapter.refreshData(new ArrayList<TongInfo>());
 										}
 
-										UToast.showShortToast(
-												getActivity(),
-												getResources()
-														.getString(
-																R.string.shop_page_no_more_data));
+										if (BorrowListFragment.this.isAdded()) {
+											UToast.showShortToast(
+													getActivity(),
+													getResources()
+															.getString(
+																	R.string.shop_page_no_more_data));
+										}
 									}
 								} else {
 
@@ -273,22 +275,24 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 					Bundle bundle = new Bundle();
 					bundle.putSerializable(UIntentKeys.TONG_INOF,
 							(Serializable) mList.get(i));
-					
+
 					long freeEndTime = UTimeUtils.stringToLong(
-							mList.get(i).addTime, "yyyy-MM-dd HH:mm:ss") + 24 * 60 * 60 * 1000;
-					
+							mList.get(i).addTime, "yyyy-MM-dd HH:mm:ss")
+							+ 24
+							* 60 * 60 * 1000;
+
 					long diffTime = freeEndTime - System.currentTimeMillis();
-					
+
 					// 免费时间未到并且小于两个小时
 					if (diffTime > 0 && diffTime / (60 * 60 * 1000) < 2) {
-						FragmentTransaction ft = getActivity().getSupportFragmentManager()
-								.beginTransaction();
+						FragmentTransaction ft = getActivity()
+								.getSupportFragmentManager().beginTransaction();
 
 						TwoHoursTips mTwoHoursTips = new TwoHoursTips();
 						mTwoHoursTips.setArguments(bundle);
 						mTwoHoursTips.show(ft, "two_hour_tips");
 					}
-					
+
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

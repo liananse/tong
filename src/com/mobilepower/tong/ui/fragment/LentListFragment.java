@@ -112,11 +112,13 @@ public class LentListFragment extends Fragment implements IXListViewListener {
 											mAdapter.refreshData(new ArrayList<TongInfo>());
 										}
 
-										UToast.showShortToast(
-												getActivity(),
-												getResources()
-														.getString(
-																R.string.shop_page_no_more_data));
+										if (LentListFragment.this.isAdded()) {
+											UToast.showShortToast(
+													getActivity(),
+													getResources()
+															.getString(
+																	R.string.shop_page_no_more_data));
+										}
 									}
 								} else {
 

@@ -18,17 +18,14 @@ package com.mobilepower.tong.ui.activity;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -37,9 +34,9 @@ import android.widget.TextView;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
-import com.easemob.chat.NotificationCompat;
 import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.EMMessage.Type;
+import com.easemob.chat.NotificationCompat;
 import com.easemob.util.EasyUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -51,11 +48,14 @@ import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.hx.utils.CommonUtils;
 import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.UserInfo;
+import com.mobilepower.tong.ui.event.ExitEvent;
+import com.mobilepower.tong.ui.fragment.ExitDialog;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.URequestCodes;
 import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 public class SelfPageActivity extends BaseActivity implements OnClickListener {
 
@@ -98,7 +98,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private View mExitBtn;
 	private CheckBox mWantPush;
 	private CheckBox mNearbyUser;
-	
+
 	private TextView mUnReadMsgCount;
 
 	private void initView() {
@@ -119,7 +119,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mExitBtn = findViewById(R.id.self_page_exit_btn);
 		mWantPush = (CheckBox) findViewById(R.id.setting_want_info_push);
 		mNearbyUser = (CheckBox) findViewById(R.id.setting_nearby_user);
-		
+
 		mUnReadMsgCount = (TextView) findViewById(R.id.unread_msg_number);
 
 		mRechargeBtn.setOnClickListener(this);
@@ -185,7 +185,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 									// 将用户个人信息存数据库
 									TongApplication.initMineInfo(
 											SelfPageActivity.this, mSelf);
-									
+
 									initData();
 								}
 							}
@@ -219,7 +219,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onResume();
 		this.bus.register(this);
-//		initData();
+		// initData();
 		getUserInfo();
 		refresh();
 	}
@@ -235,7 +235,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		this.bus.unregister(this);
-		
+
 		try {
 			unregisterReceiver(msgReceiver);
 		} catch (Exception e) {
@@ -243,6 +243,8 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			e.printStackTrace();
 		}
 	}
+
+	private ExitDialog mExitDialog;
 
 	@Override
 	public void onClick(View v) {
@@ -272,7 +274,17 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			intent.setClass(this, ChatListActivity.class);
 			this.startActivity(intent);
 		} else if (v == mExitBtn) {
-			showDialog(DIALOG_YES_NO_LONG_MESSAGE);
+			if (mExitDialog == null) {
+				mExitDialog = new ExitDialog();
+			}
+
+			FragmentTransaction ft = getSupportFragmentManager()
+					.beginTransaction();
+
+			if (!mExitDialog.isAdded()) {
+				mExitDialog.show(ft, "cancel_ok");
+			}
+
 		} else if (v == mRechargeBtn) {
 			Intent intent = new Intent();
 			intent.setClass(this, RechargeActivity.class);
@@ -285,6 +297,13 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			Intent intent = new Intent();
 			intent.setClass(this, EditInfoActivity.class);
 			this.startActivityForResult(intent, URequestCodes.EDIT_INFO);
+		}
+	}
+
+	@Subscribe
+	public void exit(ExitEvent paramEvent) {
+		if (paramEvent != null) {
+			logOut();
 		}
 	}
 
@@ -307,41 +326,6 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			break;
 		}
 
-	}
-
-	private static final int DIALOG_YES_NO_LONG_MESSAGE = 1;
-
-	@SuppressLint("InlinedApi")
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		// TODO Auto-generated method stub
-		switch (id) {
-		case DIALOG_YES_NO_LONG_MESSAGE:
-			return new AlertDialog.Builder(SelfPageActivity.this,
-					AlertDialog.THEME_HOLO_LIGHT)
-					.setTitle(getString(R.string.logout_dialog_title))
-					.setMessage(getString(R.string.logout_dialog_content))
-					.setPositiveButton(
-							getString(R.string.logout_dialog_comfirm),
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									logOut();
-								}
-							})
-					.setNegativeButton(
-							getString(R.string.logout_dialog_cancel),
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-
-									/* User clicked Cancel so do some stuff */
-									dialog.cancel();
-								}
-							}).create();
-		}
-
-		return null;
 	}
 
 	private void logOut() {
@@ -384,7 +368,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 
 		}
 	}
-	
+
 	public void refresh() {
 		int count = getUnreadMsgCountTotal();
 		if (count > 0) {
@@ -394,7 +378,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			mUnReadMsgCount.setVisibility(View.INVISIBLE);
 		}
 	}
-	
+
 	/**
 	 * 获取未读消息数
 	 * 
