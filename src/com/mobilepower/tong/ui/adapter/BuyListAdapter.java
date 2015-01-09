@@ -98,10 +98,12 @@ public class BuyListAdapter extends BaseAdapter {
 		final BuyListModel mModel = mTongList.get(position);
 
 		holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
-		holder.mMoneyV.setVisibility(View.GONE);
+		holder.mMoneyV.setVisibility(View.VISIBLE);
+		holder.mTimeTips.setVisibility(View.INVISIBLE);
 		holder.mBuyV.setVisibility(View.GONE);
 		holder.mTongFrom.setText("编号: " + mModel.terminal);
 		holder.mTongTime.setText("时间: " + mModel.updateTime);
+		holder.mMoneyT.setText("￥" + mModel.cost);
 
 		holder.mTongLocation.setVisibility(View.GONE);
 //		if (mModel.name != null && !mModel.name.equals("")) {

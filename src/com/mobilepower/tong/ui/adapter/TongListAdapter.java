@@ -114,11 +114,14 @@ public class TongListAdapter extends BaseAdapter {
 		if (fromWhere.equals("borrow")) {
 			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
 			holder.mMoneyV.setVisibility(View.VISIBLE);
+			holder.mTimeTips.setVisibility(View.VISIBLE);
 			holder.mBuyV.setVisibility(View.VISIBLE);
 			holder.mMoneyT.setText("￥" + mModel.overtimeMoney);
 		} else if (fromWhere.equals("lent")) {
 			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
-			holder.mMoneyV.setVisibility(View.GONE);
+			holder.mMoneyV.setVisibility(View.VISIBLE);
+			holder.mTimeTips.setVisibility(View.INVISIBLE);
+			holder.mMoneyT.setText("￥" + mModel.overtimeMoney);
 			holder.mBuyV.setVisibility(View.GONE);
 		} else if (fromWhere.equals("lent_activity")) {
 			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);

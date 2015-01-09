@@ -213,7 +213,8 @@ public class BorrowTipsActivity extends BaseActivity implements OnClickListener 
 									// 遇到停止任务的状态即停止任务
 									if (mResult.taskModel.status == 1
 											|| mResult.taskModel.status == 0
-											|| mResult.taskModel.status == -1) {
+											|| mResult.taskModel.status == -1
+											|| ((System.currentTimeMillis() - taskStartTime) > 30000)) {
 										isSuccess = true;
 										workHandler.removeMessages(START_QUERY);
 
@@ -243,6 +244,15 @@ public class BorrowTipsActivity extends BaseActivity implements OnClickListener 
 											} else if (fromWhere
 													.equals(UIntentKeys.BORROW_LINE)) {
 												mTips.setText("终端暂无数据线");
+											}
+											mPro.setVisibility(View.GONE);
+										} else {
+											if (fromWhere
+													.equals(UIntentKeys.BORROW_TONG)) {
+												mTips.setText("终端处理超时");
+											} else if (fromWhere
+													.equals(UIntentKeys.BORROW_LINE)) {
+												mTips.setText("终端处理超时");
 											}
 											mPro.setVisibility(View.GONE);
 										}
@@ -300,6 +310,7 @@ public class BorrowTipsActivity extends BaseActivity implements OnClickListener 
 	private static final int START_QUERY = 0x7707;
 	private static final long QUERY_INTERAL_TIME = 5000;// 每5秒
 
+	private long taskStartTime;
 	/**
 	 * 计时器初始化
 	 */
@@ -308,6 +319,7 @@ public class BorrowTipsActivity extends BaseActivity implements OnClickListener 
 		thread.setPriority(Thread.MAX_PRIORITY);
 		thread.start();
 		workHandler = new WorkHandler(thread.getLooper());
+		taskStartTime = System.currentTimeMillis();
 		workHandler.sendEmptyMessage(START_QUERY);
 	}
 
@@ -321,8 +333,10 @@ public class BorrowTipsActivity extends BaseActivity implements OnClickListener 
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			if (!BorrowTipsActivity.this.isSuccess) {
-				repeatGetTaskResult();
-				this.sendEmptyMessageDelayed(START_QUERY, QUERY_INTERAL_TIME);
+				if ((System.currentTimeMillis() - taskStartTime) <= 30000) {
+					repeatGetTaskResult();
+					this.sendEmptyMessageDelayed(START_QUERY, QUERY_INTERAL_TIME);
+				}
 			}
 		}
 	}
