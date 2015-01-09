@@ -117,23 +117,21 @@ public class TongListAdapter extends BaseAdapter {
 			holder.mTimeTips.setVisibility(View.VISIBLE);
 			holder.mBuyV.setVisibility(View.VISIBLE);
 			holder.mMoneyT.setText("￥" + mModel.overtimeMoney);
+			holder.mTongTime.setText("时间: " + mModel.updateTime);
 		} else if (fromWhere.equals("lent")) {
 			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
 			holder.mMoneyV.setVisibility(View.VISIBLE);
 			holder.mTimeTips.setVisibility(View.INVISIBLE);
 			holder.mMoneyT.setText("￥" + mModel.overtimeMoney);
 			holder.mBuyV.setVisibility(View.GONE);
+			holder.mTongTime.setText("时间: " + mModel.returnTime);
 		} else if (fromWhere.equals("lent_activity")) {
 			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
 			holder.mMoneyV.setVisibility(View.GONE);
 			holder.mBuyV.setVisibility(View.GONE);
-		} else if (fromWhere.equals("buy")) {
-			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
-			holder.mMoneyV.setVisibility(View.GONE);
-			holder.mBuyV.setVisibility(View.GONE);
+			holder.mTongTime.setText("时间: " + mModel.updateTime);
 		}
 		holder.mTongFrom.setText("编号: " + mModel.deviceTerminal);
-		holder.mTongTime.setText("时间: " + mModel.updateTime);
 
 		if (mModel.name != null && !mModel.name.equals("")) {
 			holder.mTongLocation.setText("从" + mModel.name + "借得。");

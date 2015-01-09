@@ -237,23 +237,6 @@
             android:background="@color/header_line_down_down" />
     </LinearLayout>
 
-    <com.mobilepower.tong.ui.view.XListView
-        android:id="@+id/tong_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:cacheColorHint="#00000000"
-        android:divider="@null"
-        android:fadingEdge="none"
-        android:visibility="gone"
-        android:fastScrollEnabled="false"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:listSelector="@null"
-        android:overScrollMode="never"
-        android:scrollingCache="true" >
-    </com.mobilepower.tong.ui.view.XListView>
-    
     <com.mobilepower.tong.ui.view.CustomViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
