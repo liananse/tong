@@ -131,7 +131,7 @@ public class TongListAdapter extends BaseAdapter {
 			holder.mBuyV.setVisibility(View.GONE);
 			holder.mTongTime.setText("时间: " + mModel.updateTime);
 		}
-		holder.mTongFrom.setText("编号: " + mModel.deviceTerminal);
+		holder.mTongFrom.setText("编号: " + mModel.cdb);
 
 		if (mModel.name != null && !mModel.name.equals("")) {
 			holder.mTongLocation.setText("从" + mModel.name + "借得。");

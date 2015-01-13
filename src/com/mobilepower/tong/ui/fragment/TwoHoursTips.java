@@ -39,7 +39,7 @@ public class TwoHoursTips extends DialogFragment implements OnClickListener{
 		View mView = inflater.inflate(R.layout.dialog_two_hours_tips, null);
 
 		TextView mTips = (TextView) mView.findViewById(R.id.dialog_tips);
-		mTips.setText("编号" + mInfo.deviceTerminal + "的设备免费时间还剩2小时");
+		mTips.setText("编号" + mInfo.cdb + "的设备免费时间还剩2小时");
 		
 		mOk = mView.findViewById(R.id.sure);
 		mOk.setOnClickListener(this);
