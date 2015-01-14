@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,8 +33,10 @@ import com.mobilepower.tong.ui.adapter.FragmentsAdapter;
 import com.mobilepower.tong.ui.fragment.BorrowListFragment;
 import com.mobilepower.tong.ui.fragment.BuyDialog;
 import com.mobilepower.tong.ui.fragment.BuyListFragment;
+import com.mobilepower.tong.ui.fragment.ExitDialog;
 import com.mobilepower.tong.ui.fragment.LentListFragment;
 import com.mobilepower.tong.ui.fragment.OnAlertSelectId;
+import com.mobilepower.tong.ui.fragment.ReturnTips;
 import com.mobilepower.tong.ui.view.CustomViewPager;
 import com.mobilepower.tong.utils.UIntentKeys;
 import com.squareup.otto.Bus;
@@ -253,10 +256,20 @@ public class TongPageActivity extends BaseActivity implements OnClickListener{
 		lentBtnMethod();
 	}
 
+	private ReturnTips mReturnTips;
+	
 	private void lentBtnMethod() {
-		Intent intent = new Intent();
-		intent.setClass(this, LentActivity.class);
-		startActivity(intent);
+		// TODO
+		if (mReturnTips == null) {
+			mReturnTips = new ReturnTips();
+		}
+
+		FragmentTransaction ft = getSupportFragmentManager()
+				.beginTransaction();
+
+		if (!mReturnTips.isAdded()) {
+			mReturnTips.show(ft, "cancel_ok");
+		}
 	}
 
 	private void wantBorrowBtnMethod() {
