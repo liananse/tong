@@ -59,13 +59,21 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 	private EditText mNickNameEt;
 	// private EditText mAgeEt;
 	private EditText mResumeEt;
-
+	private View mMaleBtn;
+	private View mFemaleBtn;
+	
+	private int sex = 1;
 	private TextView mNextBtn;
 
 	/**
 	 * 初始化布局view
 	 */
 	private void initView() {
+		mMaleBtn = findViewById(R.id.sex_male);
+		mFemaleBtn = findViewById(R.id.sex_female);
+		
+		mMaleBtn.setOnClickListener(this);
+		mFemaleBtn.setOnClickListener(this);
 		mNickNameEt = (EditText) findViewById(R.id.register_nickname_et);
 		mNickNameEt.addTextChangedListener(mNickNameWatcher);
 		mNickNameEt.setSelection(mNickNameEt.length());
@@ -150,6 +158,14 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		if (v == mNextBtn) {
 			updateMethod();
+		} else if (v == mMaleBtn) {
+			sex = 1;
+			mMaleBtn.setBackgroundResource(R.drawable.male_btn_bg);
+			mFemaleBtn.setBackgroundResource(R.drawable.sex_btn_normal_bg);
+		} else if (v == mFemaleBtn) {
+			sex = 0;
+			mMaleBtn.setBackgroundResource(R.drawable.sex_btn_normal_bg);
+			mFemaleBtn.setBackgroundResource(R.drawable.female_btn_bg);
 		}
 	}
 
@@ -182,7 +198,7 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("nickName", mNickNameEt.getText().toString());
 		params.put("resume", mResumeEt.getText().toString());
-//		params.put("sex", value);
+		params.put("sex", sex+"");
 		final String tempNickName = mNickNameEt.getText().toString();
 		final String tempResume = mResumeEt.getText().toString();
 		mDataLoader.postData(UConfig.USER_UPDATE_URL, params,
@@ -211,10 +227,10 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 											.getInstance(RegisterStepTwoActivity.this);
 
 									mDdbOpenHelper.updateUserInfo(tempNickName,
-											-1, tempResume);
+											sex, tempResume);
 
 									TongApplication.updateMineInfo(
-											tempNickName, -1, tempResume);
+											tempNickName, sex, tempResume);
 									Intent intent = new Intent(
 											RegisterStepTwoActivity.this,
 											MainTabActivity.class);

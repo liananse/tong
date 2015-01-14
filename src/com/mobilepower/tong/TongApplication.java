@@ -154,13 +154,13 @@ public class TongApplication extends FrontiaApplication {
 		return mine;
 	}
 
-	public static void updateMineInfo(String nickname, int age, String resume) {
+	public static void updateMineInfo(String nickname, int sex, String resume) {
 		if (mine != null) {
 			if (nickname != null && !nickname.isEmpty()) {
 				mine.nickName = nickname;
 			}
-			if (age >= 0) {
-				mine.age = age;
+			if (sex >= 0) {
+				mine.sex = sex;
 			}
 			if (resume != null && !resume.isEmpty()) {
 				mine.resume = resume;

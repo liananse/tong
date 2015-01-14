@@ -358,7 +358,7 @@ public class DDBOpenHelper extends SQLiteOpenHelper {
 
 	}
 
-	public void updateUserInfo(String nickname, int age, String resume) {
+	public void updateUserInfo(String nickname, int sex, String resume) {
 
 		// Gets the data repository in write mode
 		SQLiteDatabase db = getWritableDatabase();
@@ -369,8 +369,8 @@ public class DDBOpenHelper extends SQLiteOpenHelper {
 		if (nickname != null && !nickname.isEmpty()) {
 			values.put("nickName", nickname);
 		}
-		if (age >= 0) {
-			values.put("age", age);
+		if (sex >= 0) {
+			values.put("sex", sex);
 		}
 		if (resume != null && !resume.isEmpty()) {
 			values.put("resume", resume);
