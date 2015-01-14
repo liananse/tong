@@ -15,11 +15,9 @@
  */
 package com.mobilepower.tong.ui.activity;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -27,7 +25,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -42,9 +39,7 @@ import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
-import com.mobilepower.tong.utils.UTimeUtils;
 import com.mobilepower.tong.utils.UToast;
-import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 
 public class RegisterStepTwoActivity extends BaseActivity implements
@@ -62,7 +57,7 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 	}
 
 	private EditText mNickNameEt;
-	private EditText mAgeEt;
+	// private EditText mAgeEt;
 	private EditText mResumeEt;
 
 	private TextView mNextBtn;
@@ -72,76 +67,8 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 	 */
 	private void initView() {
 		mNickNameEt = (EditText) findViewById(R.id.register_nickname_et);
-		mNickNameEt.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				if (mNickNameEt.getText().toString().trim().equals("")) {
-					mNextBtn.setEnabled(false);
-					return;
-				}
-
-				if (mAgeEt.getText().toString().trim().equals("")
-						|| !UTools.OS.isAge(mAgeEt.getText().toString().trim())) {
-					mNextBtn.setEnabled(false);
-					return;
-				}
-
-				mNextBtn.setEnabled(true);
-			}
-		});
-
-		mSelectedDate = Calendar.getInstance();
-
-		mAgeEt = (EditText) findViewById(R.id.register_age_et);
-		mAgeEt.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				if (mNickNameEt.getText().toString().trim().equals("")) {
-					mNextBtn.setEnabled(false);
-					return;
-				}
-
-				if (mAgeEt.getText().toString().trim().equals("")
-						|| !UTools.OS.isAge(mAgeEt.getText().toString().trim())) {
-					mNextBtn.setEnabled(false);
-					return;
-				}
-
-				mNextBtn.setEnabled(true);
-			}
-		});
+		mNickNameEt.addTextChangedListener(mNickNameWatcher);
+		mNickNameEt.setSelection(mNickNameEt.length());
 
 		mResumeEt = (EditText) findViewById(R.id.register_resume_et);
 
@@ -150,6 +77,53 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 
 		mNextBtn.setEnabled(false);
 	}
+
+	private TextWatcher mNickNameWatcher = new TextWatcher() {
+
+		private int editStart;
+		private int editEnd;
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
+			if (mNickNameEt.getText().toString().trim().equals("")) {
+				mNextBtn.setEnabled(false);
+				return;
+			}
+
+			editStart = mNickNameEt.getSelectionStart();
+			editEnd = mNickNameEt.getSelectionEnd();
+
+			mNickNameEt.removeTextChangedListener(mNickNameWatcher);
+
+			while (calculateLength(s.toString()) > 10) {
+				s.delete(editStart - 1, editEnd);
+				editStart--;
+				editEnd--;
+			}
+
+			mNickNameEt.setText(s);
+			mNickNameEt.setSelection(editStart);
+
+			mNickNameEt.addTextChangedListener(mNickNameWatcher);
+
+			mNextBtn.setEnabled(true);
+		}
+	};
 
 	@Override
 	protected void onResume() {
@@ -176,26 +150,23 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		if (v == mNextBtn) {
 			updateMethod();
-		} else if (v == mAgeEt) {
-			// DatePickerFragment mDatePickerFragment = new
-			// DatePickerFragment();
-			// mDatePickerFragment.setOnDateSetListener(mOnDateChangedListener);
-			// mDatePickerFragment.show(getSupportFragmentManager(),
-			// "DatePickerFragment");
 		}
 	}
 
-	private Calendar mSelectedDate;
-
-	private DatePickerDialog.OnDateSetListener mOnDateChangedListener = new DatePickerDialog.OnDateSetListener() {
-		@Override
-		public void onDateSet(DatePicker view, int year, int monthOfYear,
-				int dayOfMonth) {
-			mSelectedDate.set(year, monthOfYear, dayOfMonth);
-			mAgeEt.setText(UTimeUtils.dateFormat2.format(mSelectedDate
-					.getTime()));
+	private long calculateLength(CharSequence c) {
+		double len = 0;
+		for (int i = 0; i < c.length(); i++) {
+			int tmp = (int) c.charAt(i);
+			if (tmp > 0 && tmp < 127) {
+				// len += 0.5;
+				len++;
+			} else {
+				len++;
+			}
 		}
-	};
+
+		return Math.round(len);
+	}
 
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
 
@@ -210,11 +181,9 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("nickName", mNickNameEt.getText().toString());
-		params.put("age", mAgeEt.getText().toString());
 		params.put("resume", mResumeEt.getText().toString());
-
+//		params.put("sex", value);
 		final String tempNickName = mNickNameEt.getText().toString();
-		final int tempAge = Integer.parseInt(mAgeEt.getText().toString());
 		final String tempResume = mResumeEt.getText().toString();
 		mDataLoader.postData(UConfig.USER_UPDATE_URL, params,
 				RegisterStepTwoActivity.this, new HDataListener() {
@@ -242,10 +211,10 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 											.getInstance(RegisterStepTwoActivity.this);
 
 									mDdbOpenHelper.updateUserInfo(tempNickName,
-											tempAge, tempResume);
+											-1, tempResume);
 
 									TongApplication.updateMineInfo(
-											tempNickName, tempAge, tempResume);
+											tempNickName, -1, tempResume);
 									Intent intent = new Intent(
 											RegisterStepTwoActivity.this,
 											MainTabActivity.class);

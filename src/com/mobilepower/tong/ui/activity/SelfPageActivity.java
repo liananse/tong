@@ -24,6 +24,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -86,6 +87,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private ImageView mAvatarView;
 	private TextView mNickName;
 	private View mRechargeBtn;
+	private TextView mSelfResume;
 	private TextView mSelfYue;
 	private TextView mSelfYa;
 	// 按钮 选项
@@ -100,13 +102,23 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private CheckBox mNearbyUser;
 
 	private TextView mUnReadMsgCount;
-
+	private Drawable maleDrawable;
+	private Drawable femaleDrawable;
 	private void initView() {
+		maleDrawable = getResources().getDrawable(R.drawable.flag_gender_male);
+		maleDrawable.setBounds(0, 0, maleDrawable.getMinimumWidth(),
+				maleDrawable.getMinimumHeight());
+
+		femaleDrawable = getResources().getDrawable(
+				R.drawable.flag_gender_female);
+		femaleDrawable.setBounds(0, 0, femaleDrawable.getMinimumWidth(),
+				femaleDrawable.getMinimumHeight());
 		mSelfInfo = findViewById(R.id.self_page_info);
 		mSelfInfo.setOnClickListener(this);
 		mAvatarView = (ImageView) findViewById(R.id.self_page_avatar);
 		mAvatarView.setOnClickListener(this);
 		mNickName = (TextView) findViewById(R.id.self_info_nickname);
+		mSelfResume = (TextView) findViewById(R.id.self_info_resume);
 		mSelfYue = (TextView) findViewById(R.id.self_info_score);
 		mSelfYa = (TextView) findViewById(R.id.self_info_ya);
 		mRechargeBtn = findViewById(R.id.self_page_charge_btn);
@@ -140,6 +152,21 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 
 		if (mInfo != null) {
 			mNickName.setText(mInfo.nickName);
+			if (mInfo.sex == 1) {
+				mNickName.setCompoundDrawables(null, null, maleDrawable, null);
+			} else {
+				mNickName
+						.setCompoundDrawables(null, null, femaleDrawable, null);
+			}
+			mNickName.setCompoundDrawablePadding(10);
+			
+			if (mInfo.resume != null && !mInfo.resume.equals("")) {
+				mSelfResume.setVisibility(View.VISIBLE);
+				mSelfResume.setText(mInfo.resume);
+			} else {
+				mSelfResume.setVisibility(View.GONE);
+				mSelfResume.setText("");
+			}
 			mSelfYue.setText(getResources().getString(R.string.self_page_yue,
 					mInfo.money));
 

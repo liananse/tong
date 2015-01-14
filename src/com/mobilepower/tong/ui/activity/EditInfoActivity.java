@@ -27,7 +27,6 @@ import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UToast;
-import com.mobilepower.tong.utils.UTools;
 
 public class EditInfoActivity extends BaseActivity implements OnClickListener {
 
@@ -52,81 +51,13 @@ public class EditInfoActivity extends BaseActivity implements OnClickListener {
 	}
 	
 	private EditText mNickNameEt;
-	private EditText mAgeEt;
 	private EditText mResumeEt;
 
 	private TextView mSaveBtn;
 
 	private void initView() {
 		mNickNameEt = (EditText) findViewById(R.id.nickname_et);
-		mNickNameEt.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				if (mNickNameEt.getText().toString().trim().equals("")) {
-					mSaveBtn.setEnabled(false);
-					return;
-				}
-
-				if (mAgeEt.getText().toString().trim().equals("")
-						|| !UTools.OS.isAge(mAgeEt.getText().toString().trim())) {
-					mSaveBtn.setEnabled(false);
-					return;
-				}
-
-				mSaveBtn.setEnabled(true);
-			}
-		});
-
-		mAgeEt = (EditText) findViewById(R.id.age_et);
-		mAgeEt.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				if (mNickNameEt.getText().toString().trim().equals("")) {
-					mSaveBtn.setEnabled(false);
-					return;
-				}
-
-				if (mAgeEt.getText().toString().trim().equals("")
-						|| !UTools.OS.isAge(mAgeEt.getText().toString().trim())) {
-					mSaveBtn.setEnabled(false);
-					return;
-				}
-
-				mSaveBtn.setEnabled(true);
-			}
-		});
+		mNickNameEt.addTextChangedListener(mNickNameWatcher);
 
 		mResumeEt = (EditText) findViewById(R.id.resume_et);
 		
@@ -141,12 +72,71 @@ public class EditInfoActivity extends BaseActivity implements OnClickListener {
 			mNickNameEt.setText(mInfo.nickName);
 			mNickNameEt.setSelection(mInfo.nickName.length());
 			
-			mAgeEt.setText(mInfo.age + "");
-			mAgeEt.setSelection((mInfo.age + "").length());
-			
 			mResumeEt.setText(mInfo.resume);
 			mResumeEt.setSelection(mInfo.resume.length());
 		}
+	}
+	
+	private TextWatcher mNickNameWatcher = new TextWatcher() {
+
+		private int editStart;
+		private int editEnd;
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
+			if (mNickNameEt.getText().toString().trim().equals("")) {
+				mSaveBtn.setEnabled(false);
+				return;
+			}
+
+			editStart = mNickNameEt.getSelectionStart();
+			editEnd = mNickNameEt.getSelectionEnd();
+
+			mNickNameEt.removeTextChangedListener(mNickNameWatcher);
+
+			while (calculateLength(s.toString()) > 10) {
+				s.delete(editStart - 1, editEnd);
+				editStart--;
+				editEnd--;
+			}
+
+			mNickNameEt.setText(s);
+			mNickNameEt.setSelection(editStart);
+
+			mNickNameEt.addTextChangedListener(mNickNameWatcher);
+
+			mSaveBtn.setEnabled(true);
+		}
+	};
+	
+	private long calculateLength(CharSequence c) {
+		double len = 0;
+		for (int i = 0; i < c.length(); i++) {
+			int tmp = (int) c.charAt(i);
+			if (tmp > 0 && tmp < 127) {
+				// len += 0.5;
+				len++;
+			} else {
+				len++;
+			}
+		}
+
+		return Math.round(len);
 	}
 
 	@Override
@@ -184,11 +174,9 @@ public class EditInfoActivity extends BaseActivity implements OnClickListener {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("nickName", mNickNameEt.getText().toString());
-		params.put("age", mAgeEt.getText().toString());
 		params.put("resume", mResumeEt.getText().toString());
 
 		final String tempNickName = mNickNameEt.getText().toString();
-		final int tempAge = Integer.parseInt(mAgeEt.getText().toString());
 		final String tempResume = mResumeEt.getText().toString();
 		mDataLoader.postData(UConfig.USER_UPDATE_URL, params,
 				EditInfoActivity.this, new HDataListener() {
@@ -216,10 +204,10 @@ public class EditInfoActivity extends BaseActivity implements OnClickListener {
 											.getInstance(EditInfoActivity.this);
 
 									mDdbOpenHelper.updateUserInfo(tempNickName,
-											tempAge, tempResume);
+											-1, tempResume);
 
 									TongApplication.updateMineInfo(
-											tempNickName, tempAge, tempResume);
+											tempNickName, -1, tempResume);
 									Intent intent = getIntent();
 									EditInfoActivity.this.setResult(
 											Activity.RESULT_OK, intent);

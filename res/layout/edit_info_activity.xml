@@ -64,24 +64,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/login_and_register_margin_left"
             android:layout_marginTop="5dp"
-            android:text="@string/edit_info_age"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/age_et"
-            style="@style/UserNameAndPasswordEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/register_age"
-            android:inputType="number"
-            android:singleLine="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/login_and_register_margin_left"
-            android:layout_marginTop="5dp"
             android:text="@string/edit_info_resume"
             android:textColor="@color/black"
             android:textSize="18sp" />
