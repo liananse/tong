@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -50,6 +51,7 @@ public class EditInfoActivity extends BaseActivity implements OnClickListener {
 		mBackBtn.setOnClickListener(this);
 	}
 	
+	private ImageView mAvatar;
 	private EditText mNickNameEt;
 	private EditText mResumeEt;
 	
@@ -66,6 +68,7 @@ public class EditInfoActivity extends BaseActivity implements OnClickListener {
 		
 		mMaleBtn.setOnClickListener(this);
 		mFemaleBtn.setOnClickListener(this);
+		mAvatar = (ImageView) findViewById(R.id.avatar);
 		mNickNameEt = (EditText) findViewById(R.id.nickname_et);
 		mNickNameEt.addTextChangedListener(mNickNameWatcher);
 
@@ -89,10 +92,12 @@ public class EditInfoActivity extends BaseActivity implements OnClickListener {
 				mMaleBtn.setBackgroundResource(R.drawable.male_btn_bg);
 				mFemaleBtn.setBackgroundResource(R.drawable.sex_btn_normal_bg);
 				sex = 1;
+				mAvatar.setImageResource(R.drawable.male);
 			} else {
 				mMaleBtn.setBackgroundResource(R.drawable.sex_btn_normal_bg);
 				mFemaleBtn.setBackgroundResource(R.drawable.female_btn_bg);
 				sex = 0;
+				mAvatar.setImageResource(R.drawable.female);
 			}
 		}
 	}
@@ -182,10 +187,12 @@ public class EditInfoActivity extends BaseActivity implements OnClickListener {
 			sex = 1;
 			mMaleBtn.setBackgroundResource(R.drawable.male_btn_bg);
 			mFemaleBtn.setBackgroundResource(R.drawable.sex_btn_normal_bg);
+			mAvatar.setImageResource(R.drawable.male);
 		} else if (v == mFemaleBtn) {
 			sex = 0;
 			mMaleBtn.setBackgroundResource(R.drawable.sex_btn_normal_bg);
 			mFemaleBtn.setBackgroundResource(R.drawable.female_btn_bg);
+			mAvatar.setImageResource(R.drawable.female);
 		}
 	}
 

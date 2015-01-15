@@ -26,6 +26,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -56,6 +57,7 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 		initView();
 	}
 
+	private ImageView mAvatar;
 	private EditText mNickNameEt;
 	// private EditText mAgeEt;
 	private EditText mResumeEt;
@@ -74,6 +76,7 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 		
 		mMaleBtn.setOnClickListener(this);
 		mFemaleBtn.setOnClickListener(this);
+		mAvatar = (ImageView) findViewById(R.id.register_avatar);
 		mNickNameEt = (EditText) findViewById(R.id.register_nickname_et);
 		mNickNameEt.addTextChangedListener(mNickNameWatcher);
 		mNickNameEt.setSelection(mNickNameEt.length());
@@ -162,10 +165,12 @@ public class RegisterStepTwoActivity extends BaseActivity implements
 			sex = 1;
 			mMaleBtn.setBackgroundResource(R.drawable.male_btn_bg);
 			mFemaleBtn.setBackgroundResource(R.drawable.sex_btn_normal_bg);
+			mAvatar.setImageResource(R.drawable.male);
 		} else if (v == mFemaleBtn) {
 			sex = 0;
 			mMaleBtn.setBackgroundResource(R.drawable.sex_btn_normal_bg);
 			mFemaleBtn.setBackgroundResource(R.drawable.female_btn_bg);
+			mAvatar.setImageResource(R.drawable.female);
 		}
 	}
 

@@ -145,18 +145,17 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initData() {
-		// mAvatarView
-		// .setImageUrl("http://ww2.sinaimg.cn/bmiddle/684ff39bgw1ejfep2t9bcj20sg0ixq50.jpg");
-
 		UserInfo mInfo = TongApplication.getMineInfo(this);
 
 		if (mInfo != null) {
 			mNickName.setText(mInfo.nickName);
 			if (mInfo.sex == 1) {
 				mNickName.setCompoundDrawables(null, null, maleDrawable, null);
+				mAvatarView.setImageResource(R.drawable.male);
 			} else {
 				mNickName
 						.setCompoundDrawables(null, null, femaleDrawable, null);
+				mAvatarView.setImageResource(R.drawable.female);
 			}
 			mNickName.setCompoundDrawablePadding(10);
 			

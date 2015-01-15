@@ -20,11 +20,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.model.UserInfo;
-import com.mobilepower.tong.ui.view.CustomAvatarView;
 import com.mobilepower.tong.utils.UIntentKeys;
 
 public class UserInfoActivity extends BaseActivity implements OnClickListener {
@@ -54,7 +54,7 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener {
 		mBackBtn.setOnClickListener(this);
 	}
 
-	private CustomAvatarView mAvatarView;
+	private ImageView mAvatarView;
 	private TextView mNickName;
 	private View mResumeLL;
 	private TextView mResume;
@@ -62,7 +62,7 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener {
 	private View mSendMsg;
 
 	private void initView() {
-		mAvatarView = (CustomAvatarView) findViewById(R.id.user_info_avatar);
+		mAvatarView = (ImageView) findViewById(R.id.user_info_avatar);
 		mNickName = (TextView) findViewById(R.id.user_info_nickname);
 		mResumeLL = findViewById(R.id.user_info_resume_ll);
 		mResume = (TextView) findViewById(R.id.user_info_resume);
@@ -88,9 +88,11 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener {
 			mNickName.setText(mInfo.nickName);
 			if (mInfo.sex == 1) {
 				mNickName.setCompoundDrawables(null, null, maleDrawable, null);
+				mAvatarView.setImageResource(R.drawable.male);
 			} else {
 				mNickName
 						.setCompoundDrawables(null, null, femaleDrawable, null);
+				mAvatarView.setImageResource(R.drawable.female);
 			}
 
 			if (mInfo.resume != null && !mInfo.resume.isEmpty()) {

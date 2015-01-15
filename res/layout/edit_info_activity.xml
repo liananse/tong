@@ -41,14 +41,13 @@
         android:layout_marginTop="60dp"
         android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/login_and_register_margin_left"
-            android:layout_marginTop="5dp"
-            android:text="@string/edit_info_name"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/login_and_register_margin_top"
+            android:src="@drawable/male" />
 
         <EditText
             android:id="@+id/nickname_et"
@@ -58,7 +57,7 @@
             android:hint="@string/register_nickname"
             android:inputType="text"
             android:singleLine="true" />
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,15 +116,6 @@
                     android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/login_and_register_margin_left"
-            android:layout_marginTop="5dp"
-            android:text="@string/edit_info_resume"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/resume_et"

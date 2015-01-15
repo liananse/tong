@@ -42,11 +42,20 @@
         android:orientation="horizontal"
         android:padding="@dimen/activity_default_padding" >
 
+        <!-- 
         <com.mobilepower.tong.ui.view.CustomAvatarView
             android:id="@+id/user_info_avatar"
             android:layout_width="@dimen/self_page_avatar_size"
             android:layout_height="@dimen/self_page_avatar_size"
             android:layout_marginRight="@dimen/activity_default_padding" />
+             -->
+             
+        <ImageView
+            android:id="@+id/user_info_avatar"
+            android:layout_width="@dimen/self_page_avatar_size"
+            android:layout_height="@dimen/self_page_avatar_size"
+            android:layout_marginRight="@dimen/activity_default_padding"
+            android:src="@drawable/male" />
 
         <TextView
             android:id="@+id/user_info_nickname"
