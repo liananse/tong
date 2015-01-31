@@ -2,9 +2,17 @@ package com.mobilepower.tong.push;
 
 import java.util.List;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
+import com.mobilepower.tong.R;
+import com.mobilepower.tong.ui.activity.MainTabActivity;
+import com.mobilepower.tong.utils.UConstants;
 
 public class TongPushMessageReceiver extends FrontiaPushMessageReceiver {
 
@@ -18,13 +26,13 @@ public class TongPushMessageReceiver extends FrontiaPushMessageReceiver {
 		String responseString = "onBind errorCode=" + errorCode + " appid="
 				+ appid + " userId=" + userId + " channelId=" + channelId
 				+ " requestId=" + requestId;
-		
+
 		// 绑定成功，设置已绑定flag，可以有效的减少不必要的绑定请求
-        if (errorCode == 0) {
-            TongPushUtils.setBind(context, true);
-        }
-        // Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-        System.out.println("onBind" + responseString);
+		if (errorCode == 0) {
+			TongPushUtils.setBind(context, true);
+		}
+		// Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
+		System.out.println("onBind sssssssss" + responseString);
 	}
 
 	@Override
@@ -48,7 +56,28 @@ public class TongPushMessageReceiver extends FrontiaPushMessageReceiver {
 	public void onMessage(Context context, String message,
 			String customContentString) {
 		// TODO Auto-generated method stub
-		System.out.println("message " + message + " customString " + customContentString);
+		System.out.println("message " + message + " customString "
+				+ customContentString);
+
+//		NotificationCompat.Builder mBuilder;
+//		mBuilder = new NotificationCompat.Builder(context)
+//				.setSmallIcon(R.drawable.ic_launcher).setContentTitle(message)
+//				.setContentText(message).setDefaults(Notification.DEFAULT_ALL)
+//				.setAutoCancel(true);
+//		// Use Notifiaction.Default_all (sound light and so on)
+//		// Creates an explicit intent for an Activity in your app
+//		Intent resultIntent = new Intent(context, MainTabActivity.class);
+//		resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//		resultIntent.putExtra(UConstants.FROM_WHERE,
+//				UConstants.FROM_NOTIFICATION);
+//		PendingIntent resultPendingIntent = PendingIntent.getActivity(context,
+//				0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//		mBuilder.setContentIntent(resultPendingIntent);
+//		NotificationManager mNotificationManager = (NotificationManager) context
+//				.getSystemService(Context.NOTIFICATION_SERVICE);
+//		// mId allows you to update the notification later on.
+//		mNotificationManager.notify(1, mBuilder.build());
 	}
 
 	/**
@@ -58,7 +87,8 @@ public class TongPushMessageReceiver extends FrontiaPushMessageReceiver {
 	public void onNotificationClicked(Context context, String title,
 			String description, String customContentString) {
 		// TODO Auto-generated method stub
-		System.out.println("onNotification " + title + " " + description + " " + customContentString);
+		System.out.println("onNotification " + title + " " + description + " "
+				+ customContentString);
 	}
 
 	@Override
@@ -75,9 +105,9 @@ public class TongPushMessageReceiver extends FrontiaPushMessageReceiver {
 	public void onUnbind(Context context, int errorCode, String requestId) {
 		// TODO Auto-generated method stub
 		// 解绑定成功，设置未绑定flag，
-        if (errorCode == 0) {
-            TongPushUtils.setBind(context, false);
-        }
+		if (errorCode == 0) {
+			TongPushUtils.setBind(context, false);
+		}
 	}
 
 }

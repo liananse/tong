@@ -39,6 +39,7 @@ public class SplashActivity extends BaseActivity {
 		bus = TongApplication.getBus();
 
 		if (!TongPushUtils.hasBind(getApplicationContext())) {
+			System.out.println("startWork bind");
 			PushManager.startWork(getApplicationContext(),
 					PushConstants.LOGIN_TYPE_API_KEY,
 					TongPushUtils.getMetaValue(SplashActivity.this, "api_key"));
