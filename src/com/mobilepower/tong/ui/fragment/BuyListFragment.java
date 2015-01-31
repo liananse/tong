@@ -70,7 +70,7 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 		mListView = (XListView) mView.findViewById(R.id.tong_list);
 
 		mListView.setPullRefreshEnable(true);
-		mListView.setPullLoadEnable(false);
+		mListView.setPullLoadEnable(true);
 		mListView.setXListViewListener(this);
 
 		mListView.setAdapter(mAdapter);
