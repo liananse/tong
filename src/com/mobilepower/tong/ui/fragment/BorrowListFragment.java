@@ -284,11 +284,22 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 					long diffTime = freeEndTime - System.currentTimeMillis();
 
 					// 免费时间未到并且小于两个小时
-					if (diffTime > 0 && diffTime / (60 * 60 * 1000) < 2) {
+					if (diffTime > 0 && diffTime / (60 * 60 * 1000) <= 2) {
 						FragmentTransaction ft = getActivity()
 								.getSupportFragmentManager().beginTransaction();
+						String timeLeftTips = "";
+						if (diffTime / (60 * 60 * 1000) == 2) {
+							timeLeftTips = "还剩2小时";
+						} else if (diffTime / (60 * 60 * 1000) < 2 && diffTime / (60 * 60 * 1000) > 1) {
+							timeLeftTips = "还剩1小时" + (diffTime / (60 * 1000) - (60 * 60 * 1000)) + "分";
+						} else if (diffTime / (60 * 60 * 1000) == 1) {
+							timeLeftTips = "还剩1小时";
+						} else if (diffTime / (60 * 60 * 1000) < 1) {
+							timeLeftTips = "还剩" + (diffTime / (60 * 1000)) + "分";
+						}
 
 						TwoHoursTips mTwoHoursTips = new TwoHoursTips();
+						bundle.putString("timeLeftTips", timeLeftTips);
 						mTwoHoursTips.setArguments(bundle);
 						mTwoHoursTips.show(ft, "two_hour_tips");
 					}

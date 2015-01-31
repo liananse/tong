@@ -18,7 +18,7 @@ import com.mobilepower.tong.utils.UIntentKeys;
 public class TwoHoursTips extends DialogFragment implements OnClickListener{
 	
 	private TongInfo mInfo;
-	
+	private String timeLeftTips;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -27,6 +27,7 @@ public class TwoHoursTips extends DialogFragment implements OnClickListener{
 		setStyle(style, theme);
 		mInfo = (TongInfo) getArguments()
 				.getSerializable(UIntentKeys.TONG_INOF);
+		timeLeftTips = getArguments().getString("timeLeftTips", "");
 		this.setCancelable(false);
 	}
 
@@ -39,7 +40,7 @@ public class TwoHoursTips extends DialogFragment implements OnClickListener{
 		View mView = inflater.inflate(R.layout.dialog_two_hours_tips, null);
 
 		TextView mTips = (TextView) mView.findViewById(R.id.dialog_tips);
-		mTips.setText("编号" + mInfo.cdb + "的设备免费时间还剩2小时");
+		mTips.setText("编号" + mInfo.cdb + "的设备免费时间" + timeLeftTips);
 		
 		mOk = mView.findViewById(R.id.sure);
 		mOk.setOnClickListener(this);
