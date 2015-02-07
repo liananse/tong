@@ -2,7 +2,7 @@ package com.mobilepower.tong.model;
 
 import java.io.Serializable;
 
-public class TongInfo implements Serializable{
+public class TongInfo implements Serializable {
 	public String addTime;
 	public String cdb;
 	public String deviceTerminal;
@@ -32,7 +32,11 @@ public class TongInfo implements Serializable{
 	public String updateTime;
 	public String userId;
 	public String serverDate;
-	
+
 	public ShopInfo shopModel;
 	public UserInfo user;
+
+	public String getCdb() {
+		return cdb.replaceAll("^(0+)", "");
+	}
 }

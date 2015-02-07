@@ -36,7 +36,7 @@ public class LentCodeActivity extends BaseActivity {
 		mCodeT = (TextView) findViewById(R.id.tong_code_t);
 
 		if (mInfo != null) {
-			mCodeT.setText("编号：" + mInfo.cdb);
+			mCodeT.setText("编号：" + mInfo.getCdb());
 			try {
 				mCodeV.setImageBitmap(Create2DCode("borrowToUser_" + mInfo.id + "_"
 						+ TongApplication.getMineInfo(this).id));

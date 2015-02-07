@@ -79,19 +79,17 @@ public class UTimeUtils {
 		
 		if (diff > ONE_DAY) {
 			int days = (int) (diff / ONE_DAY);
-			timeLeft = "还剩" + days + "天免费时间";
+			timeLeft = "免费时间：" + days + "天";
 		} else if (diff > ONE_HOURS) {
 			int hours = (int) (diff / ONE_HOURS);
-			// timeAgo = ctx.getString(R.string.hours_ago, hours);
-			timeLeft = "还剩" + hours + "小时免费时间";
+			timeLeft = "免费时间：" + hours + "小时";
 
-		} else if (diff > ONE_MINUTES) {
+		} else if (diff >= 0) {
 			int minutes = (int) (diff / ONE_MINUTES);
-			// timeAgo = ctx.getString(R.string.minutes_ago, minutes);
-			timeLeft = "还剩" + minutes + "分钟免费时间";
+			timeLeft = "免费时间：" + minutes + "分钟";
 		} else {
-			// timeAgo = ctx.getString(R.string.just_now);
-			timeLeft = "需要马上归还";
+			int days = (int) (-diff / ONE_DAY);
+			timeLeft = "超时时间：" + (days + 1) + "天";
 		}
 		
 		return timeLeft;
