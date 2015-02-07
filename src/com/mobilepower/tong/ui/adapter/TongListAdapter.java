@@ -124,7 +124,8 @@ public class TongListAdapter extends BaseAdapter {
 			holder.mTimeTips.setVisibility(View.INVISIBLE);
 			holder.mMoneyT.setText("￥" + mModel.overtimeMoney);
 			holder.mBuyV.setVisibility(View.GONE);
-			holder.mTongTime.setText("时间: " + mModel.returnTime);
+			holder.mTongTime.setText("借入时间: " + mModel.addTime + "\n归还时间: "
+					+ mModel.returnTime);
 		} else if (fromWhere.equals("lent_activity")) {
 			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
 			holder.mMoneyV.setVisibility(View.GONE);
@@ -137,8 +138,13 @@ public class TongListAdapter extends BaseAdapter {
 			holder.mTongLocation.setText("从" + mModel.name + "借取。");
 		} else if (mModel.shopModel != null && mModel.shopModel.address != null
 				&& !mModel.shopModel.address.equals("")) {
-			holder.mTongLocation.setText("地点: " + mModel.shopModel.address
-					+ mModel.shopModel.address);
+			if (fromWhere.equals("lent")) {
+				holder.mTongLocation.setText("归还地点: "
+						+ mModel.shopModel.address + mModel.shopModel.address);
+			} else {
+				holder.mTongLocation.setText("地点: " + mModel.shopModel.address
+						+ mModel.shopModel.address);
+			}
 		} else {
 			holder.mTongLocation.setText("从机器上借取。");
 		}
