@@ -127,7 +127,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			mMoney[2]
 					.setBackgroundResource(R.drawable.recharge_money_selected_bg);
 			mMoney[2].setTextColor(getResources().getColor(R.color.white));
-			recharge_money = 30;
+			recharge_money = 50;
 		} else if (v == mMoney[3]) {
 			for (int i = 0; i < mMoney.length; i++) {
 				mMoney[i]
@@ -138,7 +138,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			mMoney[3]
 					.setBackgroundResource(R.drawable.recharge_money_selected_bg);
 			mMoney[3].setTextColor(getResources().getColor(R.color.white));
-			recharge_money = 50;
+			recharge_money = 100;
 		} else if (v == mMoney[4]) {
 			for (int i = 0; i < mMoney.length; i++) {
 				mMoney[i]
@@ -149,7 +149,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			mMoney[4]
 					.setBackgroundResource(R.drawable.recharge_money_selected_bg);
 			mMoney[4].setTextColor(getResources().getColor(R.color.white));
-			recharge_money = 100;
+			recharge_money = 300;
 		} else if (v == mMoney[5]) {
 			for (int i = 0; i < mMoney.length; i++) {
 				mMoney[i]
@@ -160,7 +160,7 @@ public class RechargeActivity extends BaseActivity implements OnClickListener {
 			mMoney[5]
 					.setBackgroundResource(R.drawable.recharge_money_selected_bg);
 			mMoney[5].setTextColor(getResources().getColor(R.color.white));
-			recharge_money = 200;
+			recharge_money = 500;
 		}
 	}
 

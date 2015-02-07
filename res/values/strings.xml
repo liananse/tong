@@ -45,7 +45,7 @@
     <string name="tong_page_dialog_message">刷新历史列表确认是否归还成功</string>
 
     <!-- shop page activity -->
-    <string name="shop_page_tab_str">店铺</string>
+    <string name="shop_page_tab_str">来电吧</string>
     <string name="shop_page_title">店铺</string>
     <string name="shop_page_detail">店铺详情</string>
     <string name="shop_page_no_more_data">暂时没有更多数据</string>
@@ -120,7 +120,7 @@
     <string name="recharge_weixin">微信</string>
     <string name="recharge_alipay">支付宝</string>
     <string name="recharge_recharge">充值</string>
-    <string name="recharge_tips">温馨提示：本充值成功后不能退款，充值人民币1元等于10个来电币，来电币可用于在指定终端上租借充电宝</string>
+    <string name="recharge_tips">温馨提示：充值之后，可用于借入充电宝和购买充电线</string>
     <string name="recharge_empty_tips">请输入充值金额</string>
 
     <!-- edit info activity -->

@@ -87,6 +87,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private ImageView mAvatarView;
 	private TextView mNickName;
 	private View mRechargeBtn;
+	private View mCashBtn;
 	private TextView mSelfResume;
 	private TextView mSelfYue;
 	private TextView mSelfYa;
@@ -122,6 +123,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mSelfYue = (TextView) findViewById(R.id.self_info_score);
 		mSelfYa = (TextView) findViewById(R.id.self_info_ya);
 		mRechargeBtn = findViewById(R.id.self_page_charge_btn);
+		mCashBtn = findViewById(R.id.self_page_cash_btn);
 		mChatBtn = findViewById(R.id.self_page_chat_btn);
 		mFriendBtn = findViewById(R.id.self_page_friend_btn);
 		mScoreDesBtn = findViewById(R.id.self_page_score_des_btn);
@@ -135,6 +137,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mUnReadMsgCount = (TextView) findViewById(R.id.unread_msg_number);
 
 		mRechargeBtn.setOnClickListener(this);
+		mCashBtn.setOnClickListener(this);
 		mChatBtn.setOnClickListener(this);
 		mFriendBtn.setOnClickListener(this);
 		mScoreDesBtn.setOnClickListener(this);
@@ -323,6 +326,10 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			Intent intent = new Intent();
 			intent.setClass(this, EditInfoActivity.class);
 			this.startActivityForResult(intent, URequestCodes.EDIT_INFO);
+		} else if (v == mCashBtn) {
+			Intent intent = new Intent();
+			intent.setClass(this, CashActivity.class);
+			this.startActivityForResult(intent, URequestCodes.CASH);
 		}
 	}
 
@@ -339,6 +346,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {
 		case URequestCodes.RECHARGE:
+		case URequestCodes.CASH:
 			if (resultCode == RESULT_OK) {
 				getUserInfo();
 			}
