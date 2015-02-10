@@ -33,11 +33,11 @@
     <string name="register_in">进入来电吧</string>
 
     <!-- tong page activity -->
-    <string name="tong_page_tab_str">首页</string>
-    <string name="tong_page_title">首页</string>
+    <string name="tong_page_tab_str">来电</string>
+    <string name="tong_page_title"></string>
     <string name="tong_page_borrow">借入</string>
     <string name="tong_page_return">归还</string>
-    <string name="tong_page_lent">购买</string>
+    <string name="tong_page_lent">买线</string>
     <string name="tong_page_want_borrow">想借</string>
     <string name="tong_page_dialog_title">提示</string>
     <string name="tong_page_dialog_confirm">确认</string>
@@ -46,7 +46,7 @@
 
     <!-- shop page activity -->
     <string name="shop_page_tab_str">来电吧</string>
-    <string name="shop_page_title">店铺</string>
+    <string name="shop_page_title">来电吧</string>
     <string name="shop_page_detail">店铺详情</string>
     <string name="shop_page_no_more_data">暂时没有更多数据</string>
     <string name="shop_page_name">名称: %s</string>

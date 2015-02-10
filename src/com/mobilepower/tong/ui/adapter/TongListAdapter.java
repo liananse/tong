@@ -112,14 +112,14 @@ public class TongListAdapter extends BaseAdapter {
 		final TongInfo mModel = mTongList.get(position);
 
 		if (fromWhere.equals("borrow")) {
-			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
+			holder.mTongImage.setImageResource(R.drawable.cdb);
 			holder.mMoneyV.setVisibility(View.VISIBLE);
 			holder.mTimeTips.setVisibility(View.VISIBLE);
 			holder.mBuyV.setVisibility(View.VISIBLE);
 			holder.mMoneyT.setText("￥" + mModel.overtimeMoney);
 			holder.mTongTime.setText("时间: " + mModel.updateTime);
 		} else if (fromWhere.equals("lent")) {
-			holder.mTongImage.setImageResource(R.drawable.icon_lent_press);
+			holder.mTongImage.setImageResource(R.drawable.cdb);
 			holder.mMoneyV.setVisibility(View.VISIBLE);
 			holder.mTimeTips.setVisibility(View.INVISIBLE);
 			holder.mMoneyT.setText("￥" + mModel.overtimeMoney);
@@ -127,7 +127,7 @@ public class TongListAdapter extends BaseAdapter {
 			holder.mTongTime.setText("借入时间: " + mModel.addTime + "\n归还时间: "
 					+ mModel.returnTime);
 		} else if (fromWhere.equals("lent_activity")) {
-			holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
+			holder.mTongImage.setImageResource(R.drawable.cdb);
 			holder.mMoneyV.setVisibility(View.GONE);
 			holder.mBuyV.setVisibility(View.GONE);
 			holder.mTongTime.setText("时间: " + mModel.updateTime);
@@ -140,10 +140,9 @@ public class TongListAdapter extends BaseAdapter {
 				&& !mModel.shopModel.address.equals("")) {
 			if (fromWhere.equals("lent")) {
 				holder.mTongLocation.setText("归还地点: "
-						+ mModel.shopModel.address + mModel.shopModel.address);
-			} else {
-				holder.mTongLocation.setText("地点: " + mModel.shopModel.address
 						+ mModel.shopModel.address);
+			} else {
+				holder.mTongLocation.setText("地点: " + mModel.shopModel.address);
 			}
 		} else {
 			holder.mTongLocation.setText("从机器上借取。");

@@ -97,31 +97,33 @@ public class BuyListAdapter extends BaseAdapter {
 
 		final BuyListModel mModel = mTongList.get(position);
 
-		holder.mTongImage.setImageResource(R.drawable.icon_borrow_press);
 		holder.mMoneyV.setVisibility(View.VISIBLE);
 		holder.mTimeTips.setVisibility(View.INVISIBLE);
 		holder.mBuyV.setVisibility(View.GONE);
-		holder.mTongFrom.setText("编号: " + mModel.terminal);
+
+		if (mModel.type == 0) {
+			holder.mTongFrom.setText("名称: 充电宝");
+			holder.mTongImage.setImageResource(R.drawable.cdb);
+		} else {
+			holder.mTongImage.setImageResource(R.drawable.line);
+			if (mModel.lineType == 1) {
+				holder.mTongFrom.setText("名称: iPhone5 数据线");
+			} else if (mModel.lineType == 2) {
+				holder.mTongFrom.setText("名称: iPhone4 数据线");
+			} else if (mModel.lineType == 3) {
+				holder.mTongFrom.setText("名称: Android 数据线(micro USB)");
+			}
+		}
 		holder.mTongTime.setText("时间: " + mModel.updateTime);
 		holder.mMoneyT.setText("￥" + mModel.cost);
 
 		if (mModel.shopModel != null && mModel.shopModel.address != null
 				&& !mModel.shopModel.address.equals("")) {
-			holder.mTongLocation.setText("地点: " + mModel.shopModel.address
-					+ mModel.shopModel.address);
+			holder.mTongLocation.setText("地点: " + mModel.shopModel.address);
 			holder.mTongLocation.setVisibility(View.VISIBLE);
 		} else {
 			holder.mTongLocation.setVisibility(View.GONE);
 		}
-//		if (mModel.name != null && !mModel.name.equals("")) {
-//			holder.mTongLocation.setText("从" + mModel.name + "借得。");
-//		} else if (mModel.shopModel != null && mModel.shopModel.address != null
-//				&& !mModel.shopModel.address.equals("")) {
-//			holder.mTongLocation.setText("地点: " + mModel.shopModel.address
-//					+ mModel.shopModel.address);
-//		} else {
-//
-//		}
 
 		holder.mTongItem.setOnClickListener(new OnClickListener() {
 

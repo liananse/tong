@@ -2,6 +2,8 @@ package com.mobilepower.tong.ui.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +16,7 @@ import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.model.TongInfo;
 import com.mobilepower.tong.utils.UIntentKeys;
 
-public class LentCodeActivity extends BaseActivity {
+public class LentCodeActivity extends BaseActivity implements OnClickListener{
 
 	private TongInfo mInfo;
 
@@ -25,7 +27,19 @@ public class LentCodeActivity extends BaseActivity {
 		setContentView(R.layout.lent_code_activity);
 		mInfo = (TongInfo) getIntent().getSerializableExtra(
 				UIntentKeys.TONG_INOF);
+		initActionBar();
 		initView();
+	}
+	
+	private View mBackBtn;
+
+	/**
+	 * 初始化actionBar
+	 */
+	private void initActionBar() {
+		mBackBtn = findViewById(R.id.back_btn);
+
+		mBackBtn.setOnClickListener(this);
 	}
 
 	private ImageView mCodeV;
@@ -83,6 +97,14 @@ public class LentCodeActivity extends BaseActivity {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if (v == mBackBtn) {
+			this.finish();
+		} 
 	}
 
 }
