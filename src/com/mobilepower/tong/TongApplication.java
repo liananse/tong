@@ -36,6 +36,7 @@ import com.easemob.EMCallBack;
 import com.mobilepower.tong.db.DDBOpenHelper;
 import com.mobilepower.tong.model.UserInfo;
 import com.mobilepower.tong.ui.activity.SplashActivity;
+import com.mobilepower.tong.ui.activity.WelcomeActivity;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UDataCleanManager;
 import com.mobilepower.tong.utils.UTools;
@@ -191,7 +192,7 @@ public class TongApplication extends FrontiaApplication {
 		// 跳转
 		UTools.activityhelper.clearAllBut(act);
 		Intent intent = new Intent();
-		intent.setClass(act, SplashActivity.class);
+		intent.setClass(act, WelcomeActivity.class);
 		act.startActivity(intent);
 		act.finish();
 	}

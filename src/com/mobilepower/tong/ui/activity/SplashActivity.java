@@ -15,14 +15,9 @@
  */
 package com.mobilepower.tong.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.baidu.android.pushservice.PushConstants;
-import com.baidu.android.pushservice.PushManager;
 import com.mobilepower.tong.TongApplication;
-import com.mobilepower.tong.model.UserInfo;
-import com.mobilepower.tong.push.TongPushUtils;
 import com.mobilepower.tong.ui.controller.SplashViewController;
 import com.squareup.otto.Bus;
 
@@ -38,40 +33,8 @@ public class SplashActivity extends BaseActivity {
 
 		bus = TongApplication.getBus();
 
-		if (!TongPushUtils.hasBind(getApplicationContext())) {
-			System.out.println("startWork bind");
-			PushManager.startWork(getApplicationContext(),
-					PushConstants.LOGIN_TYPE_API_KEY,
-					TongPushUtils.getMetaValue(SplashActivity.this, "api_key"));
-			// Push: 如果想基于地理位置推送，可以打开支持地理位置的推送的开关
-			// PushManager.enableLbs(getApplicationContext());
-
-		} else {
-			if (PushManager.isPushEnabled(getApplicationContext())) {
-				PushManager.resumeWork(getApplicationContext());
-			}
-		}
-		
-		gotoActivity();
-	}
-
-	private void gotoActivity() {
-		UserInfo mInfo = TongApplication.getMineInfo(this);
-
-		if (mInfo != null) {
-			if (mInfo.nickName != null && !mInfo.nickName.equals("")) {
-				Intent intent = new Intent(this, MainTabActivity.class);
-				this.startActivity(intent);
-				this.finish();
-			} else {
-				Intent intent = new Intent(this, RegisterStepTwoActivity.class);
-				this.startActivity(intent);
-				this.finish();
-			}
-		} else {
-			mSplashViewController = new SplashViewController(this);
-			setContentView(mSplashViewController.getView());
-		}
+		mSplashViewController = new SplashViewController(this);
+		setContentView(mSplashViewController.getView());
 	}
 
 	@Override
