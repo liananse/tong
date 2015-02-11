@@ -115,4 +115,6 @@ public class UConfig {
 	 * fromUserId
 	 */
 	public static final String BORROW_FROM_USER_URL = SERVER_HOST + "/borrowFromUser";	
+	
+	public static final String SYSTEM_ARGS_GET = SERVER_HOST + "/systemArgsGet";
 }

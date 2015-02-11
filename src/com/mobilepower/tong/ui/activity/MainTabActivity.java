@@ -15,13 +15,12 @@
  */
 package com.mobilepower.tong.ui.activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.TabActivity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,16 +31,18 @@ import android.widget.TabHost;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
-import com.easemob.chat.EMMessage;
-import com.easemob.chat.NotificationCompat;
-import com.easemob.chat.EMMessage.ChatType;
-import com.easemob.chat.EMMessage.Type;
-import com.easemob.util.EasyUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.DemoHXSDKHelper;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
-import com.mobilepower.tong.hx.utils.CommonUtils;
+import com.mobilepower.tong.http.HHttpDataLoader;
+import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
+import com.mobilepower.tong.model.SystemArgsInfo;
 import com.mobilepower.tong.model.UserInfo;
+import com.mobilepower.tong.utils.UConfig;
+import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 
 @SuppressWarnings("deprecation")
@@ -121,6 +122,56 @@ public class MainTabActivity extends TabActivity implements OnClickListener {
 			}
 		});
 
+		getSystemArgs();
+	}
+	
+	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
+	private void getSystemArgs() {
+		Map<String, String> params = new HashMap<String, String>();
+		mDataLoader.postData(UConfig.SYSTEM_ARGS_GET, params, this, new HDataListener() {
+			
+			@Override
+			public void onSocketTimeoutException(String msg) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onFinish(String source) {
+				// TODO Auto-generated method stub
+				Gson gson = new Gson();
+				try {
+					SystemArgsInfo mResultModel = gson.fromJson(source,
+							SystemArgsInfo.class);
+					
+					if (mResultModel != null) {
+						// 将linePrice同时放到sharedpreferences中
+						SharedPreferences.Editor mEditor = UTools.Storage
+								.getSharedPreEditor(MainTabActivity.this,
+										UConstants.BASE_PREFS_NAME);
+						mEditor.putString(
+								UConstants.LINE_PRICE,
+								mResultModel.linePrice);
+						mEditor.commit();
+					}
+				} catch (JsonSyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void onFail(String msg) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onConnectTimeoutException(String msg) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	@Override

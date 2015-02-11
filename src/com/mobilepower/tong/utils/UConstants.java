@@ -58,6 +58,7 @@ public class UConstants {
 	 * accessToken
 	 */
 	public static final String SELF_ACCESS_TOKEN = "self_access_token";
+	public static final String LINE_PRICE = "line_price";
 	/**
 	 * 首次登录
 	 */

@@ -139,8 +139,12 @@ public class TongListAdapter extends BaseAdapter {
 		} else if (mModel.shopModel != null && mModel.shopModel.address != null
 				&& !mModel.shopModel.address.equals("")) {
 			if (fromWhere.equals("lent")) {
-				holder.mTongLocation.setText("归还地点: "
-						+ mModel.shopModel.address);
+				if (mModel.toUserId.equals("0")) {
+					holder.mTongLocation.setText("归还地点: "
+							+ mModel.shopModel.address);
+				} else {
+					holder.mTongLocation.setText("转借他人：" + mModel.name);
+				}
 			} else {
 				holder.mTongLocation.setText("地点: " + mModel.shopModel.address);
 			}
