@@ -2,11 +2,15 @@ package com.mobilepower.tong.ui.adapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,11 +19,19 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.http.HHttpDataLoader;
+import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
+import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.TongInfo;
 import com.mobilepower.tong.ui.activity.LentCodeActivity;
+import com.mobilepower.tong.ui.activity.MainTabActivity;
 import com.mobilepower.tong.ui.event.BuyTongEvent;
+import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
+import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UIntentKeys;
 import com.mobilepower.tong.utils.UTimeUtils;
 
@@ -32,6 +44,7 @@ public class TongListAdapter extends BaseAdapter {
 
 	private String fromWhere = "";
 
+	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
 	public void setFromWhere(String fromWhere) {
 		this.fromWhere = fromWhere;
 	}
@@ -195,6 +208,68 @@ public class TongListAdapter extends BaseAdapter {
 				TongApplication.getBus().post(new BuyTongEvent(mModel));
 			}
 		});
+		
+		holder.mRefreshT.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
+				FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
+				mLoadingProgressBarFragment.show(ft, "dialog");
+				
+				Map<String, String> params = new HashMap<String, String>();
+				params.put("checkHistoryId", mModel.id);
+				mDataLoader.postData(UConfig.CHECK_HISTORY_STATUS, params, mContext, new HDataListener() {
+					
+					@Override
+					public void onSocketTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+					}
+					
+					@Override
+					public void onFinish(String source) {
+						// TODO Auto-generated method stub
+						Gson gson = new Gson();
+						try {
+							TempModel mResultModel = gson.fromJson(source,
+									TempModel.class);
+							
+							if (mResultModel != null && mResultModel.data != null) {
+								if (mResultModel.data.type != 1) {
+									mTongList.remove(mModel);
+									TongListAdapter.this.notifyDataSetChanged();
+								} else {
+									mModel.expires = mResultModel.data.expires;
+									mModel.overtimeMoney = mResultModel.data.overtimeMoney;
+									mModel.preMoney = mResultModel.data.preMoney;
+									mModel.returnTime = mResultModel.data.returnTime;
+									mModel.updateTime = mResultModel.data.updateTime;
+									TongListAdapter.this.notifyDataSetChanged();
+								}
+							}
+						} catch (JsonSyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						mLoadingProgressBarFragment.dismiss();
+					}
+					
+					@Override
+					public void onFail(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+					}
+					
+					@Override
+					public void onConnectTimeoutException(String msg) {
+						// TODO Auto-generated method stub
+						mLoadingProgressBarFragment.dismiss();
+					}
+				});
+			}
+		});
 		return convertView;
 	}
 
@@ -224,6 +299,11 @@ public class TongListAdapter extends BaseAdapter {
 	public void addData(List<TongInfo> list) {
 		mTongList.addAll(list);
 		notifyDataSetChanged();
+	}
+	
+	class TempModel extends BaseInfo {
+		public String sortTime;
+		public TongInfo data;
 	}
 
 }

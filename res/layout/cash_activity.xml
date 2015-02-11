@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/activity_bg"
     android:orientation="vertical" >
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_bar_default_height"
@@ -33,5 +33,127 @@
             android:textColor="@color/activity_bar_title_color"
             android:textSize="@dimen/activity_bar_title_size" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffaf8a"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="账户余额"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/yue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="26sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_wallet" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="支付宝账号"
+            android:textColor="#767676"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/alipay_account"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/login_and_register_padding"
+            android:layout_weight="2"
+            android:background="@drawable/username_and_password_et_bg"
+            android:inputType="text"
+            android:padding="8dp"
+            android:paddingLeft="@dimen/login_and_register_margin_top"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="提现金额"
+            android:textColor="#767676"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/login_and_register_padding"
+            android:layout_weight="2"
+            android:background="@drawable/username_and_password_et_bg"
+            android:inputType="text"
+            android:padding="8dp"
+            android:paddingLeft="@dimen/login_and_register_margin_top"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="温馨提示：体现后需要3-5个工作日返还，由支付宝扣取1.5%手续费"
+        android:textColor="#aaaaaa"
+        android:textSize="16sp" />
+    
+    
+    <TextView
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="@dimen/about_page_content_margin"
+        android:background="@drawable/cash_btn_bg"
+        android:gravity="center"
+        android:padding="@dimen/login_and_register_padding"
+        android:text="提现"
+        android:textSize="18sp"
+        android:textColor="@color/white" />
 
 </LinearLayout>

@@ -97,6 +97,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private View mScoreDesBtn;
 	private View mAboutBtn;
 	private View mInfoBtn;
+	private View mProtocolBtn;
 	private View mSelfEditBtn;
 	private View mExitBtn;
 	private CheckBox mWantPush;
@@ -129,6 +130,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mScoreDesBtn = findViewById(R.id.self_page_score_des_btn);
 		mAboutBtn = findViewById(R.id.self_page_about_btn);
 		mInfoBtn = findViewById(R.id.self_page_info_btn);
+		mProtocolBtn = findViewById(R.id.self_page_protocol_btn);
 		mSelfEditBtn = findViewById(R.id.self_page_edit_btn);
 		mExitBtn = findViewById(R.id.self_page_exit_btn);
 		mWantPush = (CheckBox) findViewById(R.id.setting_want_info_push);
@@ -143,6 +145,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mScoreDesBtn.setOnClickListener(this);
 		mAboutBtn.setOnClickListener(this);
 		mInfoBtn.setOnClickListener(this);
+		mProtocolBtn.setOnClickListener(this);
 		mSelfEditBtn.setOnClickListener(this);
 		mExitBtn.setOnClickListener(this);
 	}
@@ -330,6 +333,10 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			Intent intent = new Intent();
 			intent.setClass(this, CashActivity.class);
 			this.startActivityForResult(intent, URequestCodes.CASH);
+		} else if (v == mProtocolBtn) {
+			Intent intent = new Intent();
+			intent.setClass(this, ProtocolActivity.class);
+			this.startActivity(intent);
 		}
 	}
 

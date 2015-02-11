@@ -39,4 +39,17 @@ public class TongInfo implements Serializable {
 	public String getCdb() {
 		return cdb.replaceAll("^(0+)", "");
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		// TODO Auto-generated method stub
+		TongInfo other = (TongInfo) o;
+		if (other.id.equals(this.id)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
 }

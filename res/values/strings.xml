@@ -120,7 +120,7 @@
     <string name="recharge_weixin">微信</string>
     <string name="recharge_alipay">支付宝</string>
     <string name="recharge_recharge">充值</string>
-    <string name="recharge_tips">温馨提示：充值之后，可用于借入充电宝和购买充电线</string>
+    <string name="recharge_tips">温馨提示：充值成功后即可享受来电科技提供的24小时手机免费应急充电服务和自助购买数据线的服务</string>
     <string name="recharge_empty_tips">请输入充值金额</string>
 
     <!-- edit info activity -->

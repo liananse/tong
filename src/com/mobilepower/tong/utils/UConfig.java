@@ -117,4 +117,15 @@ public class UConfig {
 	public static final String BORROW_FROM_USER_URL = SERVER_HOST + "/borrowFromUser";	
 	
 	public static final String SYSTEM_ARGS_GET = SERVER_HOST + "/systemArgsGet";
+	
+	/**
+	 * checkHistoryId
+	 */
+	public static final String CHECK_HISTORY_STATUS = SERVER_HOST + "/checkHistoryStatus";
+	
+	/**
+	 * cashPickup
+	 * alipayAccount
+	 */
+	public static final String CASH_PICKUP = SERVER_HOST + "/cashPickup";
 }
