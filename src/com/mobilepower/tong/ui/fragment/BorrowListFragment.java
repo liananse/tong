@@ -12,7 +12,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -79,12 +82,38 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 	private XListView mListView;
 	private TongListAdapter mAdapter;
 
+	private View mEmptyView;
+	private ImageView mEmptyImage;
+	private TextView mTips1;
+	private TextView mTips2;
+	private TextView mEmptyBtn;
+
 	private void initView(View mView) {
 		mListView = (XListView) mView.findViewById(R.id.tong_list);
 
 		mListView.setPullRefreshEnable(true);
 		mListView.setPullLoadEnable(true);
 		mListView.setXListViewListener(this);
+
+		mEmptyView = LayoutInflater.from(getActivity()).inflate(
+				R.layout.empty_view, null);
+		mEmptyImage = (ImageView) mEmptyView.findViewById(R.id.empty_image);
+		mTips1 = (TextView) mEmptyView.findViewById(R.id.tips1);
+		mTips2 = (TextView) mEmptyView.findViewById(R.id.tips2);
+		mEmptyBtn = (TextView) mEmptyView.findViewById(R.id.empty_btn);
+
+		mEmptyImage.setImageResource(R.drawable.borrow_empty);
+		mTips1.setText("你还没有借入记录～");
+		mTips2.setText("主人快去来电吧借充电宝吧，免费哟！");
+		mEmptyBtn.setText("去体验");
+		mEmptyBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 		mListView.setAdapter(mAdapter);
 	}
@@ -213,31 +242,44 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 											&& mResultModel.data.size() > 0) {
 										if (BorrowListFragment.this.isRefresh) {
 											mAdapter.refreshData(mResultModel.data);
-
 											checkIfShowTwoHoursTips(mResultModel.data);
 										} else {
 											mAdapter.addData(mResultModel.data);
-
 											checkIfShowTwoHoursTips(mResultModel.data);
 										}
+										mListView.removeFooterView(mEmptyView);
+										mListView.setPullLoadEnable(true);
 									} else {
 
 										if (BorrowListFragment.this.isRefresh) {
 											mAdapter.refreshData(new ArrayList<TongInfo>());
-										}
 
-										if (BorrowListFragment.this.isAdded()) {
-											UToast.showShortToast(
-													getActivity(),
-													getResources()
-															.getString(
-																	R.string.shop_page_no_more_data));
+											mListView
+													.removeFooterView(mEmptyView);
+											mListView.addFooterView(mEmptyView);
+
+											mListView.setPullLoadEnable(false);
+										} else {
+
+											if (BorrowListFragment.this
+													.isAdded()) {
+												UToast.showShortToast(
+														getActivity(),
+														getResources()
+																.getString(
+																		R.string.shop_page_no_more_data));
+											}
 										}
 									}
 								} else {
 
 									if (BorrowListFragment.this.isRefresh) {
 										mAdapter.refreshData(new ArrayList<TongInfo>());
+
+										mListView.removeFooterView(mEmptyView);
+										mListView.addFooterView(mEmptyView);
+
+										mListView.setPullLoadEnable(false);
 									}
 
 									UToast.showShortToast(getActivity(),
@@ -290,12 +332,16 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 						String timeLeftTips = "";
 						if (diffTime / (60 * 60 * 1000) == 2) {
 							timeLeftTips = "还剩2小时";
-						} else if (diffTime / (60 * 60 * 1000) < 2 && diffTime / (60 * 60 * 1000) > 1) {
-							timeLeftTips = "还剩1小时" + (diffTime / (60 * 1000) - (60 * 60 * 1000)) + "分";
+						} else if (diffTime / (60 * 60 * 1000) < 2
+								&& diffTime / (60 * 60 * 1000) > 1) {
+							timeLeftTips = "还剩1小时"
+									+ (diffTime / (60 * 1000) - (60 * 60 * 1000))
+									+ "分";
 						} else if (diffTime / (60 * 60 * 1000) == 1) {
 							timeLeftTips = "还剩1小时";
 						} else if (diffTime / (60 * 60 * 1000) < 1) {
-							timeLeftTips = "还剩" + (diffTime / (60 * 1000)) + "分";
+							timeLeftTips = "还剩" + (diffTime / (60 * 1000))
+									+ "分";
 						}
 
 						TwoHoursTips mTwoHoursTips = new TwoHoursTips();

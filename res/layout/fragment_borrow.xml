@@ -9,7 +9,7 @@
         android:id="@+id/tong_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/activity_bg"
         android:cacheColorHint="#00000000"
         android:divider="@null"
         android:fadingEdge="none"
@@ -17,7 +17,6 @@
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:listSelector="@null"
-        android:overScrollMode="never"
         android:scrollingCache="true" >
     </com.mobilepower.tong.ui.view.XListView>
 

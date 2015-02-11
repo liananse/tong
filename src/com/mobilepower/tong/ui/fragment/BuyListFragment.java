@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -66,12 +69,38 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 	private XListView mListView;
 	private BuyListAdapter mAdapter;
 
+	private View mEmptyView;
+	private ImageView mEmptyImage;
+	private TextView mTips1;
+	private TextView mTips2;
+	private TextView mEmptyBtn;
+
 	private void initView(View mView) {
 		mListView = (XListView) mView.findViewById(R.id.tong_list);
 
 		mListView.setPullRefreshEnable(true);
 		mListView.setPullLoadEnable(true);
 		mListView.setXListViewListener(this);
+
+		mEmptyView = LayoutInflater.from(getActivity()).inflate(
+				R.layout.empty_view, null);
+		mEmptyImage = (ImageView) mEmptyView.findViewById(R.id.empty_image);
+		mTips1 = (TextView) mEmptyView.findViewById(R.id.tips1);
+		mTips2 = (TextView) mEmptyView.findViewById(R.id.tips2);
+		mEmptyBtn = (TextView) mEmptyView.findViewById(R.id.empty_btn);
+
+		mEmptyImage.setImageResource(R.drawable.buy_empty);
+		mTips1.setText("你还没有购买记录～");
+		mTips2.setText("主人忘带线了不着急，买买买！");
+		mEmptyBtn.setText("去购买");
+		mEmptyBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 		mListView.setAdapter(mAdapter);
 	}
@@ -124,24 +153,37 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 										} else {
 											mAdapter.addData(mResultModel.data);
 										}
+										mListView.removeFooterView(mEmptyView);
+										mListView.setPullLoadEnable(true);
 									} else {
 
 										if (BuyListFragment.this.isRefresh) {
 											mAdapter.refreshData(new ArrayList<BuyListModel>());
-										}
 
-										if (BuyListFragment.this.isAdded()) {
-											UToast.showShortToast(
-													getActivity(),
-													getResources()
-															.getString(
-																	R.string.shop_page_no_more_data));
+											mListView
+													.removeFooterView(mEmptyView);
+											mListView.addFooterView(mEmptyView);
+
+											mListView.setPullLoadEnable(false);
+										} else {
+
+											if (BuyListFragment.this.isAdded()) {
+												UToast.showShortToast(
+														getActivity(),
+														getResources()
+																.getString(
+																		R.string.shop_page_no_more_data));
+											}
 										}
 									}
 								} else {
 
 									if (BuyListFragment.this.isRefresh) {
 										mAdapter.refreshData(new ArrayList<BuyListModel>());
+										mListView.removeFooterView(mEmptyView);
+										mListView.addFooterView(mEmptyView);
+
+										mListView.setPullLoadEnable(false);
 									}
 
 									UToast.showShortToast(getActivity(),
