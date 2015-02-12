@@ -28,7 +28,6 @@ import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.TongInfo;
 import com.mobilepower.tong.ui.activity.LentCodeActivity;
-import com.mobilepower.tong.ui.activity.MainTabActivity;
 import com.mobilepower.tong.ui.event.BuyTongEvent;
 import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 import com.mobilepower.tong.utils.UConfig;
@@ -45,6 +44,7 @@ public class TongListAdapter extends BaseAdapter {
 	private String fromWhere = "";
 
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
+
 	public void setFromWhere(String fromWhere) {
 		this.fromWhere = fromWhere;
 	}
@@ -147,22 +147,27 @@ public class TongListAdapter extends BaseAdapter {
 		}
 		holder.mTongFrom.setText("编号: " + mModel.getCdb());
 
-		if (mModel.name != null && !mModel.name.equals("")) {
-			holder.mTongLocation.setText("从" + mModel.name + "借取。");
-		} else if (mModel.shopModel != null && mModel.shopModel.address != null
-				&& !mModel.shopModel.address.equals("")) {
-			if (fromWhere.equals("lent")) {
-				if (mModel.toUserId.equals("0")) {
+		if (fromWhere.equals("lent")) {
+			if (mModel.toUserId.equals("0")) {
+				if (mModel.shopModel != null
+						&& mModel.shopModel.address != null) {
 					holder.mTongLocation.setText("归还地点: "
 							+ mModel.shopModel.address);
-				} else {
-					holder.mTongLocation.setText("转借他人：" + mModel.name);
 				}
 			} else {
-				holder.mTongLocation.setText("地点: " + mModel.shopModel.address);
+				holder.mTongLocation.setText("转借他人：" + mModel.name);
 			}
 		} else {
-			holder.mTongLocation.setText("从机器上借取。");
+			if (mModel.name != null && !mModel.name.equals("")) {
+				holder.mTongLocation.setText("从" + mModel.name + "借取。");
+			} else if (mModel.shopModel != null
+					&& mModel.shopModel.address != null
+					&& !mModel.shopModel.address.equals("")) {
+
+				holder.mTongLocation.setText("地点: " + mModel.shopModel.address);
+			} else {
+				holder.mTongLocation.setText("从机器上借取。");
+			}
 		}
 
 		if (mModel.expires != null) {
@@ -208,66 +213,71 @@ public class TongListAdapter extends BaseAdapter {
 				TongApplication.getBus().post(new BuyTongEvent(mModel));
 			}
 		});
-		
+
 		holder.mRefreshT.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				final FLoadingProgressBarFragment mLoadingProgressBarFragment = new FLoadingProgressBarFragment();
-				FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
+				FragmentTransaction ft = ((FragmentActivity) mContext)
+						.getSupportFragmentManager().beginTransaction();
 				mLoadingProgressBarFragment.show(ft, "dialog");
-				
+
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("checkHistoryId", mModel.id);
-				mDataLoader.postData(UConfig.CHECK_HISTORY_STATUS, params, mContext, new HDataListener() {
-					
-					@Override
-					public void onSocketTimeoutException(String msg) {
-						// TODO Auto-generated method stub
-						mLoadingProgressBarFragment.dismiss();
-					}
-					
-					@Override
-					public void onFinish(String source) {
-						// TODO Auto-generated method stub
-						Gson gson = new Gson();
-						try {
-							TempModel mResultModel = gson.fromJson(source,
-									TempModel.class);
-							
-							if (mResultModel != null && mResultModel.data != null) {
-								if (mResultModel.data.type != 1) {
-									mTongList.remove(mModel);
-									TongListAdapter.this.notifyDataSetChanged();
-								} else {
-									mModel.expires = mResultModel.data.expires;
-									mModel.overtimeMoney = mResultModel.data.overtimeMoney;
-									mModel.preMoney = mResultModel.data.preMoney;
-									mModel.returnTime = mResultModel.data.returnTime;
-									mModel.updateTime = mResultModel.data.updateTime;
-									TongListAdapter.this.notifyDataSetChanged();
-								}
+				mDataLoader.postData(UConfig.CHECK_HISTORY_STATUS, params,
+						mContext, new HDataListener() {
+
+							@Override
+							public void onSocketTimeoutException(String msg) {
+								// TODO Auto-generated method stub
+								mLoadingProgressBarFragment.dismiss();
 							}
-						} catch (JsonSyntaxException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						mLoadingProgressBarFragment.dismiss();
-					}
-					
-					@Override
-					public void onFail(String msg) {
-						// TODO Auto-generated method stub
-						mLoadingProgressBarFragment.dismiss();
-					}
-					
-					@Override
-					public void onConnectTimeoutException(String msg) {
-						// TODO Auto-generated method stub
-						mLoadingProgressBarFragment.dismiss();
-					}
-				});
+
+							@Override
+							public void onFinish(String source) {
+								// TODO Auto-generated method stub
+								Gson gson = new Gson();
+								try {
+									TempModel mResultModel = gson.fromJson(
+											source, TempModel.class);
+
+									if (mResultModel != null
+											&& mResultModel.data != null) {
+										if (mResultModel.data.type != 1) {
+											mTongList.remove(mModel);
+											TongListAdapter.this
+													.notifyDataSetChanged();
+										} else {
+											mModel.expires = mResultModel.data.expires;
+											mModel.overtimeMoney = mResultModel.data.overtimeMoney;
+											mModel.preMoney = mResultModel.data.preMoney;
+											mModel.returnTime = mResultModel.data.returnTime;
+											mModel.updateTime = mResultModel.data.updateTime;
+											TongListAdapter.this
+													.notifyDataSetChanged();
+										}
+									}
+								} catch (JsonSyntaxException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								mLoadingProgressBarFragment.dismiss();
+							}
+
+							@Override
+							public void onFail(String msg) {
+								// TODO Auto-generated method stub
+								mLoadingProgressBarFragment.dismiss();
+							}
+
+							@Override
+							public void onConnectTimeoutException(String msg) {
+								// TODO Auto-generated method stub
+								mLoadingProgressBarFragment.dismiss();
+							}
+						});
 			}
 		});
 		return convertView;
@@ -300,7 +310,7 @@ public class TongListAdapter extends BaseAdapter {
 		mTongList.addAll(list);
 		notifyDataSetChanged();
 	}
-	
+
 	class TempModel extends BaseInfo {
 		public String sortTime;
 		public TongInfo data;
