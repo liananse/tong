@@ -44,12 +44,13 @@ import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
+import com.umeng.fb.FeedbackAgent;
 
 @SuppressWarnings("deprecation")
 public class MainTabActivity extends TabActivity implements OnClickListener {
 
 	private Bus bus;
-
+	FeedbackAgent fb;
 	public TabHost tabHost;
 	public RadioGroup radioGroup;
 
@@ -124,7 +125,16 @@ public class MainTabActivity extends TabActivity implements OnClickListener {
 
 		addPushToken();
 		getSystemArgs();
+		setUpUmengFeedback();
 	}
+	
+	private void setUpUmengFeedback() {
+        fb = new FeedbackAgent(this);
+        // check if the app developer has replied to the feedback or not.
+        fb.sync();
+        fb.openAudioFeedback();
+        fb.openFeedbackPush();
+    }
 	
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
 	private void getSystemArgs() {

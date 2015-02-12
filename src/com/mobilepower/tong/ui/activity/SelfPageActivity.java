@@ -57,11 +57,11 @@ import com.mobilepower.tong.utils.URequestCodes;
 import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.umeng.fb.FeedbackAgent;
 
 public class SelfPageActivity extends BaseActivity implements OnClickListener {
 
 	private Bus bus;
-
 	private NewMessageBroadcastReceiver msgReceiver;
 
 	@Override
@@ -81,8 +81,9 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		intentFilter.setPriority(3);
 		registerReceiver(msgReceiver, intentFilter);
 		getUserInfo();
+		
 	}
-
+	
 	private View mSelfInfo;
 	private ImageView mAvatarView;
 	private TextView mNickName;
