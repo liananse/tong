@@ -76,6 +76,8 @@ public class ShopPageMapActivity extends BaseActivity implements
 	private TextView mShopTel;
 	private TextView mShopAddress;
 
+	private TextView mCanBorrowCount;
+	private TextView mCanReturnCount;
 	private LinearLayout mShopLayout;
 	MapView mMapView;
 	BaiduMap mBaiduMap;
@@ -86,7 +88,8 @@ public class ShopPageMapActivity extends BaseActivity implements
 		mShopName = (TextView) findViewById(R.id.shop_name);
 		mShopTel = (TextView) findViewById(R.id.shop_tel);
 		mShopAddress = (TextView) findViewById(R.id.shop_address);
-
+		mCanBorrowCount = (TextView) findViewById(R.id.can_borrow);
+		mCanReturnCount = (TextView) findViewById(R.id.can_return);
 		mShopLayout = (LinearLayout) findViewById(R.id.shop_page_layout);
 		mList = (XListView) findViewById(R.id.user_list);
 		
@@ -102,6 +105,8 @@ public class ShopPageMapActivity extends BaseActivity implements
 			mShopName.setText(mInfo.name);
 			mShopTel.setText(mInfo.tel);
 			mShopAddress.setText(mInfo.address);
+			mCanBorrowCount.setText("可借 " + mInfo.canBorrowCnt);
+			mCanReturnCount.setText("可还 " + mInfo.canReturnCnt);
 			
 			LatLng p = new LatLng(mInfo.lat, mInfo.lng);
 

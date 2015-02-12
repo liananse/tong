@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/list_default_padding" >
 
@@ -58,6 +57,36 @@
                     android:textSize="@dimen/self_page_score_size" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/can_borrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/can_borrow_bg"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:textColor="#fbcd46"
+                    android:textSize="@dimen/self_page_score_size" />
+
+                <TextView
+                    android:id="@+id/can_return"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/can_return_bg"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:textColor="#a0da6a"
+                    android:textSize="@dimen/self_page_score_size" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/shop_address"
                 android:layout_width="wrap_content"
@@ -71,7 +100,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_list_arrow" />
+            android:src="@drawable/ic_list_arrow"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout

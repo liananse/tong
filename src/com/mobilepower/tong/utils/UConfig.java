@@ -128,4 +128,11 @@ public class UConfig {
 	 * alipayAccount
 	 */
 	public static final String CASH_PICKUP = SERVER_HOST + "/cashPickup";
+	
+	/**
+	 * bdUserId
+	 * bdChannelId
+	 * pushDevice 1android
+	 */
+	public static final String PUSH_TOKEN_ADD = SERVER_HOST + "/pushTokenAdd";
 }

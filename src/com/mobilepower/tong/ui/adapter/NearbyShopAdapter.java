@@ -83,6 +83,10 @@ public class NearbyShopAdapter extends BaseAdapter {
 					.findViewById(R.id.shop_distance);
 			holder.mShopAddress = (TextView) convertView
 					.findViewById(R.id.shop_address);
+			holder.mCanBorrowCount = (TextView) convertView
+					.findViewById(R.id.can_borrow);
+			holder.mCanReturnCount = (TextView) convertView
+					.findViewById(R.id.can_return);
 
 			convertView.setTag(holder);
 		} else {
@@ -91,14 +95,14 @@ public class NearbyShopAdapter extends BaseAdapter {
 
 		final ShopInfo mModel = mNearbyShopList.get(position);
 
-//		holder.mShopAvatar.setImageUrl(mModel.shopAvatar);
+		// holder.mShopAvatar.setImageUrl(mModel.shopAvatar);
 		holder.mShopAvatar.setImageResource(getRandomRes());
 		holder.mShopName.setText(mModel.name);
 		holder.mShopDistance.setText(mModel.shopDistance);
 		holder.mShopAddress.setText(mModel.address);
 
 		holder.mShopItem.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
@@ -108,16 +112,21 @@ public class NearbyShopAdapter extends BaseAdapter {
 				mContext.startActivity(intent);
 			}
 		});
+
+		holder.mCanBorrowCount.setText("可借 " + mModel.canBorrowCnt);
+		holder.mCanReturnCount.setText("可还 " + mModel.canReturnCnt);
 		return convertView;
 	}
 
 	static class ViewHolder {
-//		CustomAvatarView mShopAvatar;
+		// CustomAvatarView mShopAvatar;
 		ImageView mShopAvatar;
 		TextView mShopName;
 		TextView mShopDistance;
 		TextView mShopAddress;
 		View mShopItem;
+		TextView mCanBorrowCount;
+		TextView mCanReturnCount;
 	}
 
 	public void refreshData(List<ShopInfo> list) {
@@ -133,7 +142,7 @@ public class NearbyShopAdapter extends BaseAdapter {
 
 	public int getRandomRes() {
 		int randomRes = (int) (Math.random() * 4);
-		
+
 		int res = R.drawable.icon_bar;
 		if (randomRes == 0) {
 			res = R.drawable.icon_cinema;
@@ -144,8 +153,8 @@ public class NearbyShopAdapter extends BaseAdapter {
 		} else if (randomRes == 3) {
 			res = R.drawable.icon_coffe;
 		}
-		
+
 		return res;
 	}
-	
+
 }

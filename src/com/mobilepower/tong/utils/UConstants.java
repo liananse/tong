@@ -77,6 +77,10 @@ public class UConstants {
 	 */
 	public static final String LOCATION_LONGITUDE = "location_longitude";
 	
+	public static final String BAIDU_USER_ID = "baidu_user_id";
+	
+	public static final String BAIDU_CHANNEL_ID = "baidu_channel_id";
+	
 	/**
 	 * 上次心跳的时间
 	 */

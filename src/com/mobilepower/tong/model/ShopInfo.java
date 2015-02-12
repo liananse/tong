@@ -20,4 +20,7 @@ public class ShopInfo implements Serializable{
 	// 暂时没有的数据
 	public String shopAvatar;
 	public String shopDistance;
+	
+	public int canBorrowCnt;
+	public int canReturnCnt;
 }

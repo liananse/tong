@@ -122,6 +122,7 @@ public class MainTabActivity extends TabActivity implements OnClickListener {
 			}
 		});
 
+		addPushToken();
 		getSystemArgs();
 	}
 	
@@ -174,6 +175,23 @@ public class MainTabActivity extends TabActivity implements OnClickListener {
 		});
 	}
 
+	public void addPushToken() {
+		
+		SharedPreferences sp = UTools.Storage.getSharedPreferences(this, UConstants.BASE_PREFS_NAME);
+		String baidu_user_id = sp.getString(UConstants.BAIDU_USER_ID, "");
+		String baidu_channel_id = sp.getString(UConstants.BAIDU_CHANNEL_ID, "");
+		
+		if (!baidu_user_id.equals("") && !baidu_channel_id.equals("")) {
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("bdUserId", baidu_user_id);
+			params.put("bdChannelId", baidu_channel_id);
+			params.put("pushDevice", "1");
+			
+			System.out.println("baidu user id " + baidu_user_id + " baidu channel id " + baidu_channel_id);
+			mDataLoader.postData(UConfig.PUSH_TOKEN_ADD, params, this, null);
+		}
+		
+	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
