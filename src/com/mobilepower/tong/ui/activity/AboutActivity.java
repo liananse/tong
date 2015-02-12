@@ -28,7 +28,7 @@ import com.umeng.fb.FeedbackAgent;
 
 public class AboutActivity extends BaseActivity implements OnClickListener {
 
-	FeedbackAgent fb;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -36,16 +36,10 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 		setContentView(R.layout.about_activity);
 
 		initActionBar();
-		setUpUmengFeedback();
 	}
-	
-	private void setUpUmengFeedback() {
-        fb = new FeedbackAgent(this);
-    }
 
 	private View mBackBtn;
 	private View mReportBug;
-	private View mFeedback;
 
 	private TextView mVersionCode;
 	/**
@@ -54,11 +48,9 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 	private void initActionBar() {
 		mBackBtn = findViewById(R.id.back_btn);
 		mReportBug = findViewById(R.id.report_bug);
-		mFeedback = findViewById(R.id.feedback);
 		mVersionCode = (TextView) findViewById(R.id.version_code);
 		mBackBtn.setOnClickListener(this);
 		mReportBug.setOnClickListener(this);
-		mFeedback.setOnClickListener(this);
 	}
 
 	@Override
@@ -90,8 +82,6 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 			Uri uri = Uri.parse("tel:400889966");
 			Intent it = new Intent(Intent.ACTION_DIAL, uri);
 			startActivity(it);
-		} else if (v == mFeedback) {
-			fb.startFeedbackActivity();
 		}
 	}
 }

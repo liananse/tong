@@ -64,6 +64,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private Bus bus;
 	private NewMessageBroadcastReceiver msgReceiver;
 
+	FeedbackAgent fb;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -71,6 +72,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 
 		setContentView(R.layout.self_page_activity);
 		bus = TongApplication.getBus();
+		fb = new FeedbackAgent(this);
 		notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		initView();
 		initData();
@@ -98,6 +100,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 	private View mScoreDesBtn;
 	private View mAboutBtn;
 	private View mInfoBtn;
+	private View mFeedBackBtn;
 	private View mProtocolBtn;
 	private View mSelfEditBtn;
 	private View mExitBtn;
@@ -131,6 +134,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mScoreDesBtn = findViewById(R.id.self_page_score_des_btn);
 		mAboutBtn = findViewById(R.id.self_page_about_btn);
 		mInfoBtn = findViewById(R.id.self_page_info_btn);
+		mFeedBackBtn = findViewById(R.id.self_page_feedback_btn);
 		mProtocolBtn = findViewById(R.id.self_page_protocol_btn);
 		mSelfEditBtn = findViewById(R.id.self_page_edit_btn);
 		mExitBtn = findViewById(R.id.self_page_exit_btn);
@@ -146,6 +150,7 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 		mScoreDesBtn.setOnClickListener(this);
 		mAboutBtn.setOnClickListener(this);
 		mInfoBtn.setOnClickListener(this);
+		mFeedBackBtn.setOnClickListener(this);
 		mProtocolBtn.setOnClickListener(this);
 		mSelfEditBtn.setOnClickListener(this);
 		mExitBtn.setOnClickListener(this);
@@ -338,6 +343,8 @@ public class SelfPageActivity extends BaseActivity implements OnClickListener {
 			Intent intent = new Intent();
 			intent.setClass(this, ProtocolActivity.class);
 			this.startActivity(intent);
+		} else if (v == mFeedBackBtn) {
+			fb.startFeedbackActivity();
 		}
 	}
 
