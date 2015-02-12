@@ -32,15 +32,21 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.R;
+import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.HistoryModel;
 import com.mobilepower.tong.model.TaskInfo;
+import com.mobilepower.tong.ui.event.BuyLineCancelEvent;
+import com.mobilepower.tong.ui.event.BuyLineOkEvent;
+import com.mobilepower.tong.ui.fragment.BuyLineCancelOkDialog;
 import com.mobilepower.tong.ui.fragment.FLoadingProgressBarFragment;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UIntentKeys;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 public class BorrowTipsActivity extends BaseActivity implements OnClickListener {
 
@@ -54,11 +60,13 @@ public class BorrowTipsActivity extends BaseActivity implements OnClickListener 
 	private String mFromUserId;
 	private int lineType;
 
+	Bus bus;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.borrow_tips_activity);
+		bus = TongApplication.getBus();
 		fromWhere = getIntent().getStringExtra(UIntentKeys.FROM_WHERE);
 
 		initActionBar();
@@ -93,8 +101,42 @@ public class BorrowTipsActivity extends BaseActivity implements OnClickListener 
 			if (mTerminal == null) {
 				mTerminal = "";
 			}
-			borrowLine();
+//			borrowLine();
+			showBuyLineDialog();
 			mTips.setText("正在查询扫描结果");
+		}
+	}
+	
+	private BuyLineCancelOkDialog mBuyLineCancelOkDialog;
+	
+	private void showBuyLineDialog() {
+		if (mBuyLineCancelOkDialog == null) {
+			mBuyLineCancelOkDialog = new BuyLineCancelOkDialog();
+		}
+		
+		Bundle bundle = new Bundle();
+		bundle.putInt("line_type", lineType);
+
+		FragmentTransaction ft = getSupportFragmentManager()
+				.beginTransaction();
+
+		if (!mBuyLineCancelOkDialog.isAdded()) {
+			mBuyLineCancelOkDialog.setArguments(bundle);
+			mBuyLineCancelOkDialog.show(ft, "buyline_cancel_ok");
+		}
+	}
+	
+	@Subscribe
+	public void cancelBuyLineDialog(BuyLineCancelEvent paramEvent) {
+		if (paramEvent != null) {
+			this.finish();
+		}
+	}
+	
+	@Subscribe
+	public void okBuyLineDialog(BuyLineOkEvent paramEvent) {
+		if (paramEvent != null) {
+			borrowLine();
 		}
 	}
 
@@ -284,12 +326,14 @@ public class BorrowTipsActivity extends BaseActivity implements OnClickListener 
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		this.bus.register(this);
 	}
 
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
+		this.bus.unregister(this);
 	}
 
 	@Override
