@@ -18,6 +18,7 @@ package com.mobilepower.tong.ui.activity;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -31,17 +32,21 @@ import com.mobilepower.tong.TongApplication;
 import com.mobilepower.tong.dimencode.ScanActivity;
 import com.mobilepower.tong.ui.adapter.FragmentsAdapter;
 import com.mobilepower.tong.ui.fragment.BorrowListFragment;
+import com.mobilepower.tong.ui.fragment.BorrowProcessDialog;
 import com.mobilepower.tong.ui.fragment.BuyDialog;
 import com.mobilepower.tong.ui.fragment.BuyListFragment;
-import com.mobilepower.tong.ui.fragment.ExitDialog;
+import com.mobilepower.tong.ui.fragment.BuyProcessDialog;
 import com.mobilepower.tong.ui.fragment.LentListFragment;
 import com.mobilepower.tong.ui.fragment.OnAlertSelectId;
+import com.mobilepower.tong.ui.fragment.ReturnProcessDialog;
 import com.mobilepower.tong.ui.fragment.ReturnTips;
 import com.mobilepower.tong.ui.view.CustomViewPager;
+import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UIntentKeys;
+import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 
-public class TongPageActivity extends BaseActivity implements OnClickListener{
+public class TongPageActivity extends BaseActivity implements OnClickListener {
 
 	private Bus bus;
 
@@ -69,10 +74,12 @@ public class TongPageActivity extends BaseActivity implements OnClickListener{
 	private View mLentV;
 	private TextView mLentTitleV;
 	private View mLentLineV;
-	
+
 	private View mBuyV;
 	private TextView mBuyTitleV;
 	private View mBuyLineV;
+
+	private BorrowProcessDialog mBorrowProcessDialog;
 
 	private void initView() {
 		mBorrowBtn = findViewById(R.id.borrow_btn);
@@ -92,7 +99,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener{
 		mLentV = findViewById(R.id.lent_list_v);
 		mLentTitleV = (TextView) findViewById(R.id.lent_title_v);
 		mLentLineV = findViewById(R.id.lent_title_line);
-		
+
 		mBuyV = findViewById(R.id.buy_list_v);
 		mBuyTitleV = (TextView) findViewById(R.id.buy_title_v);
 		mBuyLineV = findViewById(R.id.buy_title_line);
@@ -126,7 +133,7 @@ public class TongPageActivity extends BaseActivity implements OnClickListener{
 		borrowFragment = new BorrowListFragment();
 		lentFragment = new LentListFragment();
 		buyFragment = new BuyListFragment();
-		
+
 		fragmentsList.add(borrowFragment);
 		fragmentsList.add(lentFragment);
 		fragmentsList.add(buyFragment);
@@ -210,6 +217,8 @@ public class TongPageActivity extends BaseActivity implements OnClickListener{
 		this.bus.unregister(this);
 	}
 
+	private BuyProcessDialog mBuyProcessDialog;
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -218,22 +227,46 @@ public class TongPageActivity extends BaseActivity implements OnClickListener{
 		} else if (v == mReturnBtn) {
 			returnBtnMethod();
 		} else if (v == mLentBtn) {
-			BuyDialog.showAlert(this, new OnAlertSelectId() {
 
-				@Override
-				public void onClick(int whichButton) {
-					// TODO Auto-generated method stub
-					if (whichButton == 1 || whichButton == 2
-							|| whichButton == 3) {
-						Intent intent = new Intent();
-						intent.setClass(TongPageActivity.this,
-								ScanActivity.class);
-						intent.putExtra(UIntentKeys.FROM_WHERE, "line");
-						intent.putExtra(UIntentKeys.LINE_TYPE, whichButton);
-						startActivity(intent);
-					}
+			boolean isFirst = UTools.Storage.getSharedPreferences(this,
+					UConstants.BASE_PREFS_NAME).getBoolean(
+					UConstants.FIRST_BUY, true);
+
+			if (isFirst) {
+				SharedPreferences.Editor mEditor = UTools.Storage
+						.getSharedPreEditor(this, UConstants.BASE_PREFS_NAME);
+				mEditor.putBoolean(UConstants.FIRST_BUY, false);
+				mEditor.commit();
+
+				if (mBuyProcessDialog == null) {
+					mBuyProcessDialog = new BuyProcessDialog();
 				}
-			});
+
+				FragmentTransaction ft = getSupportFragmentManager()
+						.beginTransaction();
+
+				if (!mBuyProcessDialog.isAdded()) {
+					mBuyProcessDialog.show(ft, "buy_process");
+				}
+			} else {
+
+				BuyDialog.showAlert(this, new OnAlertSelectId() {
+
+					@Override
+					public void onClick(int whichButton) {
+						// TODO Auto-generated method stub
+						if (whichButton == 1 || whichButton == 2
+								|| whichButton == 3) {
+							Intent intent = new Intent();
+							intent.setClass(TongPageActivity.this,
+									ScanActivity.class);
+							intent.putExtra(UIntentKeys.FROM_WHERE, "line");
+							intent.putExtra(UIntentKeys.LINE_TYPE, whichButton);
+							startActivity(intent);
+						}
+					}
+				});
+			}
 		} else if (v == mWantBorrowBtn) {
 			wantBorrowBtnMethod();
 		} else if (v == mBorrowV) {
@@ -246,26 +279,62 @@ public class TongPageActivity extends BaseActivity implements OnClickListener{
 	}
 
 	private void borrowBtnMethod() {
-		Intent intent = new Intent();
-		intent.setClass(this, ScanActivity.class);
-		intent.putExtra(UIntentKeys.FROM_WHERE, "borrow");
-		startActivity(intent);
+
+		boolean isFirst = UTools.Storage.getSharedPreferences(this,
+				UConstants.BASE_PREFS_NAME).getBoolean(UConstants.FIRST_BORROW,
+				true);
+
+		if (isFirst) {
+			SharedPreferences.Editor mEditor = UTools.Storage
+					.getSharedPreEditor(this, UConstants.BASE_PREFS_NAME);
+			mEditor.putBoolean(UConstants.FIRST_BORROW, false);
+			mEditor.commit();
+
+			if (mBorrowProcessDialog == null) {
+				mBorrowProcessDialog = new BorrowProcessDialog();
+			}
+
+			FragmentTransaction ft = getSupportFragmentManager()
+					.beginTransaction();
+
+			if (!mBorrowProcessDialog.isAdded()) {
+				mBorrowProcessDialog.show(ft, "borrow_process");
+			}
+		} else {
+			Intent intent = new Intent();
+			intent.setClass(this, ScanActivity.class);
+			intent.putExtra(UIntentKeys.FROM_WHERE, "borrow");
+			startActivity(intent);
+		}
+
 	}
 
+	private ReturnProcessDialog mReturnProcessDialog;
+
 	private void returnBtnMethod() {
-		lentBtnMethod();
+
+		if (mReturnProcessDialog == null) {
+			mReturnProcessDialog = new ReturnProcessDialog();
+		}
+
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+		if (!mReturnProcessDialog.isAdded()) {
+			mReturnProcessDialog.show(ft, "return_process");
+		}
+
+		// lentBtnMethod();
 	}
 
 	private ReturnTips mReturnTips;
-	
+
 	private void lentBtnMethod() {
 		// TODO
 		if (mReturnTips == null) {
 			mReturnTips = new ReturnTips();
 		}
 
-		FragmentTransaction ft = getSupportFragmentManager()
-				.beginTransaction();
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
 		if (!mReturnTips.isAdded()) {
 			mReturnTips.show(ft, "cancel_ok");

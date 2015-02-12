@@ -7,6 +7,7 @@ import java.util.Map;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,11 +81,27 @@ public class LentListFragment extends Fragment implements IXListViewListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
+				returnBtnMethod();
 			}
 		});
 
 		mListView.setAdapter(mAdapter);
+	}
+	
+	private ReturnProcessDialog mReturnProcessDialog;
+
+	private void returnBtnMethod() {
+
+		if (mReturnProcessDialog == null) {
+			mReturnProcessDialog = new ReturnProcessDialog();
+		}
+
+		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+
+		if (!mReturnProcessDialog.isAdded()) {
+			mReturnProcessDialog.show(ft, "return_process");
+		}
+
 	}
 
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();

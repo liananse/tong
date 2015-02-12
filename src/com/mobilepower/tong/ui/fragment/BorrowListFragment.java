@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.dimencode.ScanActivity;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
@@ -36,6 +39,7 @@ import com.mobilepower.tong.utils.UConstants;
 import com.mobilepower.tong.utils.UIntentKeys;
 import com.mobilepower.tong.utils.UTimeUtils;
 import com.mobilepower.tong.utils.UToast;
+import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -111,11 +115,44 @@ public class BorrowListFragment extends Fragment implements IXListViewListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
+				borrowBtnMethod();
 			}
 		});
 
 		mListView.setAdapter(mAdapter);
+	}
+	
+	private BorrowProcessDialog mBorrowProcessDialog;
+	
+	private void borrowBtnMethod() {
+
+		boolean isFirst = UTools.Storage.getSharedPreferences(getActivity(),
+				UConstants.BASE_PREFS_NAME).getBoolean(UConstants.FIRST_BORROW,
+				true);
+
+		if (isFirst) {
+			SharedPreferences.Editor mEditor = UTools.Storage
+					.getSharedPreEditor(getActivity(), UConstants.BASE_PREFS_NAME);
+			mEditor.putBoolean(UConstants.FIRST_BORROW, false);
+			mEditor.commit();
+
+			if (mBorrowProcessDialog == null) {
+				mBorrowProcessDialog = new BorrowProcessDialog();
+			}
+
+			FragmentTransaction ft = getActivity().getSupportFragmentManager()
+					.beginTransaction();
+
+			if (!mBorrowProcessDialog.isAdded()) {
+				mBorrowProcessDialog.show(ft, "borrow_process");
+			}
+		} else {
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), ScanActivity.class);
+			intent.putExtra(UIntentKeys.FROM_WHERE, "borrow");
+			startActivity(intent);
+		}
+
 	}
 
 	private CancelOkDialog mCancelOkDialog;

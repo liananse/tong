@@ -64,6 +64,12 @@ public class UConstants {
 	 */
 	public static final String FIRST_LOGIN = "first_login";
 	
+	public static final String FIRST_BORROW = "first_borrow";
+	
+	public static final String FIRST_RETURN = "first_return";
+	
+	public static final String FIRST_BUY = "first_buy";
+	
 	/**
 	 * location 城市
 	 */

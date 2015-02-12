@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +21,20 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.mobilepower.tong.R;
 import com.mobilepower.tong.TongApplication;
+import com.mobilepower.tong.dimencode.ScanActivity;
 import com.mobilepower.tong.http.HHttpDataLoader;
 import com.mobilepower.tong.http.HHttpDataLoader.HDataListener;
 import com.mobilepower.tong.model.BaseInfo;
 import com.mobilepower.tong.model.BuyListModel;
+import com.mobilepower.tong.ui.activity.TongPageActivity;
 import com.mobilepower.tong.ui.adapter.BuyListAdapter;
 import com.mobilepower.tong.ui.view.XListView;
 import com.mobilepower.tong.ui.view.XListView.IXListViewListener;
 import com.mobilepower.tong.utils.UConfig;
 import com.mobilepower.tong.utils.UConstants;
+import com.mobilepower.tong.utils.UIntentKeys;
 import com.mobilepower.tong.utils.UToast;
+import com.mobilepower.tong.utils.UTools;
 import com.squareup.otto.Bus;
 
 public class BuyListFragment extends Fragment implements IXListViewListener {
@@ -98,13 +105,56 @@ public class BuyListFragment extends Fragment implements IXListViewListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
+				buyBtnMethod();
 			}
 		});
 
 		mListView.setAdapter(mAdapter);
 	}
 
+	private BuyProcessDialog mBuyProcessDialog;
+	private void buyBtnMethod() {
+		boolean isFirst = UTools.Storage.getSharedPreferences(getActivity(),
+				UConstants.BASE_PREFS_NAME).getBoolean(
+				UConstants.FIRST_BUY, true);
+
+		if (isFirst) {
+			SharedPreferences.Editor mEditor = UTools.Storage
+					.getSharedPreEditor(getActivity(), UConstants.BASE_PREFS_NAME);
+			mEditor.putBoolean(UConstants.FIRST_BUY, false);
+			mEditor.commit();
+
+			if (mBuyProcessDialog == null) {
+				mBuyProcessDialog = new BuyProcessDialog();
+			}
+
+			FragmentTransaction ft = getActivity().getSupportFragmentManager()
+					.beginTransaction();
+
+			if (!mBuyProcessDialog.isAdded()) {
+				mBuyProcessDialog.show(ft, "buy_process");
+			}
+		} else {
+
+			BuyDialog.showAlert(getActivity(), new OnAlertSelectId() {
+
+				@Override
+				public void onClick(int whichButton) {
+					// TODO Auto-generated method stub
+					if (whichButton == 1 || whichButton == 2
+							|| whichButton == 3) {
+						Intent intent = new Intent();
+						intent.setClass(getActivity(),
+								ScanActivity.class);
+						intent.putExtra(UIntentKeys.FROM_WHERE, "line");
+						intent.putExtra(UIntentKeys.LINE_TYPE, whichButton);
+						startActivity(intent);
+					}
+				}
+			});
+		}
+	}
+	
 	private HHttpDataLoader mDataLoader = new HHttpDataLoader();
 
 	private boolean isRefresh = true;
